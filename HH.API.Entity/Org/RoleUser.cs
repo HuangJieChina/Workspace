@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HH.API.Entity.Org
+{
+    /// <summary>
+    /// 角色用户映射表
+    /// </summary>
+    [Serializable]
+    public class RoleUser : EntityBase
+    {
+        /// <summary>
+        /// 获取或设置角色Id
+        /// </summary>
+        [Column(TypeName = "char")]
+        [StringLength(36)]
+        public string RoleId { get; set; }
+
+        /// <summary>
+        /// 获取或设置用户ID
+        /// </summary>
+        [Column(TypeName = "char")]
+        [StringLength(36)]
+        public string UserId { get; set; }
+
+        /// <summary>
+        /// 获取或设置当前用户做为本角色的管理范围，默认管理范围为本组织
+        /// </summary>
+        public List<string> UnitScopes { get; set; }
+
+        /// <summary>
+        /// 获取或设置显示顺序
+        /// </summary>
+        public int SortKey { get; set; }
+
+        /// <summary>
+        /// 获取数据库表名
+        /// </summary>
+        public override string TableName
+        {
+            get
+            {
+                return EntityConfig.Table_OrgUser;
+            }
+        }
+
+    }
+}

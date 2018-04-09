@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HH.Container", "HH.Containe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HH.API", "HH.API\HH.API.csproj", "{719E9687-645B-41D5-BB3F-E3A899B73FF1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{9FE3973A-CC40-479E-B3DF-6AE0ACE3B1DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HH.API.Entity", "HH.API.Entity\HH.API.Entity.csproj", "{123404CA-1C32-45B0-93E2-FF07D7A79A4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +25,16 @@ Global
 		{719E9687-645B-41D5-BB3F-E3A899B73FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{719E9687-645B-41D5-BB3F-E3A899B73FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{719E9687-645B-41D5-BB3F-E3A899B73FF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{123404CA-1C32-45B0-93E2-FF07D7A79A4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{123404CA-1C32-45B0-93E2-FF07D7A79A4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{123404CA-1C32-45B0-93E2-FF07D7A79A4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{123404CA-1C32-45B0-93E2-FF07D7A79A4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{123404CA-1C32-45B0-93E2-FF07D7A79A4C} = {9FE3973A-CC40-479E-B3DF-6AE0ACE3B1DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {07FA70B5-3B13-4869-B874-9BD1E199D30A}
