@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HH.API.Entity.Org
+namespace HH.API.Entity
 {
     /// <summary>
     /// 角色类
     /// </summary>
     [Serializable]
-    public class Role : EntityBase
+    public class OrgRole : EntityBase
     {
         /// <summary>
         /// 是否所有人权限
@@ -54,7 +54,7 @@ namespace HH.API.Entity.Org
         {
             get
             {
-                return EntityConfig.Table_OrgUser;
+                return EntityConfig.Table.OrgUser;
             }
         }
     }

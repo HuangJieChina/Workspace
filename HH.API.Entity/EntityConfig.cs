@@ -12,40 +12,39 @@ namespace HH.API.Entity
     public struct EntityConfig
     {
         /// <summary>
-        /// 组织架构表名称
+        /// 数据库表名称配置
         /// </summary>
-        public const string Table_OrgUnit = "Sys_OrgUnit";
-        /// <summary>
-        /// 用户表
-        /// </summary>
-        public const string Table_OrgUser = "Sys_OrgUser";
-        /// <summary>
-        /// 角色表
-        /// </summary>
-        public const string Table_OrgRole = "Sys_OrgRole";
+        public struct Table
+        {
+            /// <summary>
+            /// 组织架构表名称
+            /// </summary>
+            public const string OrgUnit = "Sys_OrgUnit";
+            /// <summary>
+            /// 用户表
+            /// </summary>
+            public const string OrgUser = "Sys_OrgUser";
+            /// <summary>
+            /// 角色表
+            /// </summary>
+            public const string OrgRole = "Sys_OrgRole";
 
-        /// <summary>
-        /// Vessel表
-        /// </summary>
-        public const string Table_VesselConfig = "SysVesselConfig";
+            /// <summary>
+            /// 角色/用户表
+            /// </summary>
+            public const string OrgRoleUser = "Sys_OrgRoleUser";
 
-        public const string Table_RegisterConfig = "SysRegisterConfig";
+            /// <summary>
+            /// Vessel表
+            /// </summary>
+            public const string Table_VesselConfig = "SysVesselConfig";
 
-        public const string Table_EngineConfig = "SysEngineConfig";
+            public const string Table_RegisterConfig = "SysRegisterConfig";
+
+            public const string Table_EngineConfig = "SysEngineConfig";
+        }
     }
 
-    /// <summary>
-    /// 调用接口返回编码
-    /// </summary>
-    public enum ResultCode
-    {
-        /// <summary>
-        /// 返回成功
-        /// </summary>
-        Success = 0,
-        /// <summary>
-        /// 返回未知错误
-        /// </summary>
-        CodeDuplicate = 1
-    }
+   
+    
 }

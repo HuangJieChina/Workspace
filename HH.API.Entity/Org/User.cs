@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HH.API.Entity.Org
+namespace HH.API.Entity
 {
     /// <summary>
     /// 组织机构类
     /// </summary>
     [Serializable]
-    public class User : EntityBase
+    public class OrgUser : EntityBase
     {
         /// <summary>
         /// 获取或设置用户登录帐号
@@ -32,7 +32,7 @@ namespace HH.API.Entity.Org
         public string ParentId { get; set; }
 
         /// <summary>
-        /// 获取或设置用户的密码
+        /// 获取或设置用户的密码(MD5加密)
         /// </summary>
         [StringLength(64, MinimumLength = 6)]
         public string Password { get; set; }
@@ -49,11 +49,13 @@ namespace HH.API.Entity.Org
 
         /// <summary>
         /// 获取或设置是否系统用户
+        /// <para>注：系统用户不能在前端选人界面中展示、不参与业务，只做系统管理</para>
         /// </summary>
         public bool IsSystem { get; set; }
 
         /// <summary>
         /// 获取或设置是否虚拟用户
+        /// <para>注：虚拟用户必须绑定至真实用户账号</para>
         /// </summary>
         public bool IsVirtual { get; set; }
 
@@ -70,7 +72,12 @@ namespace HH.API.Entity.Org
         /// <summary>
         /// 获取或设置用户生日
         /// </summary>
-        private DateTime BirthDay { get; set; }
+        public DateTime BirthDay { get; set; }
+
+        /// <summary>
+        /// 获取或设置用户性别,男=0，女=1
+        /// </summary>
+        public int Gender { get; set; }
 
         /// <summary>
         /// 获取数据库表名
@@ -79,7 +86,7 @@ namespace HH.API.Entity.Org
         {
             get
             {
-                return EntityConfig.Table_OrgUser;
+                return EntityConfig.Table.OrgUser;
             }
         }
     }

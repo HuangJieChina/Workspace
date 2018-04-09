@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HH.API.Entity.EntityCache
 {
     /// <summary>
-    /// Redis缓存
+    /// Redis 缓存(未完成)
     /// </summary>
     public class Redis<T> : IEntityCache<T> where T : EntityBase
     {

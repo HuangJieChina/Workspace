@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HH.API.Entity.Org
+namespace HH.API.Entity
 {
     /// <summary>
     /// 角色用户映射表
     /// </summary>
     [Serializable]
-    public class RoleUser : EntityBase
+    public class OrgRoleUser : EntityBase
     {
         /// <summary>
         /// 获取或设置角色Id
@@ -26,7 +26,7 @@ namespace HH.API.Entity.Org
         public string UserId { get; set; }
 
         /// <summary>
-        /// 获取或设置当前用户做为本角色的管理范围，默认管理范围为本组织
+        /// 获取或设置当前用户做为本角色的服务范围，默认服务范围为本组织
         /// </summary>
         public List<string> UnitScopes { get; set; }
 
@@ -42,7 +42,7 @@ namespace HH.API.Entity.Org
         {
             get
             {
-                return EntityConfig.Table_OrgUser;
+                return EntityConfig.Table.OrgRoleUser;
             }
         }
 

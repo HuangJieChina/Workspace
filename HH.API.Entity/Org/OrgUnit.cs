@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HH.API.Entity.Org
+namespace HH.API.Entity
 {
     /// <summary>
     /// 组织机构类
     /// </summary>
     [Serializable]
-    [Table(EntityConfig.Table_OrgUnit)]
-    public class Unit : EntityBase
+    [Table(EntityConfig.Table.OrgUnit)]
+    public class OrgUnit : EntityBase
     {
         /// <summary>
         /// 获取或设置组织名称
@@ -45,11 +45,14 @@ namespace HH.API.Entity.Org
         /// </summary>
         public bool Enabled { get; set; }
 
+        /// <summary>
+        /// 获取数据库表名
+        /// </summary>
         public override string TableName
         {
             get
             {
-                return EntityConfig.Table_OrgUnit;
+                return EntityConfig.Table.OrgUnit;
             }
         }
     }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace HH.API.Entity.EntityCache
 {
     /// <summary>
-    /// 缓存工厂类
+    /// 实体对象缓存工厂类
     /// </summary>
     public class Factory<T> where T : EntityBase
     {

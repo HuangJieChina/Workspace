@@ -10,10 +10,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HH.API.Entity\HH.API.Entity.csproj" />
+    <ProjectReference Include="..\HH.IInterface\HH.IInterface.csproj" />
   </ItemGroup>
 
 </Project>

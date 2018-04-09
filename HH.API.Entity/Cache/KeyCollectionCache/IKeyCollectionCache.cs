@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HH.API.Entity
 {
     /// <summary>
-    /// 实体对象缓存接口
+    /// KeyValue缓存接口
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IKeyCollectionCache<T> where T : EntityBase

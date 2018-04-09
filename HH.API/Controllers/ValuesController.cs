@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using HH.API.Entity;
+using NLog;
 
 namespace HH.API.Controllers
 {
@@ -10,22 +12,23 @@ namespace HH.API.Controllers
     public class ValuesController : Controller
     {
         // GET api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        //[HttpGet]
+        //public IEnumerable<string> Get()
+        //{
+        //    return new string[] { "value1", "value2" };
+        //}
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        public APIResult AddUnit(OrgUnit unit)
         {
-            return "value";
+            LogManager.GetCurrentClassLogger().Debug("错误信息{0}");
+            return new APIResult() { };
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]OrgUnit unit)
         {
         }
 
@@ -41,4 +44,5 @@ namespace HH.API.Controllers
         {
         }
     }
+
 }
