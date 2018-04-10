@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Reflection;
 
 namespace HH.API.Entity
 {
@@ -25,5 +26,7 @@ namespace HH.API.Entity
 
             // TODO:创建数据库表结构
         }
+
+
     }
 }
