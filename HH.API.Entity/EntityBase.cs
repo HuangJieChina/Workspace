@@ -18,6 +18,8 @@ namespace HH.API.Entity
         /// </summary>
         public EntityBase()
         {
+            this.CreatedTime = DateTime.Now;
+            this.ModifiedTime = DateTime.Now;
         }
 
         /// <summary>

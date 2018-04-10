@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HH.API.Entity\HH.API.Entity.csproj" />
     <ProjectReference Include="..\HH.IInterface\HH.IInterface.csproj" />
+    <ProjectReference Include="..\HH.Services\HH.API.Services.csproj" />
   </ItemGroup>
 
 </Project>

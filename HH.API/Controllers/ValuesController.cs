@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HH.API.Entity;
 using NLog;
+using HH.API.Services;
 
 namespace HH.API.Controllers
 {
@@ -22,6 +23,12 @@ namespace HH.API.Controllers
         [HttpGet]
         public APIResult AddUnit(OrgUnit unit)
         {
+            OrgUnitMapper mapper = new OrgUnitMapper();
+            OrgUnitRepository d = new OrgUnitRepository();
+            d.Insert(new OrgUnit()
+            {
+                Name = "Test"
+            });
             LogManager.GetCurrentClassLogger().Debug("错误信息{0}");
             return new APIResult() { };
         }

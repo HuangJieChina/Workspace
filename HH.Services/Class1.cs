@@ -1,16 +1,25 @@
-﻿using DapperExtensions.Mapper;
-using HH.API.Entity;
+﻿using HH.API.Entity;
 using System;
+using System.Data;
+using Dapper;
+using DapperExtensions;
 
 namespace HH.API.Services
 {
-    public class OrgUnitRepository : ClassMapper<OrgUnit>
+    public class OrgUnitRepository
     {
         public OrgUnitRepository()
         {
-            Table(EntityConfig.Table.OrgUnit);
-            Map(x => x.ObjectId).Key(KeyType.Identity);
-            AutoMap();
+
+        }
+
+        public virtual bool Insert(OrgUnit unit)
+        {
+            using (var conn = ConnectionFactory.CreateSqlConnection())
+            {
+                conn.Insert<OrgUnit>(unit);
+                return true;
+            }
         }
     }
 }
