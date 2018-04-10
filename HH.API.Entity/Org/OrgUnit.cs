@@ -47,6 +47,12 @@ namespace HH.API.Entity
         public bool Enabled { get; set; }
 
         /// <summary>
+        /// 测试使用属性，可忽略
+        /// </summary>
+        [NotMapped]
+        public string FullName { get { return this.Name; } }
+
+        /// <summary>
         /// 获取数据库表名
         /// </summary>
         public override string TableName
