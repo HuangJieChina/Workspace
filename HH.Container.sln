@@ -11,9 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{9FE397
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HH.API.Entity", "HH.API.Entity\HH.API.Entity.csproj", "{123404CA-1C32-45B0-93E2-FF07D7A79A4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HH.IInterface", "HH.IInterface\HH.IInterface.csproj", "{A17FBF79-A2F2-49CD-A420-7C3B8C919E87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HH.IInterface", "HH.IInterface\HH.IInterface.csproj", "{A17FBF79-A2F2-49CD-A420-7C3B8C919E87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HH.Services", "HH.Services\HH.Services.csproj", "{EB32F3E3-7F39-4C33-A4A1-8EAEF1DE503D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HH.API.Services", "HH.Services\HH.API.Services.csproj", "{EB32F3E3-7F39-4C33-A4A1-8EAEF1DE503D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

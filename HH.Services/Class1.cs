@@ -1,9 +1,16 @@
-﻿using System;
+﻿using DapperExtensions.Mapper;
+using HH.API.Entity;
+using System;
 
-namespace HH.Services
+namespace HH.API.Services
 {
-    public class Class1
+    public class OrgUnitRepository : ClassMapper<OrgUnit>
     {
-
+        public OrgUnitRepository()
+        {
+            Table(EntityConfig.Table.OrgUnit);
+            Map(x => x.ObjectId).Key(KeyType.Identity);
+            AutoMap();
+        }
     }
 }
