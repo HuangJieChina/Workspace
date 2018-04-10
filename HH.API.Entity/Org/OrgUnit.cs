@@ -57,4 +57,16 @@ namespace HH.API.Entity
             }
         }
     }
+
+    [Serializable]
+    public class OrgUnitMapper : ClassMapperBase<OrgUnit>
+    {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public OrgUnitMapper() : base()
+        {
+            base.Table(EntityConfig.Table.OrgUnit);
+        }
+    }
 }

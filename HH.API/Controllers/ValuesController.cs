@@ -23,7 +23,6 @@ namespace HH.API.Controllers
         [HttpGet]
         public APIResult AddUnit(OrgUnit unit)
         {
-            OrgUnitMapper mapper = new OrgUnitMapper();
             OrgUnitRepository d = new OrgUnitRepository();
             d.Insert(new OrgUnit()
             {
