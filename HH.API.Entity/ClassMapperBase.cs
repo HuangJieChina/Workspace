@@ -94,7 +94,7 @@ namespace HH.API.Entity
                 {
                     this._DbHandler = DbHandlerFactory.Instance.GetDefaultDbHandler();
                 }
-                return this.DbHandler;
+                return this._DbHandler;
             }
         }
 
