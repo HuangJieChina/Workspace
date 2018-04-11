@@ -27,7 +27,7 @@ namespace HH.API.Entity
             // Map(f => f.ObjectId).Key(KeyType.Identity);
             AutoMap();
 
-            // TODO:创建数据库表结构
+            this.AutoCreateTable();
         }
 
         /// <summary>
@@ -81,6 +81,37 @@ namespace HH.API.Entity
             }
         }
 
+        #region 自动创建表结构 ------------------------
+        private IDbHandler _DbHandler = null;
+        /// <summary>
+        /// 获取数据库操作类
+        /// </summary>
+        private IDbHandler DbHandler
+        {
+            get
+            {
+                if (this._DbHandler == null)
+                {
+                    this._DbHandler = DbHandlerFactory.Instance.GetDefaultDbHandler();
+                }
+                return this.DbHandler;
+            }
+        }
 
+        /// <summary>
+        /// 自动创建表结构
+        /// </summary>
+        public void AutoCreateTable()
+        {
+            if (this.DbHandler.IsExistsTable(this.TableName))
+            {
+                this.DbHandler.CreateTable(this.TableName, typeof(T));
+            }
+            else
+            {
+                this.DbHandler.ModifyTable(this.TableName, typeof(T));
+            }
+        }
+        #endregion
     }
 }
