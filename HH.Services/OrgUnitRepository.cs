@@ -6,20 +6,15 @@ using DapperExtensions;
 
 namespace HH.API.Services
 {
-    public class OrgUnitRepository
+    public class OrgUnitRepository : RepositoryBase<OrgUnit>
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public OrgUnitRepository()
         {
 
         }
-
-        public virtual bool Insert(OrgUnit unit)
-        {
-            using (var conn = ConnectionFactory.CreateSqlConnection())
-            {
-                conn.Insert<OrgUnit>(unit);
-                return true;
-            }
-        }
+        
     }
 }

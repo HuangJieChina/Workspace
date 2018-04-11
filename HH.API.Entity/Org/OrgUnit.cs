@@ -64,15 +64,12 @@ namespace HH.API.Entity
         }
     }
 
+    /// <summary>
+    /// 实体属性映射
+    /// </summary>
     [Serializable]
     public class OrgUnitMapper : ClassMapperBase<OrgUnit>
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public OrgUnitMapper() : base()
-        {
-            base.Table(EntityConfig.Table.OrgUnit);
-        }
+       
     }
 }

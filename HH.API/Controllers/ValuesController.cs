@@ -24,10 +24,11 @@ namespace HH.API.Controllers
         public APIResult AddUnit(OrgUnit unit)
         {
             OrgUnitRepository d = new OrgUnitRepository();
-            d.Insert(new OrgUnit()
+            dynamic result = d.Insert(new OrgUnit()
             {
                 Name = "Test"
             });
+            
             LogManager.GetCurrentClassLogger().Debug("错误信息{0}");
             return new APIResult() { };
         }

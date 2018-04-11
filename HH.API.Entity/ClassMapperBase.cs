@@ -14,7 +14,7 @@ namespace HH.API.Entity
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class ClassMapperBase<T> : ClassMapper<T>
-        where T : EntityBase
+        where T : EntityBase, new()
     {
         /// <summary>
         /// 构造函数
@@ -22,7 +22,7 @@ namespace HH.API.Entity
         /// <param name="tableName"></param>
         public ClassMapperBase()
         {
-            // base.Table(T.TableName);
+            base.Table((new T()).TableName);
             Map(p => p.TableName).Ignore();
             Map(f => f.ObjectId).Key(KeyType.Identity);
             AutoMap();
@@ -30,6 +30,10 @@ namespace HH.API.Entity
             // TODO:创建数据库表结构
         }
 
+        /// <summary>
+        /// 实体类属性映射
+        /// </summary>
+        /// <param name="canMap"></param>
         protected override void AutoMap(Func<Type, PropertyInfo, bool> canMap)
         {
             Type type = typeof(T);
