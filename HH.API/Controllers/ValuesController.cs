@@ -23,12 +23,13 @@ namespace HH.API.Controllers
         [HttpGet]
         public APIResult AddUnit(OrgUnit unit)
         {
-            OrgUnitRepository d = new OrgUnitRepository();
-            dynamic result = d.Insert(new OrgUnit()
+            OrgUnit u = new OrgUnit()
             {
                 Name = "Test"
-            });
-            
+            };
+            OrgUnitRepository d = new OrgUnitRepository();
+            dynamic result = d.Insert(u);
+
             LogManager.GetCurrentClassLogger().Debug("错误信息{0}");
             return new APIResult() { };
         }

@@ -24,7 +24,7 @@ namespace HH.API.Entity
         {
             base.Table((new T()).TableName);
             Map(p => p.TableName).Ignore();
-            Map(f => f.ObjectId).Key(KeyType.Identity);
+            // Map(f => f.ObjectId).Key(KeyType.Identity);
             AutoMap();
 
             // TODO:创建数据库表结构

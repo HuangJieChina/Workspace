@@ -27,13 +27,27 @@ namespace HH.API.Entity
         /// </summary>
         public abstract string TableName { get; }
 
+
+        private string _ObjectId = null;
+
         /// <summary>
         /// 获取或设置主键字段
         /// </summary>
         [Key]
         [Column(TypeName = "char")]
         [StringLength(36)]
-        public string ObjectId { get; set; }
+        public string ObjectId
+        {
+            get
+            {
+                if (this._ObjectId == null)
+                {
+                    this._ObjectId = Guid.NewGuid().ToString();
+                }
+                return this._ObjectId;
+            }
+            set { this._ObjectId = value; }
+        }
 
         /// <summary>
         /// 获取或设置创建人

@@ -8,7 +8,7 @@ using DapperExtensions;
 using System.Data.Common;
 using HH.API.Entity;
 
-namespace HH.API.Services
+namespace HH.API.Entity
 {
     /// <summary>
     /// 数据库连接工程类
@@ -37,11 +37,14 @@ namespace HH.API.Services
             }
         }
 
+        /// <summary>
+        /// 创建数据库连接对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         private static DbConnection CreateConnection<T>()
             where T : DbConnection, new()
         {
-            Database d;
-
             DbConnection connection = new T();
             connection.ConnectionString = ConnectString;
             connection.Open();
@@ -54,7 +57,13 @@ namespace HH.API.Services
         /// <returns></returns>
         public static DbConnection DefaultConnection()
         {
-            return CreateConnection<SqlConnection>();
+            switch (DatabaseType)
+            {
+                case DatabaseType.SqlServer:
+                    return CreateConnection<SqlConnection>();
+                default:
+                    throw new Exception("数据库连接方式未实现->" + DatabaseType.ToString());
+            }
         }
 
     }
