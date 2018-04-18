@@ -92,7 +92,7 @@ namespace HH.API.Entity
             {
                 if (this._DbHandler == null)
                 {
-                    this._DbHandler = DbHandlerFactory.Instance.GetDefaultDbHandler();
+                    this._DbHandler = DbHandlerFactory.Instance.GetDefaultDbHandler<T>();
                 }
                 return this._DbHandler;
             }
@@ -103,13 +103,13 @@ namespace HH.API.Entity
         /// </summary>
         public void AutoCreateTable()
         {
-            if (this.DbHandler.IsExistsTable(this.TableName))
+            if (!this.DbHandler.IsExistsTable(this.TableName))
             {
-                this.DbHandler.CreateTable(this.TableName, typeof(T));
+                this.DbHandler.CreateTable(this.TableName);
             }
             else
             {
-                this.DbHandler.ModifyTable(this.TableName, typeof(T));
+                this.DbHandler.ModifyTable(this.TableName);
             }
         }
         #endregion

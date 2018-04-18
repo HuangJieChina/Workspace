@@ -27,9 +27,9 @@ namespace HH.API.Entity
             }
         }
 
-        public IDbHandler GetDefaultDbHandler()
+        public IDbHandler GetDefaultDbHandler<T>() where T : EntityBase
         {
-            return this.GetDbHandler(ConnectionFactory.DatabaseType);
+            return this.GetDbHandler<T>(ConnectionFactory.DatabaseType);
         }
 
         /// <summary>
@@ -37,16 +37,16 @@ namespace HH.API.Entity
         /// </summary>
         /// <param name="databaseType"></param>
         /// <returns></returns>
-        public IDbHandler GetDbHandler(DatabaseType databaseType)
+        public IDbHandler GetDbHandler<T>(DatabaseType databaseType) where T : EntityBase
         {
             switch (databaseType)
             {
                 case DatabaseType.SqlServer:
-                    return new SqlDbHandler();
+                    return new SqlDbHandler<T>();
                 case DatabaseType.Oracle:
-                    return new OracleDbHandler();
+                    return new OracleDbHandler<T>();
                 case DatabaseType.MySql:
-                    return new MySqlDbHandler();
+                    return new MySqlDbHandler<T>();
                 default:
                     throw new NotImplementedException();
             }

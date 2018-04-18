@@ -55,6 +55,7 @@ namespace HH.API.Entity
         /// <summary>
         /// 获取数据库表名
         /// </summary>
+        [NotMapped]
         public override string TableName
         {
             get
@@ -70,6 +71,6 @@ namespace HH.API.Entity
     [Serializable]
     public class OrgUnitMapper : ClassMapperBase<OrgUnit>
     {
-       
+
     }
 }

@@ -45,6 +45,7 @@ namespace HH.API.Entity
         private static DbConnection CreateConnection<T>()
             where T : DbConnection, new()
         {
+            // TODO: 如果SQL连接池超过最大数了，会造成异常
             DbConnection connection = new T();
             connection.ConnectionString = ConnectString;
             connection.Open();
@@ -65,6 +66,40 @@ namespace HH.API.Entity
                     throw new Exception("数据库连接方式未实现->" + DatabaseType.ToString());
             }
         }
+
+        #region SQL 操作 ------------------------------
+        /// <summary>
+        /// 执行 SQL 语句返回单个数据
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static object ExecuteScalar(string sql)
+        {
+            using (DbConnection conn = ConnectionFactory.DefaultConnection())
+            {
+                DbCommand cmd = conn.CreateCommand();
+                cmd.CommandText = sql;
+
+                return cmd.ExecuteScalar();
+            }
+        }
+
+        /// <summary>
+        /// 执行SQL返回影响结果行
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static int ExecuteNonQuery(string sql)
+        {
+            using (DbConnection conn = ConnectionFactory.DefaultConnection())
+            {
+                DbCommand cmd = conn.CreateCommand();
+                cmd.CommandText = sql;
+
+                return cmd.ExecuteNonQuery();
+            }
+        }
+        #endregion
 
     }
 }

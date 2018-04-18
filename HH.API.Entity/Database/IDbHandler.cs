@@ -20,14 +20,12 @@ namespace HH.API.Entity
         /// 创建数据库表
         /// </summary>
         /// <param name="tableName"></param>
-        /// <param name="entityType"></param>
-        bool CreateTable(string tableName, Type entityType);
+        bool CreateTable(string tableName);
 
         /// <summary>
         /// 修改数据库表
         /// </summary>
         /// <param name="tableName"></param>
-        /// <param name="entityType"></param>
-        bool ModifyTable(string tableName, Type entityType);
+        bool ModifyTable(string tableName);
     }
 }

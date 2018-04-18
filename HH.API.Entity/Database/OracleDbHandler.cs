@@ -4,9 +4,9 @@ using System.Text;
 
 namespace HH.API.Entity.Database
 {
-    public class OracleDbHandler : IDbHandler
+    public class OracleDbHandler<T> : IDbHandler where T : EntityBase
     {
-        public bool CreateTable(string tableName, Type entityType)
+        public bool CreateTable(string tableName)
         {
             throw new NotImplementedException();
         }
@@ -16,7 +16,7 @@ namespace HH.API.Entity.Database
             throw new NotImplementedException();
         }
 
-        public bool ModifyTable(string tableName, Type entityType)
+        public bool ModifyTable(string tableName)
         {
             throw new NotImplementedException();
         }

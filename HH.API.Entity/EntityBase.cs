@@ -27,6 +27,10 @@ namespace HH.API.Entity
         /// </summary>
         public abstract string TableName { get; }
 
+        /// <summary>
+        /// ObjectID 字段名称
+        /// </summary>
+        public const string PropertyName_ObjectId = "ObjectId";
 
         private string _ObjectId = null;
 
