@@ -24,7 +24,7 @@ namespace HH.API.Entity
         {
             base.Table((new T()).TableName);
             Map(p => p.TableName).Ignore();
-            // Map(f => f.ObjectId).Key(KeyType.Identity);
+            Map(f => f.ObjectId).Key(KeyType.Assigned);//.Key(KeyType.Identity);
             AutoMap();
 
             this.AutoCreateTable();

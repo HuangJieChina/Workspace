@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using Dapper;
 using DapperExtensions;
+using System.Collections.Generic;
 
 namespace HH.API.Services
 {
@@ -11,7 +12,7 @@ namespace HH.API.Services
     /// TODO:待增加缓存机制
     /// TODO:待增加异步函数
     /// </summary>
-    public class RepositoryBase<T> where T : EntityBase
+    public class RepositoryBase<T> where T : EntityBase, new()
     {
         /// <summary>
         /// 基类构造函数
@@ -57,6 +58,36 @@ namespace HH.API.Services
             using (var conn = ConnectionFactory.DefaultConnection())
             {
                 return conn.Get<T>(objectId);
+            }
+        }
+
+        /// <summary>
+        /// 删除一个对象
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <returns></returns>
+        public virtual bool RemoveObjectById(string objectId)
+        {
+            return this.RemoveObject(new T() { ObjectId = objectId });
+        }
+
+        public virtual bool RemoveObject(T t)
+        {
+            using (var conn = ConnectionFactory.DefaultConnection())
+            {
+                return conn.Delete<T>(t);
+            }
+        }
+
+        /// <summary>
+        /// 获取全部数据
+        /// </summary>
+        /// <returns></returns>
+        public virtual List<T> GetAll()
+        {
+            using (var conn = ConnectionFactory.DefaultConnection())
+            {
+                return conn.GetList<T>().AsList<T>();
             }
         }
 

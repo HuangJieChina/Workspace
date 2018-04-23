@@ -23,6 +23,15 @@ namespace HH.API.Entity
         }
 
         /// <summary>
+        /// 基类构造函数
+        /// </summary>
+        /// <param name="objectId"></param>
+        public EntityBase(string objectId) : base()
+        {
+            this.ObjectId = ObjectId;
+        }
+
+        /// <summary>
         /// 获取数据库表名称
         /// </summary>
         public abstract string TableName { get; }

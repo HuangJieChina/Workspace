@@ -251,6 +251,10 @@ namespace HH.API.Entity.Database
             // 非字符类型，不做长度变更
             if (!columnType.Contains("char")) return false;
 
+            if (this.ColumnType.Contains("nchar") || this.ColumnType.Contains("nvarchar"))
+            {
+                return this.ColumnLength / 2 != columnLenth;
+            }
             return ColumnLength != columnLenth;
         }
 
