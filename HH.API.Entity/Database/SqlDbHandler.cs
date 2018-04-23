@@ -97,6 +97,11 @@ namespace HH.API.Entity.Database
             {
                 // 主键不做变化
                 if (property.Name == EntityBase.PropertyName_ObjectId) continue;
+                Attribute notMapped = property.GetCustomAttribute(typeof(NotMappedAttribute));
+                if (notMapped != null)
+                {
+                    continue;
+                }
 
                 DbColumn column = null;
                 column = this.GetColumnFromPropertyInfo(property);
@@ -110,7 +115,7 @@ namespace HH.API.Entity.Database
                 else
                 {// 修改字段
                     DbColumn oldColumn = columns[property.Name.ToLower()];
-                    if (!oldColumn.CompareChange(property.Name, column.ColumnLength))
+                    if (!oldColumn.CompareChange(column.ColumnType, column.ColumnLength))
                     {
                         columns.Remove(property.Name.ToLower());
                         continue;
@@ -240,6 +245,9 @@ namespace HH.API.Entity.Database
         /// <returns></returns>
         public bool CompareChange(string columnType, int columnLenth)
         {
+            // 字段类型不同
+            if (this.ColumnType != columnType) return true;
+
             // 非字符类型，不做长度变更
             if (!columnType.Contains("char")) return false;
 

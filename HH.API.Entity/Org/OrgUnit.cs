@@ -47,6 +47,12 @@ namespace HH.API.Entity
         public bool Enabled { get; set; }
 
         /// <summary>
+        /// 获取或设置描述信息
+        /// </summary>
+        [StringLength(500)]
+        public string Description { get; set; }
+
+        /// <summary>
         /// 测试使用属性，可忽略
         /// </summary>
         [NotMapped]
