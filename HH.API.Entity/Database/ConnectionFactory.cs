@@ -99,6 +99,26 @@ namespace HH.API.Entity
                 return cmd.ExecuteNonQuery();
             }
         }
+
+
+        /// <summary>
+        /// 执行SQL语句返回 DataTable
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static void ExecuteSqlReader(string sql, Action<DbDataReader> action)
+        {
+            using (DbConnection conn = ConnectionFactory.DefaultConnection())
+            {
+                DbCommand cmd = conn.CreateCommand();
+                cmd.CommandText = sql;
+
+                DbDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                action(reader);
+            }
+        }
+
+
         #endregion
 
     }
