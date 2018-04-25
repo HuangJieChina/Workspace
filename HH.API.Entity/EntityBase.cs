@@ -37,7 +37,7 @@ namespace HH.API.Entity
         public abstract string TableName { get; }
 
         /// <summary>
-        /// ObjectID 字段名称
+        /// ObjectID
         /// </summary>
         public const string PropertyName_ObjectId = "ObjectId";
 
@@ -68,6 +68,11 @@ namespace HH.API.Entity
         [Column(TypeName = "char")]
         [StringLength(36)]
         public string CreateBy { get; set; }
+
+        /// <summary>
+        /// CreatedTime
+        /// </summary>
+        public const string PropertyName_CreatedTime = "CreatedTime";
 
         /// <summary>
         /// 获取或设置创建时间

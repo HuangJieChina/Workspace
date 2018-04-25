@@ -71,6 +71,11 @@ namespace HH.API.Services
             return this.RemoveObject(new T() { ObjectId = objectId });
         }
 
+        /// <summary>
+        /// 删除一个实体对象
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public virtual bool RemoveObject(T t)
         {
             using (var conn = ConnectionFactory.DefaultConnection())
@@ -91,6 +96,32 @@ namespace HH.API.Services
             }
         }
 
+        /// <summary>
+        /// 查询分页
+        /// </summary>
+        /// <param name="pageIndex">当前页码(从1开始)</param>
+        /// <param name="pageSize">每页显示数据量</param>
+        /// <param name="recordCount">总记录数</param>
+        /// <param name="predicate">查询条件</param>
+        /// <param name="sort">排序值</param>
+        /// <returns></returns>
+        public virtual List<T> GetPageList(int pageIndex, int pageSize, out long recordCount,
+            object predicate = null, IList<ISort> sort = null)
+        {
+            using (var conn = ConnectionFactory.DefaultConnection())
+            {
+                IDbCommand cmd = conn.CreateCommand();
+
+                recordCount = conn.Count<T>(predicate);
+                // 默认按照事件倒序排序
+                if (sort == null)
+                {
+                    sort = new List<ISort>();
+                    sort.Add(new Sort() { Ascending = false, PropertyName = EntityBase.PropertyName_CreatedTime });
+                }
+                return conn.GetPage<T>(predicate, sort, pageIndex - 1, pageSize).AsList();
+            }
+        }
 
     }
 }

@@ -26,15 +26,19 @@ namespace HH.API.Controllers
             OrgUnit u = new OrgUnit()
             {
                 ObjectId = Guid.NewGuid().ToString(),
-                Name = "Test"
+                DisplayName = "Test"
             };
             OrgUnitRepository d = new OrgUnitRepository();
             dynamic result = d.Insert(u);
 
             List<OrgUnit> units = d.GetAll();
 
-            units[0].Name = "修改后的名称" + DateTime.Now.ToLongTimeString();
+            units[0].DisplayName = "修改后的名称" + DateTime.Now.ToLongTimeString();
             d.Update(units[0]);
+
+
+            long recordCount = 0;
+            List<OrgUnit> list = d.QueryOrgUnit(1, 10, out recordCount, string.Empty);
 
             d.RemoveObjectById("350f2620-171e-444f-8d19-d01e1853e2e0");
 
