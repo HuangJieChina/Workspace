@@ -35,6 +35,7 @@ namespace HH.API.Services
             using (var conn = ConnectionFactory.DefaultConnection())
             {
                 TestParentEntity t = conn.Get<TestParentEntity>(objectId);
+                if (t == null) return null;
                 // t.TestChild = conn.QuerySingle<TestChildEntity>("SELECT * FROM Test_Child WHERE RoleId=@RoleId", new { RoleId = objectId });
 
                 var predicateChild = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
