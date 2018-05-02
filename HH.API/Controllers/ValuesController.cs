@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using HH.API.Entity;
 using NLog;
 using HH.API.Services;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using IdentityModel;
 
 namespace HH.API.Controllers
 {
@@ -18,6 +21,28 @@ namespace HH.API.Controllers
         //{
         //    return new string[] { "value1", "value2" };
         //}
+
+        [HttpGet("Test1")]
+        public string Test1(string inputValue)
+        {
+            return inputValue;
+        }
+
+        [HttpGet("Test2/{inputValue}")]
+        public string Test2(string inputValue)
+        {
+            return inputValue;
+        }
+
+        [Authorize]
+        [HttpPost("TestAuth")]
+        [HttpGet("TestAuth")]
+        public string TestAuth(string inputValue)
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            var id = identity.Claims.FirstOrDefault(u => u.Type == JwtClaimTypes.Id).Value;
+            return "test auth";
+        }
 
         // GET api/values/5
         [HttpGet]
