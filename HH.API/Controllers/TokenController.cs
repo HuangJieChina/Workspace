@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
 
 namespace HH.API.Controllers
 {
@@ -24,39 +25,56 @@ namespace HH.API.Controllers
         //}
 
         [HttpPost("authenticate")]
-        public IActionResult Authenticate(dynamic data)//[FromBody]string userCode, [FromBody]string password) // dynamic user)//
+        public IActionResult Authenticate([FromBody]dynamic user)
         {
-            //string userCode = user.userCode;
-            //string password = user.password;
+
+            string userCode = user.userCode;
+            string password = user.password;
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var authTime = DateTime.UtcNow;
             var expiresAt = authTime.AddDays(7);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                      new Claim(JwtClaimTypes.Audience,"api"),
-                     new Claim(JwtClaimTypes.Issuer,"YFAPICommomCore"),
-                     new Claim(JwtClaimTypes.Id, "1"),
-                     new Claim(JwtClaimTypes.Name, "xxx"),
-                     new Claim(JwtClaimTypes.Email, "xxx@qq.com"),
-                     new Claim(JwtClaimTypes.PhoneNumber, "13500000000")
+                     new Claim(JwtClaimTypes.Issuer,"Authine"),               // 接口
+                     new Claim(JwtClaimTypes.Id, Guid.NewGuid().ToString()),  // 用户的ID
+                     new Claim(JwtClaimTypes.Name, "HuangJie"),               // 账号
+                     new Claim(JwtClaimTypes.Email, "huangj@authine.com"),    // 邮箱
+                     new Claim(JwtClaimTypes.PhoneNumber, "13800138000")      // 手机号码
                 }),
                 Expires = expiresAt,
                 SigningCredentials = new SigningCredentials(Startup.symmetricKey, SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
+
+            // ---------------------------------
+            //ClaimsPrincipal principal = new ClaimsPrincipal();
+            //principal.Claims.Append<Claim>(new Claim(JwtClaimTypes.Id, Guid.NewGuid().ToString()));
+            //principal.Claims.Append<Claim>(new Claim(JwtClaimTypes.Name, "huangj"));
+
+            //AuthenticationHttpContextExtensions.SignInAsync(HttpContext, principal, new AuthenticationProperties
+            //{
+            //    ExpiresUtc = DateTime.UtcNow.AddMinutes(20), // 20 分钟后过期
+            //    IsPersistent = false,
+            //    AllowRefresh = false
+            //});
+            // ---------------------------------
+
             return Ok(new
             {
-                access_token = tokenString,
+                // access_token = tokenString,
                 token_type = "Bearer",
                 profile = new
                 {
                     sid = "1",
                     name = "xxxx",
-                    auth_time = new DateTimeOffset(authTime).ToUnixTimeSeconds(),
-                    expires_at = new DateTimeOffset(expiresAt).ToUnixTimeSeconds()
+                    auth_time = new DateTimeOffset(authTime).ToUnixTimeSeconds(),  // 认证时间
+                    expires_at = new DateTimeOffset(expiresAt).ToUnixTimeSeconds() // 过期时间
                 }
             });
         }

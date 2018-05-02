@@ -41,7 +41,7 @@ namespace HH.API
                     {
                         NameClaimType = JwtClaimTypes.Name,
                         RoleClaimType = JwtClaimTypes.Role,
-                        ValidIssuer = "HH",
+                        ValidIssuer = "Authine",
                         ValidAudience = "api",
                         IssuerSigningKey = symmetricKey
                         /***********************************TokenValidationParameters的参数默认值***********************************/

@@ -13,7 +13,7 @@ using IdentityModel;
 namespace HH.API.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class ValuesController : BaseController
     {
         // GET api/values
         //[HttpGet]
@@ -22,16 +22,22 @@ namespace HH.API.Controllers
         //    return new string[] { "value1", "value2" };
         //}
 
-        [HttpGet("Test1")]
+        [HttpGet("Test1/{inputValue}")]
         public string Test1(string inputValue)
         {
             return inputValue;
         }
 
-        [HttpGet("Test2/{inputValue}")]
-        public string Test2(string inputValue)
+        [HttpGet("Test2")]
+        public string Test2([FromHeader]string inputValue)
         {
             return inputValue;
+        }
+
+        [HttpPost("Test3")]
+        public string Test3([FromBody]dynamic obj)
+        {
+            return "Test3" + obj.inputValue;
         }
 
         [Authorize]
