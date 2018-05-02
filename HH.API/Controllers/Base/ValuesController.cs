@@ -15,7 +15,7 @@ namespace HH.API.Controllers
     /// <summary>
     /// Controller 基类
     /// </summary>
-    public class BaseController : Controller
+    public class APIController : Controller
     {
         /// <summary>
         /// 获取当前用户(只有非匿名方法才能访问)

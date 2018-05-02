@@ -9,7 +9,7 @@ using HH.API.Entity;
 namespace HH.API.Controllers
 {
     [Route("api/[controller]")]
-    public class OrgController : Controller, IOrgController
+    public class OrgController : APIController, IOrgController
     {
         /// <summary>
         /// 添加组织机构对象

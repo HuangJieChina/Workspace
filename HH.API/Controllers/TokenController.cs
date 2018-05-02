@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authentication;
 namespace HH.API.Controllers
 {
     [Route("api/[controller]")]
-    public class TokenController : Controller
+    public class TokenController : APIController
     {
         // GET api/values
         //[HttpGet]
@@ -27,7 +27,6 @@ namespace HH.API.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]dynamic user)
         {
-
             string userCode = user.userCode;
             string password = user.password;
 
@@ -52,22 +51,9 @@ namespace HH.API.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            // ---------------------------------
-            //ClaimsPrincipal principal = new ClaimsPrincipal();
-            //principal.Claims.Append<Claim>(new Claim(JwtClaimTypes.Id, Guid.NewGuid().ToString()));
-            //principal.Claims.Append<Claim>(new Claim(JwtClaimTypes.Name, "huangj"));
-
-            //AuthenticationHttpContextExtensions.SignInAsync(HttpContext, principal, new AuthenticationProperties
-            //{
-            //    ExpiresUtc = DateTime.UtcNow.AddMinutes(20), // 20 分钟后过期
-            //    IsPersistent = false,
-            //    AllowRefresh = false
-            //});
-            // ---------------------------------
-
             return Ok(new
             {
-                // access_token = tokenString,
+                access_token = tokenString,
                 token_type = "Bearer",
                 profile = new
                 {

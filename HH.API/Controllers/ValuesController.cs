@@ -13,7 +13,7 @@ using IdentityModel;
 namespace HH.API.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : BaseController
+    public class ValuesController : APIController
     {
         // GET api/values
         //[HttpGet]
