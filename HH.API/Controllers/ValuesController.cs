@@ -23,6 +23,33 @@ namespace HH.API.Controllers
         [HttpGet]
         public APIResult AddUnit(OrgUnit unit)
         {
+            TestRepository test = new TestRepository();
+            TestParentEntity parent = new TestParentEntity()
+            {
+                ObjectId = Guid.NewGuid().ToString(),
+                ExtendField1 = "A",
+                ExtendField2 = "B"
+            };
+            parent.TestChild = new TestChildEntity()
+            {
+                RoleId = parent.ObjectId,
+                ExtendField1 = "111"
+            };
+            parent.TestUser = new List<TestUserEntity>();
+            parent.TestUser.Add(new TestUserEntity()
+            {
+                RoleId = parent.ObjectId,
+                ExtendField1 = "111"
+            });
+            parent.TestUser.Add(new TestUserEntity()
+            {
+                RoleId = parent.ObjectId,
+                ExtendField1 = "222"
+            });
+            test.Insert(parent);
+
+            TestParentEntity testEntity = test.GetObjectById("574952de-30ad-46ab-a312-3dc03ec4e178");
+
             OrgUnit u = new OrgUnit()
             {
                 ObjectId = Guid.NewGuid().ToString(),
