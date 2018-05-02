@@ -29,7 +29,7 @@ namespace HH.API.Entity
 
             this.AutoCreateTable();
         }
-        
+
         /// <summary>
         /// 实体类属性映射
         /// </summary>

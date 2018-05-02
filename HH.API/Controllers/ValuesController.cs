@@ -48,7 +48,7 @@ namespace HH.API.Controllers
             });
             test.Insert(parent);
 
-            TestParentEntity testEntity = test.GetObjectById("574952de-30ad-46ab-a312-3dc03ec4e178");
+            TestParentEntity testEntity = test.GetObjectById("3abd51f3-e4b1-4a54-bc7c-4e029a9b037c");
 
             OrgUnit u = new OrgUnit()
             {

@@ -4,6 +4,8 @@ using System.Data;
 using Dapper;
 using DapperExtensions;
 using System.Collections.Generic;
+using System.Reflection;
+using DapperExtensions.Sql;
 
 namespace HH.API.Services
 {
@@ -19,7 +21,10 @@ namespace HH.API.Services
         /// </summary>
         public RepositoryBase()
         {
-
+            // 重新设置默认配置项
+            DapperExtensions.DapperExtensions.Configure(typeof(ClassMapperBase<>),
+                new List<Assembly>(),
+                new SqlServerDialect());
         }
 
         /// <summary>

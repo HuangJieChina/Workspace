@@ -76,12 +76,4 @@ namespace HH.API.Entity
         }
     }
 
-    /// <summary>
-    /// 实体属性映射
-    /// </summary>
-    [Serializable]
-    public class OrgUnitMapper : ClassMapperBase<OrgUnit>
-    {
-
-    }
 }

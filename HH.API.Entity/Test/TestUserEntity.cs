@@ -48,12 +48,12 @@ namespace HH.API.Entity
 
     }
 
-    /// <summary>
-    /// 实体属性映射
-    /// </summary>
-    [Serializable]
-    public class TestUserEntityMapper : ClassMapperBase<TestUserEntity>
-    {
+    ///// <summary>
+    ///// 实体属性映射
+    ///// </summary>
+    //[Serializable]
+    //public class TestUserEntityMapper : ClassMapperBase<TestUserEntity>
+    //{
 
-    }
+    //}
 }
