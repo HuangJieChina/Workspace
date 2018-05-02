@@ -7,12 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DapperExtensions.DotnetCore" Version="1.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\HH.API.Entity\HH.API.Entity.csproj" />
     <ProjectReference Include="..\HH.IInterface\HH.IInterface.csproj" />
+    <ProjectReference Include="..\Modules\DapperExtensionsDNXCore\DapperExtensionsDNXCore.csproj" />
   </ItemGroup>
 
 </Project>
