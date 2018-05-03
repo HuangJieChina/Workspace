@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HH.API.Entity
+namespace HH.API
 {
     /// <summary>
     /// API接口返回统一编码

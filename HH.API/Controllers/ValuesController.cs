@@ -45,9 +45,7 @@ namespace HH.API.Controllers
         [HttpGet("TestAuth")]
         public string TestAuth(string inputValue)
         {
-            var identity = (ClaimsIdentity)User.Identity;
-            var id = identity.Claims.FirstOrDefault(u => u.Type == JwtClaimTypes.Id).Value;
-            return "test auth";
+            return "Test auth->" + inputValue + "," + CurrentUser.ObjectId;
         }
 
         // GET api/values/5

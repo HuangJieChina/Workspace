@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HH.API.Entity
+namespace HH.API
 {
     /// <summary>
     /// API接口统一返回类
     /// </summary>
-    public class APIResult
+    public class APIResult : ActionResult
     {
         /// <summary>
         /// 获取或设置是否成功

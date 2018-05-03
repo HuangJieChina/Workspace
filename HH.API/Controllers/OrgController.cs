@@ -18,6 +18,26 @@ namespace HH.API.Controllers
         /// <returns></returns>
         public ActionResult AddUnit([FromBody] OrgUnit orgUnit)
         {
+            return new APIResult() { };
+        }
+
+        public ActionResult AddUser([FromBody] OrgUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult GetChildUnitsByParent(string parentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult GetChildUsersByParent(string parentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public OrgUnit GetUnit(string objectId)
+        {
             throw new NotImplementedException();
         }
 
@@ -26,7 +46,17 @@ namespace HH.API.Controllers
             throw new NotImplementedException();
         }
 
+        public ActionResult RemoveUser([FromHeader] string objectId)
+        {
+            throw new NotImplementedException();
+        }
+
         public ActionResult UpdateUnit([FromBody] OrgUnit orgUnit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult UpdateUser([FromBody] OrgUser user)
         {
             throw new NotImplementedException();
         }
