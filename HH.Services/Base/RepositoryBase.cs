@@ -114,7 +114,7 @@ namespace HH.API.Services
             using (var conn = ConnectionFactory.DefaultConnection())
             {
                 bool res = conn.Delete<T>(t);
-                if (res) this.EntityCache.Remove(t);
+                if (res) this.EntityCache.Remove(t.ObjectId);
                 return res;
             }
         }
