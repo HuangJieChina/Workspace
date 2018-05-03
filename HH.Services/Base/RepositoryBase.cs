@@ -27,6 +27,22 @@ namespace HH.API.Services
                 new SqlServerDialect());
         }
 
+        private IEntityCache<T> _EntityCache = null;
+        /// <summary>
+        /// 获取实体缓存类
+        /// </summary>
+        public IEntityCache<T> EntityCache
+        {
+            get
+            {
+                if (this._EntityCache == null)
+                {
+                    this._EntityCache = HH.API.Entity.EntityCache.Factory<T>.Instance.GetCache();
+                }
+                return this._EntityCache;
+            }
+        }
+
         /// <summary>
         /// 插入实体数据
         /// </summary>
@@ -36,7 +52,9 @@ namespace HH.API.Services
         {
             using (var conn = ConnectionFactory.DefaultConnection())
             {
-                return conn.Insert<T>(t);
+                dynamic res = conn.Insert<T>(t);
+                this.EntityCache.Save(t);
+                return res;
             }
         }
 
@@ -49,7 +67,9 @@ namespace HH.API.Services
         {
             using (var conn = ConnectionFactory.DefaultConnection())
             {
-                return conn.Update<T>(t);
+                bool res = conn.Update<T>(t);
+                if (res) this.EntityCache.Save(t);
+                return res;
             }
         }
 
@@ -60,6 +80,12 @@ namespace HH.API.Services
         /// <returns>实体对象</returns>
         public virtual T GetObjectById(string objectId)
         {
+            T t = this.EntityCache.Get(objectId);
+            if (t != default(T))
+            {
+                return this.EntityCache.Get(objectId);
+            }
+
             using (var conn = ConnectionFactory.DefaultConnection())
             {
                 return conn.Get<T>(objectId);
@@ -73,7 +99,9 @@ namespace HH.API.Services
         /// <returns></returns>
         public virtual bool RemoveObjectById(string objectId)
         {
-            return this.RemoveObject(new T() { ObjectId = objectId });
+            bool res = this.RemoveObject(new T() { ObjectId = objectId });
+            if (res) this.EntityCache.Remove(objectId);
+            return res;
         }
 
         /// <summary>
@@ -85,7 +113,9 @@ namespace HH.API.Services
         {
             using (var conn = ConnectionFactory.DefaultConnection())
             {
-                return conn.Delete<T>(t);
+                bool res = conn.Delete<T>(t);
+                if (res) this.EntityCache.Remove(t);
+                return res;
             }
         }
 
