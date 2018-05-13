@@ -22,16 +22,29 @@ namespace DapperExtensions
         /// <param name="value">The value for the predicate.</param>
         /// <param name="not">Effectively inverts the comparison operator. Example: WHERE FirstName &lt;&gt; 'Foo'.</param>
         /// <returns>An instance of IFieldPredicate.</returns>
-        public static IFieldPredicate Field<T>(Expression<Func<T, object>> expression, Operator op, object value, bool not = false) where T : class
+        public static IFieldPredicate Field<T>(Expression<Func<T, object>> expression, Operator op, object value, string tableAlias = null, bool not = false) where T : class
         {
             PropertyInfo propertyInfo = ReflectionHelper.GetProperty(expression) as PropertyInfo;
             return new FieldPredicate<T>
-                       {
-                           PropertyName = propertyInfo.Name,
-                           Operator = op,
-                           Value = value,
-                           Not = not
-                       };
+            {
+                TableAlias = tableAlias,
+                PropertyName = propertyInfo.Name,
+                Operator = op,
+                Value = value,
+                Not = not
+            };
+        }
+
+        public static IFieldPredicate Column<T>(Expression<Func<T, object>> expression, Operator op, object value, bool not = false) where T : class
+        {
+            PropertyInfo propertyInfo = ReflectionHelper.GetProperty(expression) as PropertyInfo;
+            return new ColumnPredicate<T>
+            {
+                PropertyName = propertyInfo.Name,
+                Operator = op,
+                Value = value,
+                Not = not
+            };
         }
 
         /// <summary>
@@ -52,12 +65,12 @@ namespace DapperExtensions
             PropertyInfo propertyInfo = ReflectionHelper.GetProperty(expression) as PropertyInfo;
             PropertyInfo propertyInfo2 = ReflectionHelper.GetProperty(expression2) as PropertyInfo;
             return new PropertyPredicate<T, T2>
-                       {
-                           PropertyName = propertyInfo.Name,
-                           PropertyName2 = propertyInfo2.Name,
-                           Operator = op,
-                           Not = not
-                       };
+            {
+                PropertyName = propertyInfo.Name,
+                PropertyName2 = propertyInfo2.Name,
+                Operator = op,
+                Not = not
+            };
         }
 
         /// <summary>
@@ -70,10 +83,10 @@ namespace DapperExtensions
         public static IPredicateGroup Group(GroupOperator op, params IPredicate[] predicate)
         {
             return new PredicateGroup
-                       {
-                           Operator = op,
-                           Predicates = predicate
-                       };
+            {
+                Operator = op,
+                Predicates = predicate
+            };
         }
 
         /// <summary>
@@ -83,10 +96,10 @@ namespace DapperExtensions
             where TSub : class
         {
             return new ExistsPredicate<TSub>
-                       {
-                           Not = not,
-                           Predicate = predicate
-                       };
+            {
+                Not = not,
+                Predicate = predicate
+            };
         }
 
         /// <summary>
@@ -97,11 +110,11 @@ namespace DapperExtensions
         {
             PropertyInfo propertyInfo = ReflectionHelper.GetProperty(expression) as PropertyInfo;
             return new BetweenPredicate<T>
-                       {
-                           Not = not,
-                           PropertyName = propertyInfo.Name,
-                           Value = values
-                       };
+            {
+                Not = not,
+                PropertyName = propertyInfo.Name,
+                Value = values
+            };
         }
 
         /// <summary>
@@ -111,10 +124,10 @@ namespace DapperExtensions
         {
             PropertyInfo propertyInfo = ReflectionHelper.GetProperty(expression) as PropertyInfo;
             return new Sort
-                       {
-                           PropertyName = propertyInfo.Name,
-                           Ascending = ascending
-                       };
+            {
+                PropertyName = propertyInfo.Name,
+                Ascending = ascending
+            };
         }
     }
 
@@ -132,6 +145,7 @@ namespace DapperExtensions
     {
         public abstract string GetSql(ISqlGenerator sqlGenerator, IDictionary<string, object> parameters);
         public string PropertyName { get; set; }
+        public string TableAlias { get; set; }
 
         protected virtual string GetColumnName(Type entityType, ISqlGenerator sqlGenerator, string propertyName)
         {
@@ -148,6 +162,46 @@ namespace DapperExtensions
             }
 
             return sqlGenerator.GetColumnName(map, propertyMap, false);
+        }
+    }
+
+    public class ColumnPredicate<T> : FieldPredicate<T> where T : class
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sqlGenerator"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public override string GetSql(ISqlGenerator sqlGenerator, IDictionary<string, object> parameters)
+        {
+            // string columnName = GetColumnName(typeof(T), sqlGenerator, PropertyName);
+            string columnName = this.PropertyName;
+            if (Value == null)
+            {
+                return string.Format("({0} IS {1}NULL)", columnName, Not ? "NOT " : string.Empty);
+            }
+
+            if (Value is IEnumerable && !(Value is string))
+            {
+                if (Operator != Operator.Eq)
+                {
+                    throw new ArgumentException("Operator must be set to Eq for Enumerable types");
+                }
+
+                List<string> @params = new List<string>();
+                foreach (var value in (IEnumerable)Value)
+                {
+                    string valueParameterName = parameters.SetParameterName(this.PropertyName, value, sqlGenerator.Configuration.Dialect.ParameterPrefix);
+                    @params.Add(valueParameterName);
+                }
+
+                string paramStrings = @params.Aggregate(new StringBuilder(), (sb, s) => sb.Append((sb.Length != 0 ? ", " : string.Empty) + s), sb => sb.ToString());
+                return string.Format("({0} {1}IN ({2}))", columnName, Not ? "NOT " : string.Empty, paramStrings);
+            }
+
+            string parameterName = parameters.SetParameterName(this.PropertyName, this.Value, sqlGenerator.Configuration.Dialect.ParameterPrefix);
+            return string.Format("({0} {1} {2})", columnName, GetOperatorString(), parameterName);
         }
     }
 
@@ -194,7 +248,16 @@ namespace DapperExtensions
 
         public override string GetSql(ISqlGenerator sqlGenerator, IDictionary<string, object> parameters)
         {
-            string columnName = GetColumnName(typeof(T), sqlGenerator, PropertyName);
+            string columnName = string.Empty;
+            if (!string.IsNullOrEmpty(this.TableAlias))
+            {
+                columnName = this.TableAlias + "." + this.PropertyName;
+            }
+            else
+            {
+                columnName = GetColumnName(typeof(T), sqlGenerator, PropertyName);
+            }
+
             if (Value == null)
             {
                 return string.Format("({0} IS {1}NULL)", columnName, Not ? "NOT " : string.Empty);
@@ -329,7 +392,7 @@ namespace DapperExtensions
                 sb =>
                 {
                     var s = sb.ToString();
-                    if (s.Length == 0) return sqlGenerator.Configuration.Dialect.EmptyExpression; 
+                    if (s.Length == 0) return sqlGenerator.Configuration.Dialect.EmptyExpression;
                     return s;
                 }
                                         ) + ")";

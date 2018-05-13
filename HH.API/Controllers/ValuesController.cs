@@ -98,6 +98,13 @@ namespace HH.API.Controllers
 
             d.RemoveObjectById("350f2620-171e-444f-8d19-d01e1853e2e0");
 
+
+            OrgUserRepository userRepository = new OrgUserRepository();
+            long userCount = 0;
+            // List<OrgUser> users = userRepository.QueryOrgUser(1, 10, out userCount, string.Empty);
+
+            List<dynamic> users1 = userRepository.QueryOrgUser1(1, 10, out userCount, "zhangs");
+
             LogManager.GetCurrentClassLogger().Debug("错误信息{0}");
             return new APIResult() { };
         }

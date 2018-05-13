@@ -9,9 +9,10 @@ namespace DapperExtensions.Sql
     public interface ISqlGenerator
     {
         IDapperExtensionsConfiguration Configuration { get; }
-        
+
         string Select(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, IDictionary<string, object> parameters);
         string SelectPaged(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int page, int resultsPerPage, IDictionary<string, object> parameters);
+        string SelectPaged(string sql, IPredicate predicate, IList<ISort> sort, int page, int resultsPerPage, IDictionary<string, object> parameters);
         string SelectSet(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int firstResult, int maxResults, IDictionary<string, object> parameters);
         string Count(IClassMapper classMap, IPredicate predicate, IDictionary<string, object> parameters);
 
@@ -88,6 +89,31 @@ namespace DapperExtensions.Sql
             return sql;
         }
 
+        public virtual string SelectPaged(string sql, IPredicate predicate, IList<ISort> sort, int page, int resultsPerPage, IDictionary<string, object> parameters)
+        {
+            if (sort == null || !sort.Any())
+            {
+                throw new ArgumentNullException("Sort", "Sort cannot be null or empty.");
+            }
+
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("Parameters");
+            }
+
+            StringBuilder innerSql = new StringBuilder(sql);
+            if (predicate != null)
+            {
+                innerSql.Append(" WHERE ")
+                    .Append(predicate.GetSql(this, parameters));
+            }
+
+            string orderBy = sort.Select(s => s.PropertyName + (s.Ascending ? " ASC" : " DESC")).AppendStrings();
+            innerSql.Append(" ORDER BY " + orderBy);
+
+            return Configuration.Dialect.GetPagingSql(innerSql.ToString(), page, resultsPerPage, parameters);
+        }
+
         public virtual string SelectSet(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int firstResult, int maxResults, IDictionary<string, object> parameters)
         {
             if (sort == null || !sort.Any())
@@ -136,7 +162,7 @@ namespace DapperExtensions.Sql
 
             return sql.ToString();
         }
-        
+
         public virtual string Insert(IClassMapper classMap)
         {
             var columns = classMap.Properties.Where(p => !(p.Ignored || p.IsReadOnly || p.KeyType == KeyType.Identity));
@@ -185,7 +211,7 @@ namespace DapperExtensions.Sql
                 setSql.AppendStrings(),
                 predicate.GetSql(this, parameters));
         }
-        
+
         public virtual string Delete(IClassMapper classMap, IPredicate predicate, IDictionary<string, object> parameters)
         {
             if (predicate == null)
@@ -202,7 +228,7 @@ namespace DapperExtensions.Sql
             sql.Append(" WHERE ").Append(predicate.GetSql(this, parameters));
             return sql.ToString();
         }
-        
+
         public virtual string IdentitySql(IClassMapper classMap)
         {
             return Configuration.Dialect.GetIdentitySql(GetTableName(classMap));

@@ -17,7 +17,7 @@ namespace DapperExtensions
         private static Func<IDapperExtensionsConfiguration, IDapperImplementor> _instanceFactory;
         private static IDapperImplementor _instance;
         private static IDapperExtensionsConfiguration _configuration;
-        
+
         /// <summary>
         /// Gets or sets the default class mapper to use when generating class maps. If not specified, AutoClassMapper<T> is used.
         /// DapperExtensions.Configure(Type, IList<Assembly>, ISqlDialect) can be used instead to set all values at once
@@ -51,7 +51,7 @@ namespace DapperExtensions
                 Configure(_configuration.DefaultMapper, _configuration.MappingAssemblies, value);
             }
         }
-        
+
         /// <summary>
         /// Get or sets the Dapper Extensions Implementation Factory.
         /// </summary>
@@ -199,6 +199,24 @@ namespace DapperExtensions
         public static IEnumerable<T> GetPage<T>(this DbConnection connection, object predicate, IList<ISort> sort, int page, int resultsPerPage, DbTransaction transaction = null, int? commandTimeout = null, bool buffered = false) where T : class
         {
             return Instance.GetPage<T>(connection, predicate, sort, page, resultsPerPage, transaction, commandTimeout, buffered);
+        }
+
+        ///// <summary>
+        ///// Executes a select query using the specified predicate, returning an IEnumerable data typed as per T.
+        ///// Data returned is dependent upon the specified page and resultsPerPage.
+        ///// </summary>
+        //public static IEnumerable<T> GetPage<T>(this DbConnection connection, string sql, object predicate, IList<ISort> sort, int page, int resultsPerPage, DbTransaction transaction = null, int? commandTimeout = null, bool buffered = false) where T : class
+        //{
+        //    return Instance.GetPage<T>(connection, sql, predicate, sort, page, resultsPerPage, transaction, commandTimeout, buffered);
+        //}
+
+        /// <summary>
+        /// Executes a select query using the specified predicate, returning an IEnumerable data typed as per T.
+        /// Data returned is dependent upon the specified page and resultsPerPage.
+        /// </summary>
+        public static IEnumerable<dynamic> GetPage<dynamic>(this DbConnection connection, string sql, object predicate, IList<ISort> sort, int page, int resultsPerPage, DbTransaction transaction = null, int? commandTimeout = null, bool buffered = false)
+        {
+            return Instance.GetPage<dynamic>(connection, sql, predicate, sort, page, resultsPerPage, transaction, commandTimeout, buffered);
         }
 
         /// <summary>

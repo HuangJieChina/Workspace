@@ -22,7 +22,7 @@ namespace HH.API.Entity
         /// </summary>
         [StringLength(64, MinimumLength = 1)]
         [Required]
-        public string Name { get; set; }
+        public string DisplayName { get; set; }
 
         /// <summary>
         /// 获取或设置用户所属组织Id

@@ -28,8 +28,9 @@ namespace HH.API.Services
         /// <returns></returns>
         public List<OrgUnit> QueryOrgUnit(int pageIndex, int pageSize, out long recordCount, string displayName)
         {
+            // Remark:分页查询示例
             recordCount = 0;
-
+            
             IList<IPredicate> predList = new List<IPredicate>();
             if (!string.IsNullOrWhiteSpace(displayName))
             {

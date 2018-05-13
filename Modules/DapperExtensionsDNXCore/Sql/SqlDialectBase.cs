@@ -90,7 +90,7 @@ namespace DapperExtensions.Sql
             }
 
             StringBuilder result = new StringBuilder();
-            if (!string.IsNullOrWhiteSpace(prefix))
+            if (!string.IsNullOrWhiteSpace(prefix) && columnName.IndexOf(".") == -1)
             {
                 result.AppendFormat(QuoteString(prefix) + ".");
             }

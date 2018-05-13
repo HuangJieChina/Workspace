@@ -6,6 +6,7 @@ using DapperExtensions;
 using System.Collections.Generic;
 using System.Reflection;
 using DapperExtensions.Sql;
+using System.Data.Common;
 
 namespace HH.API.Services
 {
@@ -22,9 +23,22 @@ namespace HH.API.Services
         public RepositoryBase()
         {
             // 重新设置默认配置项
+            ISqlDialect sqlDialect = null;
+            switch (ConnectionFactory.DatabaseType)
+            {
+                case DatabaseType.MySql:
+                    sqlDialect = new MySqlDialect();
+                    break;
+                case DatabaseType.SqlServer:
+                    sqlDialect = new SqlServerDialect();
+                    break;
+                default:
+                    throw new Exception("此数据库类型未实现!");
+            }
+
             DapperExtensions.DapperExtensions.Configure(typeof(ClassMapperBase<>),
                 new List<Assembly>(),
-                new SqlServerDialect());
+                sqlDialect);
         }
 
         private IEntityCache<T> _EntityCache = null;
@@ -41,6 +55,15 @@ namespace HH.API.Services
                 }
                 return this._EntityCache;
             }
+        }
+
+        /// <summary>
+        /// 获取数据库连接对象
+        /// </summary>
+        /// <returns></returns>
+        public DbConnection OpenConnection()
+        {
+            return ConnectionFactory.DefaultConnection();
         }
 
         /// <summary>
