@@ -166,19 +166,27 @@ namespace HH.API.Services
         public virtual List<T> GetPageList(int pageIndex, int pageSize, out long recordCount,
             object predicate = null, IList<ISort> sort = null)
         {
+            List<T> res = null;
             using (var conn = ConnectionFactory.DefaultConnection())
             {
-                IDbCommand cmd = conn.CreateCommand();
-
-                recordCount = conn.Count<T>(predicate);
                 // 默认按照事件倒序排序
                 if (sort == null)
                 {
                     sort = new List<ISort>();
                     sort.Add(new Sort() { Ascending = false, PropertyName = EntityBase.PropertyName_CreatedTime });
                 }
-                return conn.GetPage<T>(predicate, sort, pageIndex - 1, pageSize).AsList();
+                conn.GetPage<T>(predicate, sort, pageIndex - 1, pageSize).AsList();
+
+                if ((res == null || res.Count == 0) && pageIndex == 1)
+                {// 列表集合为空，不做总数查询
+                    recordCount = 0;
+                }
+                else
+                {
+                    recordCount = conn.Count<T>(predicate);
+                }
             }
+            return res;
         }
 
         /// <summary>
@@ -200,8 +208,15 @@ namespace HH.API.Services
 
             using (DbConnection conn = this.OpenConnection())
             {
-                recordCount = conn.Count(sqlCount, predicate);
                 res = conn.GetPage<dynamic>(sqlQuery, predicate, sort, pageIndex - 1, pageSize).AsList<dynamic>();
+                if ((res == null || res.Count == 0) && pageIndex == 1)
+                {// 列表集合为空，不做总数查询
+                    recordCount = 0;
+                }
+                else
+                {
+                    recordCount = conn.Count(sqlCount, predicate);
+                }
             }
 
             return res;
