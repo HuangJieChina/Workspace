@@ -16,6 +16,8 @@ namespace DapperExtensions.Sql
         string SelectSet(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int firstResult, int maxResults, IDictionary<string, object> parameters);
         string Count(IClassMapper classMap, IPredicate predicate, IDictionary<string, object> parameters);
 
+        string Count(string sql, IPredicate predicate, IDictionary<string, object> parameters);
+
         string Insert(IClassMapper classMap);
         string Update(IClassMapper classMap, IPredicate predicate, IDictionary<string, object> parameters);
         string Delete(IClassMapper classMap, IPredicate predicate, IDictionary<string, object> parameters);
@@ -161,6 +163,23 @@ namespace DapperExtensions.Sql
             }
 
             return sql.ToString();
+        }
+
+        public virtual string Count(string sql, IPredicate predicate, IDictionary<string, object> parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("Parameters");
+            }
+
+            StringBuilder sqlBuilder = new StringBuilder(sql);
+            if (predicate != null)
+            {
+                sqlBuilder.Append(" WHERE ")
+                    .Append(predicate.GetSql(this, parameters));
+            }
+
+            return sqlBuilder.ToString();
         }
 
         public virtual string Insert(IClassMapper classMap)

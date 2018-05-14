@@ -30,7 +30,7 @@ namespace HH.API.Services
         public List<dynamic> QueryOrgUser(int pageIndex, int pageSize, out long recordCount, string displayName)
         {
             recordCount = 0;
-            string txt = string.Format("SELECT a.Code,a.DisplayName,b.DisplayName as OUName FROM {0} a JOIN {1} b ON a.ParentId=b.ObjectID  where a.DisplayName like '%'+@DisplayName+'%'",
+            string txt = string.Format("SELECT a.*,b.DisplayName as OUName FROM {0} a JOIN {1} b ON a.ParentId=b.ObjectID  where a.DisplayName like '%'+@DisplayName+'%'",
                EntityConfig.Table.OrgUser, EntityConfig.Table.OrgUnit);
             using (DbConnection conn = this.OpenConnection())
             {
@@ -49,31 +49,29 @@ namespace HH.API.Services
         /// <returns></returns>
         public List<dynamic> QueryOrgUser1(int pageIndex, int pageSize, out long recordCount, string displayName)
         {
-            recordCount = 0;
+            // Demo:多表查询分页
 
-            List<dynamic> res = new List<dynamic>();
-            string selectQuery = string.Format("SELECT a.Code,a.DisplayName,b.DisplayName as OUName FROM {0} a JOIN {1} b ON a.ParentId=b.ObjectID",
+            // SQL语句
+            string sqlCount = string.Format("SELECT Count(1) FROM {0} a JOIN {1} b ON a.ParentId=b.ObjectID",
+               EntityConfig.Table.OrgUser, EntityConfig.Table.OrgUnit);
+            string sqlQuery = string.Format("SELECT a.*,b.DisplayName as OUName FROM {0} a JOIN {1} b ON a.ParentId=b.ObjectID",
                EntityConfig.Table.OrgUser, EntityConfig.Table.OrgUnit);
 
-            using (DbConnection conn = this.OpenConnection())
+            // 查询条件
+            IList<IPredicate> predList = new List<IPredicate>();
+            if (!string.IsNullOrWhiteSpace(displayName))
             {
-                IList<IPredicate> predList = new List<IPredicate>();
-                if (!string.IsNullOrWhiteSpace(displayName))
-                {
-                    IFieldPredicate fieldPredicate = Predicates.Field<OrgUser>(p => p.DisplayName, Operator.Like, displayName, "a");
-                    predList.Add(fieldPredicate);
-                }
-
-                IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
-
-                List<ISort> sort = new List<ISort>();
-                sort.Add(new Sort() { Ascending = false, PropertyName = "b." + EntityBase.PropertyName_CreatedTime });
-
-                res = conn.GetPage<dynamic>(selectQuery, predGroup, sort, 1, 10).ToList<dynamic>();
-
+                IFieldPredicate fieldPredicate = Predicates.Field<OrgUser>(p => p.DisplayName, Operator.Like, "%" + displayName + "%", "a");
+                predList.Add(fieldPredicate);
             }
+            IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
 
-            return res;
+            // 排序字段
+            List<ISort> sort = new List<ISort>();
+            sort.Add(new Sort() { Ascending = false, PropertyName = "b." + EntityBase.PropertyName_CreatedTime });
+
+            // 执行结果
+            return this.GetPageList(sqlCount, sqlQuery, pageIndex, pageSize, out recordCount, predGroup, sort);
         }
 
     }

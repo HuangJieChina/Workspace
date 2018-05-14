@@ -219,6 +219,11 @@ namespace DapperExtensions
             return Instance.GetPage<dynamic>(connection, sql, predicate, sort, page, resultsPerPage, transaction, commandTimeout, buffered);
         }
 
+        public static int Count(this DbConnection connection, string sql, object predicate, DbTransaction transaction = null, int? commandTimeout = null, bool buffered = false)
+        {
+            return Instance.Count(connection, sql, predicate, transaction, commandTimeout, buffered);
+        }
+
         /// <summary>
         /// Executes a select query using the specified predicate, returning an IEnumerable data typed as per T.
         /// Data returned is dependent upon the specified firstResult and maxResults.

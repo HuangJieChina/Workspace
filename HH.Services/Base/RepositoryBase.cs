@@ -161,8 +161,8 @@ namespace HH.API.Services
         /// <param name="pageSize">每页显示数据量</param>
         /// <param name="recordCount">总记录数</param>
         /// <param name="predicate">查询条件</param>
-        /// <param name="sort">排序值</param>
-        /// <returns></returns>
+        /// <param name="sort">排序方式</param>
+        /// <returns>返回当前页码结果集</returns>
         public virtual List<T> GetPageList(int pageIndex, int pageSize, out long recordCount,
             object predicate = null, IList<ISort> sort = null)
         {
@@ -181,5 +181,32 @@ namespace HH.API.Services
             }
         }
 
+        /// <summary>
+        /// 执行自定义SQL进行分页查询
+        /// </summary>
+        /// <param name="sqlCount">统计Sql</param>
+        /// <param name="sqlQuery">查询结果集Sql</param>
+        /// <param name="pageIndex">当前页码</param>
+        /// <param name="pageSize">每页显示数据量</param>
+        /// <param name="recordCount">返回结果集总数</param>
+        /// <param name="predicate">动态查询条件</param>
+        /// <param name="sort">排序方式(不可以空)</param>
+        /// <returns>返回当前页码结果集</returns>
+        public virtual List<dynamic> GetPageList(string sqlCount, string sqlQuery, int pageIndex,
+            int pageSize, out long recordCount,
+            object predicate = null, IList<ISort> sort = null)
+        {
+            List<dynamic> res;
+
+            using (DbConnection conn = this.OpenConnection())
+            {
+                recordCount = conn.Count(sqlCount, predicate);
+                res = conn.GetPage<dynamic>(sqlQuery, predicate, sort, pageIndex - 1, pageSize).AsList<dynamic>();
+            }
+
+            return res;
+        }
+
+        // End class
     }
 }

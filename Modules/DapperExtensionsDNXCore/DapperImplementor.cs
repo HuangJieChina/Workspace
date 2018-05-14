@@ -23,6 +23,7 @@ namespace DapperExtensions
         IEnumerable<T> GetList<T>(DbConnection connection, object predicate, IList<ISort> sort, DbTransaction transaction, int? commandTimeout, bool buffered) where T : class;
         IEnumerable<T> GetPage<T>(DbConnection connection, object predicate, IList<ISort> sort, int page, int resultsPerPage, DbTransaction transaction, int? commandTimeout, bool buffered) where T : class;
         IEnumerable<dynamic> GetPage<dynamic>(DbConnection connection, string sql, object predicate, IList<ISort> sort, int page, int resultsPerPage, DbTransaction transaction, int? commandTimeout, bool buffered);
+        int Count(DbConnection connection, string sql, object predicate, DbTransaction transaction, int? commandTimeout, bool buffered);
         IEnumerable<T> GetSet<T>(DbConnection connection, object predicate, IList<ISort> sort, int firstResult, int maxResults, DbTransaction transaction, int? commandTimeout, bool buffered) where T : class;
         int Count<T>(DbConnection connection, object predicate, DbTransaction transaction, int? commandTimeout) where T : class;
         IMultipleResultReader GetMultiple(DbConnection connection, GetMultiplePredicate predicate, DbTransaction transaction, int? commandTimeout);
@@ -175,6 +176,23 @@ namespace DapperExtensions
         {
             IPredicate wherePredicate = predicate as IPredicate;
             return GetPage<dynamic>(connection, sql, wherePredicate, sort, page, resultsPerPage, transaction, commandTimeout, buffered);
+        }
+
+        public int Count(DbConnection connection, string sql, object predicate, DbTransaction transaction, int? commandTimeout, bool buffered)
+        {
+            IPredicate wherePredicate = predicate as IPredicate;
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            sql = SqlGenerator.Count(sql, wherePredicate, parameters);
+            DynamicParameters dynamicParameters = new DynamicParameters();
+            foreach (var parameter in parameters)
+            {
+                dynamicParameters.Add(parameter.Key, parameter.Value);
+            }
+
+            int res = 0;
+            int.TryParse(connection.ExecuteScalar(sql, dynamicParameters, transaction, commandTimeout, CommandType.Text) + string.Empty, out res);
+            return res;
         }
 
         public IEnumerable<T> GetSet<T>(DbConnection connection, object predicate, IList<ISort> sort, int firstResult, int maxResults, DbTransaction transaction, int? commandTimeout, bool buffered) where T : class

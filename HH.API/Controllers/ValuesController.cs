@@ -22,6 +22,40 @@ namespace HH.API.Controllers
         //    return new string[] { "value1", "value2" };
         //}
 
+
+        [HttpGet("QueryUser")]
+        public JsonResult QueryUser([FromHeader]string inputValue)
+        {
+            OrgUserRepository userRepository = new OrgUserRepository();
+            long userCount = 0;
+
+            List<dynamic> users1 = userRepository.QueryOrgUser1(1, 10, out userCount, "zhangs");
+
+            LogManager.GetCurrentClassLogger().Debug("错误信息{0}");
+
+            return Json(new { Users = users1, Count = userCount });
+        }
+
+        [HttpGet("QueryUser1")]
+        public APIResult QueryUser1([FromHeader]string inputValue)
+        {
+            OrgUserRepository userRepository = new OrgUserRepository();
+            long userCount = 0;
+
+            List<dynamic> users1 = userRepository.QueryOrgUser1(1, 10, out userCount, "zhangs");
+
+            LogManager.GetCurrentClassLogger().Debug("错误信息{0}");
+
+            return new APIResult()
+            {
+                Extend = new
+                {
+                    data = users1,
+                    total = userCount
+                }
+            };
+        }
+
         [HttpGet("Test1/{inputValue}")]
         public string Test1(string inputValue)
         {
@@ -101,7 +135,7 @@ namespace HH.API.Controllers
 
             OrgUserRepository userRepository = new OrgUserRepository();
             long userCount = 0;
-            // List<OrgUser> users = userRepository.QueryOrgUser(1, 10, out userCount, string.Empty);
+            List<dynamic> users = userRepository.QueryOrgUser(1, 10, out userCount, string.Empty);
 
             List<dynamic> users1 = userRepository.QueryOrgUser1(1, 10, out userCount, "zhangs");
 
