@@ -33,7 +33,7 @@ namespace HH.API.Entity.KeyCollectionCache
         /// <returns></returns>
         public IKeyCollectionCache<T> GetCache()
         {
-            return new Memory<T>();
+            return this.GetCache(int.MaxValue);
         }
 
         /// <summary>

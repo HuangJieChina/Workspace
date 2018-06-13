@@ -222,6 +222,27 @@ namespace HH.API.Services
             return res;
         }
 
+        /// <summary>
+        /// 存储过程的参数
+        /// </summary>
+        public string ParamterChar
+        {
+            get
+            {
+                switch (ConnectionFactory.DatabaseType)
+                {
+                    case DatabaseType.SqlServer:
+                        return "@";
+                    case DatabaseType.MySql:
+                        return "?";
+                    case DatabaseType.Oracle:
+                        return ":";
+                    default:
+                        throw new NotSupportedException();
+                }
+            }
+        }
+
         // End class
     }
 }
