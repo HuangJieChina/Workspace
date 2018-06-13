@@ -47,15 +47,15 @@ namespace HH.API.Controllers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                     new Claim(JwtClaimTypes.Audience,"api"),
-                     new Claim(JwtClaimTypes.Issuer,"Authine"),               // 接口
+                     new Claim(JwtClaimTypes.Audience,Config.API_Audience),
+                     new Claim(JwtClaimTypes.Issuer,Config.API_Issuer),               // 接口
                      new Claim(JwtClaimTypes.Id, Guid.NewGuid().ToString()),  // 用户的ID
                      new Claim(JwtClaimTypes.Name, "HuangJie"),               // 账号
                      new Claim(JwtClaimTypes.Email, "huangj@authine.com"),    // 邮箱
                      new Claim(JwtClaimTypes.PhoneNumber, "13800138000")      // 手机号码
                 }),
                 Expires = expiresAt,
-                SigningCredentials = new SigningCredentials(Startup.SymmetricKey, SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(Config.SymmetricKey, SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
