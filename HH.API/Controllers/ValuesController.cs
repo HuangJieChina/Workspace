@@ -9,6 +9,7 @@ using HH.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
 
 namespace HH.API.Controllers
 {
@@ -22,6 +23,40 @@ namespace HH.API.Controllers
         //    return new string[] { "value1", "value2" };
         //}
 
+        [HttpGet("LoginIn")]
+        public JsonResult LoginIn([FromHeader]string inputValue)
+        {
+            /*测试代码*/
+            ClaimsPrincipal principal = new ClaimsPrincipal();
+            principal.Claims.Append<Claim>(new Claim(JwtClaimTypes.Id, Guid.NewGuid().ToString()));
+            principal.Claims.Append<Claim>(new Claim(JwtClaimTypes.Name, "huangj"));
+
+            AuthenticationHttpContextExtensions.SignInAsync(HttpContext, "AuthCookie", principal, new AuthenticationProperties
+            {
+                ExpiresUtc = DateTime.UtcNow.AddMinutes(20), // 20 分钟后过期
+                IsPersistent = false,
+                AllowRefresh = false
+            });
+            /*End */
+            return Json(new { Message = "OK" });
+        }
+
+        [HttpGet("Method1")]
+        public JsonResult Method1([FromHeader]string inputValue)
+        {
+            // Headers需要增加 Authorization:Bearer token
+            // 需要先认证才能调用
+            return Json(new { Message = "OK" });
+        }
+
+        [AllowAnonymous]
+        [HttpGet("Method2")]
+        public JsonResult Method2([FromHeader]string inputValue)
+        {
+            // Headers需要增加 Authorization:Bearer token
+            // 需要先认证才能调用
+            return Json(new { Message = "OK" });
+        }
 
         [HttpGet("QueryUser")]
         public JsonResult QueryUser([FromHeader]string inputValue)

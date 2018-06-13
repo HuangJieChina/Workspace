@@ -9,12 +9,14 @@ using HH.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using IdentityModel;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace HH.API.Controllers
 {
     /// <summary>
     /// Controller 基类
     /// </summary>
+    // [Authorize]
     public class APIController : Controller
     {
         /// <summary>
@@ -34,6 +36,5 @@ namespace HH.API.Controllers
                 return user;
             }
         }
-
     }
 }

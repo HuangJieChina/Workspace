@@ -24,7 +24,7 @@ namespace HH.API.Controllers
         //    return new string[] { "value1", "value2" };
         //}
 
-        [HttpPost("authenticate")]
+        [HttpPost("LoginIn")]
         public APIResult LoginIn([FromBody]dynamic user)
         {
             string userCode = user.userCode;
