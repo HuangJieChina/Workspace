@@ -21,10 +21,22 @@ namespace HH.API
 {
     public class Startup
     {
+        private static SymmetricSecurityKey _SymmetricKey = null;
         /// <summary>
-        /// 秘钥
+        /// 获取JWT秘钥
         /// </summary>
-        public static readonly SymmetricSecurityKey symmetricKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("huangj@authine.com"));
+        public static SymmetricSecurityKey SymmetricKey
+        {
+            get
+            {
+                if (_SymmetricKey == null)
+                {
+                    string key = "huangj@authine.com";
+                    _SymmetricKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key));
+                }
+                return _SymmetricKey;
+            }
+        }
 
         public Startup(IConfiguration configuration)
         {
@@ -45,7 +57,7 @@ namespace HH.API
                         RoleClaimType = JwtClaimTypes.Role,
                         ValidIssuer = "Authine",
                         ValidAudience = "api",
-                        IssuerSigningKey = symmetricKey
+                        IssuerSigningKey = SymmetricKey
                         /***********************************TokenValidationParameters的参数默认值***********************************/
                         // RequireSignedTokens = true,  
                         // SaveSigninToken = false,  

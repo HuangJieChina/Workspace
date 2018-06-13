@@ -18,6 +18,11 @@ namespace HH.API.Controllers
     [Route("api/[controller]")]
     public class TokenController : APIController
     {
+        /// <summary>
+        /// Token认证模式
+        /// </summary>
+        private const string TokenType = "Bearer";
+
         // GET api/values
         //[HttpGet]
         //public IEnumerable<string> Get()
@@ -36,6 +41,8 @@ namespace HH.API.Controllers
             var authTime = DateTime.UtcNow;
             var expiresAt = authTime.AddDays(7);
 
+            // OrgUserRepository userRepository = new OrgUserRepository();
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -48,21 +55,22 @@ namespace HH.API.Controllers
                      new Claim(JwtClaimTypes.PhoneNumber, "13800138000")      // 手机号码
                 }),
                 Expires = expiresAt,
-                SigningCredentials = new SigningCredentials(Startup.symmetricKey, SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(Startup.SymmetricKey, SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
             return Ok(new
             {
-                access_token = tokenString,
-                token_type = "Bearer",
+                AccessToken = tokenString,
+                TokenType = TokenType,
                 profile = new
                 {
-                    sid = "1",
-                    name = "xxxx",
-                    auth_time = new DateTimeOffset(authTime).ToUnixTimeSeconds(),  // 认证时间
-                    expires_at = new DateTimeOffset(expiresAt).ToUnixTimeSeconds() // 过期时间
+                    UserId = Guid.NewGuid().ToString(),
+                    UserCode = "huangj",
+                    UserName = "黄杰",
+                    AuthineTime = new DateTimeOffset(authTime).ToUnixTimeSeconds(),  // 认证时间
+                    ExpiresTime = new DateTimeOffset(expiresAt).ToUnixTimeSeconds() // 过期时间
                 }
             });
         }
