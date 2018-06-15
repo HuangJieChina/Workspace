@@ -24,44 +24,7 @@ namespace HH.API.Controllers
             });
         }
 
-        public ActionResult AddUser([FromBody] OrgUser user)
-        {
-            throw new NotImplementedException();
-        }
 
-        public ActionResult GetChildUnitsByParent(string parentId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult GetChildUsersByParent(string parentId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public OrgUnit GetUnit(string objectId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult RemoveUnit(string objectId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult RemoveUser([FromHeader] string objectId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult UpdateUnit([FromBody] OrgUnit orgUnit)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult UpdateUser([FromBody] OrgUser user)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

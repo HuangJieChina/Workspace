@@ -88,6 +88,16 @@ namespace HH.API.Entity.BizObject
     public class BizProperty : EntityBase
     {
         /// <summary>
+        /// 属性的显示名称
+        /// </summary>
+        public string PropertyName { get; set; }
+
+        /// <summary>
+        /// 获取或设置所归属的业务对象编码
+        /// </summary>
+        public string ParentSchemaCode { get; set; }
+
+        /// <summary>
         /// 获取或设置当前属性的业务逻辑类型
         /// </summary>
         public LogicType LogicType { get; set; }
@@ -142,7 +152,6 @@ namespace HH.API.Entity.BizObject
                 return EntityConfig.Table.BizProperty;
             }
         }
-
     }
 
     /// <summary>
