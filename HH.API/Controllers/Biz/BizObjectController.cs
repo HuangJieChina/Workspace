@@ -5,20 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HH.IInterface;
 using HH.API.Entity;
+using HH.API.Entity.BizObject;
 
 namespace HH.API.Controllers
 {
     [Route("api/[controller]")]
-    public class OrgController : APIController, IOrgController
+    public class BizObjectController : APIController
     {
         /// <summary>
-        /// 添加组织机构对象
+        /// 添加业务结构
         /// </summary>
-        /// <param name="orgUnit"></param>
+        /// <param name="schema"></param>
         /// <returns></returns>
-        public ActionResult AddUnit([FromBody] OrgUnit orgUnit)
+        public JsonResult AddBizSchema([FromBody] BizSchema schema)
         {
-            throw new NotImplementedException();
+            return Json(new APIResult
+            {
+            });
         }
 
         public ActionResult AddUser([FromBody] OrgUser user)

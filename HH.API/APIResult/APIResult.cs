@@ -8,7 +8,7 @@ namespace HH.API
     /// <summary>
     /// API接口统一返回类
     /// </summary>
-    public class APIResult : ActionResult
+    public class APIResult
     {
         /// <summary>
         /// 获取或设置是否成功
@@ -21,15 +21,33 @@ namespace HH.API
             }
         }
 
+        private string _Message = null;
+
         /// <summary>
         /// 获取或设置返回消息
         /// </summary>
-        public string Message { get; set; }
+        public string Message
+        {
+            get
+            {
+                if (this._Message == null)
+                {
+                    this._Message = this.ResultCode.ToString();
+                }
+                return this._Message;
+            }
+            set { this._Message = value; }
+        }
 
+        private ResultCode _ResultCode = ResultCode.Success;
         /// <summary>
         /// 获取或设置的返回编码
         /// </summary>
-        public ResultCode ResultCode { get; set; }
+        public ResultCode ResultCode
+        {
+            get { return this._ResultCode; }
+            set { this._ResultCode = value; }
+        }
 
         /// <summary>
         /// 获取或设置扩展信息

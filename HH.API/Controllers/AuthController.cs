@@ -25,7 +25,7 @@ namespace HH.API.Controllers
         //}
 
         [HttpPost("LoginIn")]
-        public APIResult LoginIn([FromBody]dynamic user)
+        public JsonResult LoginIn([FromBody]dynamic user)
         {
             string userCode = user.userCode;
             string password = user.password;
@@ -41,7 +41,7 @@ namespace HH.API.Controllers
                 AllowRefresh = false
             });
 
-            return new APIResult()
+            return Json(new APIResult
             {
                 ResultCode = ResultCode.Success,
                 Extend = new
@@ -51,14 +51,14 @@ namespace HH.API.Controllers
                     auth_time = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds(),  // 认证时间
                     expires_at = new DateTimeOffset(DateTime.UtcNow.AddMinutes(20)).ToUnixTimeSeconds() // 过期时间
                 }
-            };
+            });
         }
 
         [HttpPost("authenticate")]
         public APIResult LoginOut([FromBody]dynamic user)
         {
             AuthenticationHttpContextExtensions.SignOutAsync(HttpContext, "AuthCookie");
-            return new APIResult()
+            return new APIResult
             {
                 ResultCode = ResultCode.Success
             };

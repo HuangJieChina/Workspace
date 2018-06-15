@@ -17,8 +17,14 @@ namespace HH.API
             BuildWebHost(args).Run();
         }
 
+        /// <summary>
+        /// 启动Web站点
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseIISIntegration()   // 设置为单例模式
                 .UseStartup<Startup>()
                 .Build();
     }

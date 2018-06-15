@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 
 namespace HH.API.Controllers
 {
@@ -23,9 +24,12 @@ namespace HH.API.Controllers
         //    return new string[] { "value1", "value2" };
         //}
 
+        private List<string> xx = new List<string>();
+
         [HttpGet("LoginIn")]
         public JsonResult LoginIn([FromHeader]string inputValue)
         {
+            xx.Add(DateTime.Now.Ticks.ToString());
             /*测试代码*/
             ClaimsPrincipal principal = new ClaimsPrincipal();
             principal.Claims.Append<Claim>(new Claim(JwtClaimTypes.Id, Guid.NewGuid().ToString()));
@@ -38,7 +42,9 @@ namespace HH.API.Controllers
                 AllowRefresh = false
             });
             /*End */
-            return Json(new { Message = "OK" });
+            // return Json(new { Message = "OK" });
+
+            return Json(new APIResult { });
         }
 
         [HttpGet("Method1")]

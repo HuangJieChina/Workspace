@@ -19,20 +19,37 @@ namespace HH.API.Entity
             /// <summary>
             /// 组织架构表名称
             /// </summary>
-            public const string OrgUnit = "Sys_OrgUnit";
+            public const string OrgUnit = "OrgUnit";
             /// <summary>
             /// 用户表
             /// </summary>
-            public const string OrgUser = "Sys_OrgUser";
+            public const string OrgUser = "OrgUser";
             /// <summary>
             /// 角色表
             /// </summary>
-            public const string OrgRole = "Sys_OrgRole";
+            public const string OrgRole = "OrgRole";
 
             /// <summary>
             /// 角色/用户表
             /// </summary>
-            public const string OrgRoleUser = "Sys_OrgRoleUser";
+            public const string OrgRoleUser = "OrgRoleUser";
+
+            /// <summary>
+            /// 业务对象结构表
+            /// </summary>
+            public const string BizSchema = "BizSchema";
+            /// <summary>
+            /// 业务对象属性
+            /// </summary>
+            public const string BizProperty = "BizProperty";
+            /// <summary>
+            /// 业务数据附件表
+            /// </summary>
+            public const string BizAttachment = "BizAttachment";
+            /// <summary>
+            /// 业务数据审批意见表
+            /// </summary>
+            public const string BizComment = "BizComment";
 
             /// <summary>
             /// Vessel表
@@ -45,6 +62,6 @@ namespace HH.API.Entity
         }
     }
 
-   
-    
+
+
 }

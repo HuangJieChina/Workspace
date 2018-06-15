@@ -158,6 +158,7 @@ namespace HH.API.Entity.Database
             {
                 column.ColumnLength = stringLengthAttribute.MaximumLength;
             }
+            
             // 获取字段类型
             ColumnAttribute columnAttribute = property.GetCustomAttribute(typeof(ColumnAttribute)) as ColumnAttribute;
             if (columnAttribute != null)
