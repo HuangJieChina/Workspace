@@ -11,6 +11,8 @@ using System.Security.Claims;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using HH.API.Entity.BizObject;
+using Newtonsoft.Json;
 
 namespace HH.API.Controllers
 {
@@ -29,6 +31,13 @@ namespace HH.API.Controllers
         [HttpGet("LoginIn")]
         public JsonResult LoginIn([FromHeader]string inputValue)
         {
+            WorkflowTemplate workflowTemplate = new WorkflowTemplate()
+            {
+                SchemaCode = "xx",
+                WorkflowCode = "yyy"
+            };
+            string str = JsonConvert.SerializeObject(workflowTemplate);
+
             xx.Add(DateTime.Now.Ticks.ToString());
             /*测试代码*/
             ClaimsPrincipal principal = new ClaimsPrincipal();

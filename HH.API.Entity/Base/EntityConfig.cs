@@ -57,6 +57,12 @@ namespace HH.API.Entity
             public const string AppPackage = "AppPackage";
 
             /// <summary>
+            /// 应用包
+            /// </summary>
+            public const string BizWorkflowPackage = "BizWorkflowPackage";
+
+
+            /// <summary>
             /// Vessel表
             /// </summary>
             public const string Table_VesselConfig = "SysVesselConfig";
