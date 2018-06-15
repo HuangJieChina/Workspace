@@ -15,7 +15,7 @@ namespace HH.IInterface
         /// </summary>
         /// <param name="orgUnit">组织对象</param>
         [HttpPost]
-        ActionResult AddUnit([FromBody]OrgUnit orgUnit);
+        JsonResult AddUnit([FromBody]OrgUnit orgUnit);
 
         /// <summary>
         /// 删除组织信息
@@ -23,7 +23,7 @@ namespace HH.IInterface
         /// <param name="objectId">组织Id</param>
         /// <returns>返回结果</returns>
         [HttpGet]
-        ActionResult RemoveUnit([FromHeader]string objectId);
+        JsonResult RemoveUnit([FromHeader]string objectId);
 
         /// <summary>
         /// 更新组织信息
@@ -31,7 +31,7 @@ namespace HH.IInterface
         /// <param name="orgUnit">组织对象</param>
         /// <returns></returns>
         [HttpPost]
-        ActionResult UpdateUnit([FromBody]OrgUnit orgUnit);
+        JsonResult UpdateUnit([FromBody]OrgUnit orgUnit);
 
         /// <summary>
         /// 根据上级组织ID获取子组织单元
@@ -39,7 +39,7 @@ namespace HH.IInterface
         /// <param name="parentId"></param>
         /// <returns></returns>
         [HttpGet]
-        ActionResult GetChildUnitsByParent(string parentId);
+        JsonResult GetChildUnitsByParent(string parentId);
 
         /// <summary>
         /// 获取组织单元信息
@@ -57,7 +57,7 @@ namespace HH.IInterface
         /// <param name="user">用户对象</param>
         /// <returns></returns>
         [HttpPost]
-        ActionResult AddUser([FromBody]OrgUser user);
+        JsonResult AddUser([FromBody]OrgUser user);
 
         /// <summary>
         /// 更新用户信息
@@ -65,7 +65,7 @@ namespace HH.IInterface
         /// <param name="user">用户对象</param>
         /// <returns></returns>
         [HttpPost]
-        ActionResult UpdateUser([FromBody]OrgUser user);
+        JsonResult UpdateUser([FromBody]OrgUser user);
 
         /// <summary>
         /// 删除用户
@@ -73,8 +73,7 @@ namespace HH.IInterface
         /// <param name="objectId">用户Id</param>
         /// <returns></returns>
         [HttpGet]
-        ActionResult RemoveUser([FromHeader] string objectId);
-
+        JsonResult RemoveUser([FromHeader] string objectId);
 
         /// <summary>
         /// 根据上级组织ID获取用户
@@ -82,7 +81,7 @@ namespace HH.IInterface
         /// <param name="parentId"></param>
         /// <returns></returns>
         [HttpGet]
-        ActionResult GetChildUsersByParent(string parentId);
+        JsonResult GetChildUsersByParent(string parentId);
         #endregion
     }
 }

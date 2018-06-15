@@ -11,27 +11,22 @@ namespace HH.API.Controllers
     [Route("api/[controller]")]
     public class OrgController : APIController, IOrgController
     {
-        /// <summary>
-        /// 添加组织机构对象
-        /// </summary>
-        /// <param name="orgUnit"></param>
-        /// <returns></returns>
-        public ActionResult AddUnit([FromBody] OrgUnit orgUnit)
+        public JsonResult AddUnit([FromBody] OrgUnit orgUnit)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult AddUser([FromBody] OrgUser user)
+        public JsonResult AddUser([FromBody] OrgUser user)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult GetChildUnitsByParent(string parentId)
+        public JsonResult GetChildUnitsByParent(string parentId)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult GetChildUsersByParent(string parentId)
+        public JsonResult GetChildUsersByParent(string parentId)
         {
             throw new NotImplementedException();
         }
@@ -41,22 +36,22 @@ namespace HH.API.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult RemoveUnit(string objectId)
+        public JsonResult RemoveUnit([FromHeader] string objectId)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult RemoveUser([FromHeader] string objectId)
+        public JsonResult RemoveUser([FromHeader] string objectId)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult UpdateUnit([FromBody] OrgUnit orgUnit)
+        public JsonResult UpdateUnit([FromBody] OrgUnit orgUnit)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult UpdateUser([FromBody] OrgUser user)
+        public JsonResult UpdateUser([FromBody] OrgUser user)
         {
             throw new NotImplementedException();
         }

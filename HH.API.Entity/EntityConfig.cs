@@ -52,6 +52,11 @@ namespace HH.API.Entity
             public const string BizComment = "BizComment";
 
             /// <summary>
+            /// 应用包
+            /// </summary>
+            public const string AppPackage = "AppPackage";
+
+            /// <summary>
             /// Vessel表
             /// </summary>
             public const string Table_VesselConfig = "SysVesselConfig";
