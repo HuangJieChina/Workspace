@@ -32,7 +32,7 @@ namespace HH.API.Entity
         /// <summary>
         /// 获取或设置表单排序值
         /// </summary>
-        public int SortKey { get; set; }
+        public int SortOrder { get; set; }
 
         /// <summary>
         /// 获取或设置流程模板内容

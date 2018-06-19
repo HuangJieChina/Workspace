@@ -10,6 +10,7 @@ namespace HH.IInterface
     /// </summary>
     public interface IWorkflowController : IBaseController
     {
+        #region 流程目录接口 ------------------
         /// <summary>
         /// 增加流程目录
         /// </summary>
@@ -17,8 +18,9 @@ namespace HH.IInterface
         /// <returns></returns>
         [HttpPost]
         JsonResult AddWorkflowFolder([FromBody]FunctionNode functionNode);
+        #endregion
 
-        #region 流程目录接口 ------------------
+        #region 流程包接口 --------------------
         /// <summary>
         /// 增加流程目录
         /// </summary>
@@ -26,6 +28,14 @@ namespace HH.IInterface
         /// <returns></returns>
         [HttpPost]
         JsonResult AddWorkflowPackage([FromBody]WorkflowPackage workflowPackage);
+
+        /// <summary>
+        /// 移除流程包
+        /// </summary>
+        /// <param name="schemaCode">业务模型编码</param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult RemoveWorkflowPackage([FromHeader]string schemaCode);
         #endregion
 
         #region 业务流程接口 ------------------
@@ -64,6 +74,23 @@ namespace HH.IInterface
         /// <returns></returns>
         [HttpPost]
         JsonResult AddBizProperty([FromBody]BizProperty property);
+
+        /// <summary>
+        /// 增加业务属性
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult RemoveBizProperty([FromHeader]string schemaCode);
+
+        /// <summary>
+        /// 发布数据模型
+        /// </summary>
+        /// <param name="schemaCode"></param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult PublishBizSchema([FromHeader]string schemaCode);
+
         #endregion
     }
 }

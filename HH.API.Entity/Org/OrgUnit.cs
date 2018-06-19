@@ -34,7 +34,7 @@ namespace HH.API.Entity
         /// <summary>
         /// 获取或设置在上级组织中的排序键
         /// </summary>
-        public int SortKey { get; set; }
+        public int SortOrder { get; set; }
 
         /// <summary>
         /// 获取或设置当前组织的经理

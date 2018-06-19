@@ -38,7 +38,7 @@ namespace HH.API.Entity
         /// <summary>
         /// 获取或设置应用包排序号
         /// </summary>
-        public int SortKey { get; set; }
+        public int SortOrder { get; set; }
 
         /// <summary>
         /// 获取或设置应用图标URL地址

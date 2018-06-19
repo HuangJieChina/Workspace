@@ -143,6 +143,11 @@ namespace HH.API.Entity.BizObject
         public string FormulaExpression { get; set; }
 
         /// <summary>
+        /// 获取或设置排序顺序
+        /// </summary>
+        public int SortOrder { get; set; }
+
+        /// <summary>
         /// 获取数据库表名
         /// </summary>
         public override string TableName
@@ -188,6 +193,7 @@ namespace HH.API.Entity.BizObject
         /// 单一结构：组织类型,存储结构为JSON格式,[{ID:"xxx1",Name:"yyy1"},{ID:"xxx2",Name:"yyy2"}]
         /// </summary>
         Orgainzation = 6,
+
         #region 复合类型
         /// <summary>
         /// 复合结构：附件类型，存储为附件表中

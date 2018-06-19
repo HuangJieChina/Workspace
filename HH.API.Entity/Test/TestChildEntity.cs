@@ -33,7 +33,7 @@ namespace HH.API.Entity
         /// <summary>
         /// 获取或设置显示顺序
         /// </summary>
-        public int SortKey { get; set; }
+        public int SortOrder { get; set; }
 
         /// <summary>
         /// 获取数据库表名
