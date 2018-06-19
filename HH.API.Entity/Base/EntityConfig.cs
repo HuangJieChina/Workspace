@@ -67,6 +67,14 @@ namespace HH.API.Entity
             /// </summary>
             public const string BizWorkflowPackage = "BizWorkflowPackage";
 
+            public const string BizInstanceContext = "BizInstanceContext";
+
+            public const string BizWorkItemTrack = "BizWorkItemTrack";
+
+            public const string BizWorkItemUnFinished = "BizWorkItemUnFinished";
+
+            public const string BizWorkItemFinished = "BizWorkItemFinished";
+
 
             /// <summary>
             /// Vessel表

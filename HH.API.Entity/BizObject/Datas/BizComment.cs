@@ -79,7 +79,7 @@ namespace HH.API.Entity
         {
             get
             {
-                return EntityConfig.Table.OrgUnit;
+                return EntityConfig.Table.BizComment;
             }
         }
 

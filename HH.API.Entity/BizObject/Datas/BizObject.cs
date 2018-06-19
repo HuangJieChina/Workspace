@@ -38,6 +38,7 @@ namespace HH.API.Entity.BizObject
         /// 获取或设置Schema
         /// </summary>
         [NotMapped]
+        [JsonIgnore]
         public BizSchema Schema { get; set; }
 
         /// <summary>
@@ -46,6 +47,7 @@ namespace HH.API.Entity.BizObject
         /// <param name="name"></param>
         /// <returns></returns>
         [NotMapped]
+        [JsonIgnore]
         public object this[string name]
         {
             get

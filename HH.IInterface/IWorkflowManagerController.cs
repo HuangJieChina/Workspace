@@ -8,7 +8,7 @@ namespace HH.IInterface
     /// <summary>
     /// 组织机构服务接口类
     /// </summary>
-    public interface IWorkflowController : IBaseController
+    public interface IWorkflowManagerController : IBaseController
     {
         #region 流程目录接口 ------------------
         /// <summary>
