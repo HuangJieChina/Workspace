@@ -23,7 +23,7 @@ namespace HH.API
         /// <summary>
         /// 编码重复
         /// </summary>
-        CodeDuplicate = 1000001
+        CodeDuplicate = 100001
         #endregion
 
     }

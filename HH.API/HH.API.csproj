@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.0.1" />
   </ItemGroup>
 
@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HH.API.Entity\HH.API.Entity.csproj" />
+    <ProjectReference Include="..\HH.Controllers\HH.Controllers.csproj" />
     <ProjectReference Include="..\HH.IInterface\HH.IInterface.csproj" />
     <ProjectReference Include="..\HH.Services\HH.API.Services.csproj" />
   </ItemGroup>
