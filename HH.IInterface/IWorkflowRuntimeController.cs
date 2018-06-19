@@ -80,17 +80,19 @@ namespace HH.IInterface
         /// 终止业务流程
         /// </summary>
         /// <param name="instanceId">业务流程实例Id</param>
-        /// <returns></returns>
-        [HttpGet]
-        JsonResult AbortWorkflow([FromHeader]string instanceId);
+        /// <param name="comment">终止业务流程意见</param>
+        /// <returns>终止流程操作意见</returns>
+        [HttpPost]
+        JsonResult AbortWorkflow([FromBody]string instanceId, [FromBody]string comment);
 
         /// <summary>
         /// 取消业务流程
         /// </summary>
         /// <param name="instanceId">业务流程实例Id</param>
+        /// <param name="comment">取消流程操作意见</param>
         /// <returns></returns>
-        [HttpGet]
-        JsonResult CancelWorkflow([FromHeader]string instanceId);
+        [HttpPost]
+        JsonResult CancelWorkflow([FromBody]string instanceId, [FromBody]string comment);
         #endregion
 
         #region 流程运行接口 ------------------
@@ -121,10 +123,11 @@ namespace HH.IInterface
         /// <summary>
         /// 转发操作
         /// </summary>
-        /// <param name="circulateItemId"></param>
+        /// <param name="workItemId">任务Id</param>
+        /// <param name="comment">转发操作意见</param>
         /// <returns></returns>
         [HttpPost]
-        JsonResult ForwardWorkItem([FromBody]string circulateItemId);
+        JsonResult ForwardWorkItem([FromBody]string workItemId, [FromBody]string comment);
 
         /// <summary>
         /// 提交消息至后端服务(流程/任务状态变化通过接口执行，流程跳转通过消息异步执行)
@@ -143,7 +146,6 @@ namespace HH.IInterface
         /// <returns></returns>
         [HttpPost]
         BizInstanceContext GetInstanceContext([FromHeader]string instanceId);
-
 
         #endregion
     }
