@@ -100,7 +100,7 @@ namespace HH.API.Entity.BizObject
         {
             get
             {
-                return EntityConfig.Table.BizSchema;
+                return EntityConfig.Table.BizSheet;
             }
         }
 

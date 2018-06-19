@@ -38,6 +38,12 @@ namespace HH.API.Entity
             /// 业务对象结构表
             /// </summary>
             public const string BizSchema = "BizSchema";
+
+            /// <summary>
+            /// 业务表单表
+            /// </summary>
+            public const string BizSheet = "BizSheet";
+
             /// <summary>
             /// 业务对象属性
             /// </summary>

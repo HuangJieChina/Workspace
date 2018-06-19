@@ -6,10 +6,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HH.API.Entity.BizObject
+namespace HH.API.Entity
 {
     /// <summary>
-    /// 业务表单
+    /// 流程模型表
     /// </summary>
     [Serializable]
     public class WorkflowTemplate : EntityBase
@@ -101,6 +101,10 @@ namespace HH.API.Entity.BizObject
     public class ActivityTemplate
     {
         /// <summary>
+        /// 获取或设置节点类型
+        /// </summary>
+        public ActivityType ActivityType { get; set; }
+        /// <summary>
         /// 获取或设置活动节点编码
         /// </summary>
         public string ActivityCode { get; set; }
@@ -129,5 +133,32 @@ namespace HH.API.Entity.BizObject
         /// 获取或设置高度
         /// </summary>
         public decimal Height { get; set; }
+    }
+
+    /// <summary>
+    /// 活动节点类型
+    /// </summary>
+    public enum ActivityType
+    {
+        /// <summary>
+        /// 用户活动
+        /// </summary>
+        User = 0,
+        /// <summary>
+        /// 系统活动
+        /// </summary>
+        System = 1,
+        /// <summary>
+        /// 连接点
+        /// </summary>
+        Connect = 2,
+        /// <summary>
+        /// 传阅活动
+        /// </summary>
+        Circulate = 3,
+        /// <summary>
+        /// 子流程
+        /// </summary>
+        SubWorkflow = 4
     }
 }

@@ -7,7 +7,7 @@ namespace HH.IInterface
     /// <summary>
     /// 组织机构服务接口类
     /// </summary>
-    public interface IOrgController
+    public interface IOrgController : IBaseController
     {
         #region 组织机构 -----------------
         /// <summary>
