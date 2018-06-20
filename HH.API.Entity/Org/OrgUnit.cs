@@ -42,6 +42,11 @@ namespace HH.API.Entity
         public string ManagerId { get; set; }
 
         /// <summary>
+        /// 获取或设置是否根节点
+        /// </summary>
+        public bool IsRootUnit { get; set; }
+
+        /// <summary>
         /// 获取或设置分管领导
         /// </summary>
         public string AssignedLeaderId { get; set; }

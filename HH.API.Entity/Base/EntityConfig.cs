@@ -11,6 +11,19 @@ namespace HH.API.Entity
     /// </summary>
     public struct EntityConfig
     {
+        public struct Org
+        {
+            public const string SystemUserId = "88888888-8888-8888-8888-888888888888";
+            public const string SystemOrgId = "66666666-6666-6666-6666-666666666666";
+            public const string SystemAdministratorCode = "Administrator";
+            public const string SystemAdministratorName = "系统管理员";
+        }
+
+        public struct FunctionNode
+        {
+            public const string WorkflowPackageRootName = "WorkflowPackage";
+        }
+
         /// <summary>
         /// 数据库表名称配置
         /// </summary>
@@ -63,11 +76,16 @@ namespace HH.API.Entity
             public const string AppPackage = "AppPackage";
 
             /// <summary>
-            /// 应用包
+            /// 流程包
             /// </summary>
             public const string BizWorkflowPackage = "BizWorkflowPackage";
 
             public const string BizInstanceContext = "BizInstanceContext";
+
+            /// <summary>
+            /// 活动表名称
+            /// </summary>
+            public const string BizToken = "BizToken";
 
             public const string BizWorkItemTrack = "BizWorkItemTrack";
 

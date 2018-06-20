@@ -30,7 +30,7 @@ namespace HH.API.Services
         public List<dynamic> QueryOrgUser(int pageIndex, int pageSize, out long recordCount, string displayName)
         {
             recordCount = 0;
-            string txt = string.Format("SELECT a.*,b.DisplayName as OUName FROM {0} a JOIN {1} b ON a.ParentId=b.ObjectID  where a.DisplayName like '%'+@DisplayName+'%'",
+            string txt = string.Format("SELECT a.*,b.CnName as OUName FROM {0} a JOIN {1} b ON a.ParentId=b.ObjectID  where a.CnName like '%'+@CnName+'%'",
                EntityConfig.Table.OrgUser, EntityConfig.Table.OrgUnit);
             using (DbConnection conn = this.OpenConnection())
             {
@@ -54,14 +54,14 @@ namespace HH.API.Services
             // SQL语句
             string sqlCount = string.Format("SELECT Count(1) FROM {0} a JOIN {1} b ON a.ParentId=b.ObjectID",
                EntityConfig.Table.OrgUser, EntityConfig.Table.OrgUnit);
-            string sqlQuery = string.Format("SELECT a.*,b.DisplayName as OUName FROM {0} a JOIN {1} b ON a.ParentId=b.ObjectID",
+            string sqlQuery = string.Format("SELECT a.*,b.CnName as OUName FROM {0} a JOIN {1} b ON a.ParentId=b.ObjectID",
                EntityConfig.Table.OrgUser, EntityConfig.Table.OrgUnit);
 
             // 查询条件
             IList<IPredicate> predList = new List<IPredicate>();
             if (!string.IsNullOrWhiteSpace(displayName))
             {
-                IFieldPredicate fieldPredicate = Predicates.Field<OrgUser>(p => p.DisplayName, Operator.Like, "%" + displayName + "%", "a");
+                IFieldPredicate fieldPredicate = Predicates.Field<OrgUser>(p => p.CnName, Operator.Like, "%" + displayName + "%", "a");
                 predList.Add(fieldPredicate);
             }
             IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());

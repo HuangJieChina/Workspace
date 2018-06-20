@@ -18,11 +18,18 @@ namespace HH.API.Entity
         public string Code { get; set; }
 
         /// <summary>
-        /// 获取或设置用户显示名称
+        /// 获取或设置用户中文名称
         /// </summary>
         [StringLength(64, MinimumLength = 1)]
         [Required]
-        public string DisplayName { get; set; }
+        public string CnName { get; set; }
+
+        /// <summary>
+        /// 获取或设置用户英文名称
+        /// </summary>
+        [StringLength(64, MinimumLength = 1)]
+        [Required]
+        public string EnName { get; set; }
 
         /// <summary>
         /// 获取或设置用户所属组织Id
@@ -58,6 +65,11 @@ namespace HH.API.Entity
         /// <para>注：虚拟用户必须绑定至真实用户账号</para>
         /// </summary>
         public bool IsVirtual { get; set; }
+
+        /// <summary>
+        /// 获取或设置用户是否超级管理员
+        /// </summary>
+        public bool IsAdministrator { get; set; }
 
         /// <summary>
         /// 获取或设置虚拟用户关联的真实用户Id

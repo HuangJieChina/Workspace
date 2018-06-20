@@ -31,6 +31,11 @@ namespace HH.API.Entity
         public string ParentId { get; set; }
 
         /// <summary>
+        /// 获取或设置是否根节点
+        /// </summary>
+        public bool IsRoot { get; set; }
+
+        /// <summary>
         /// 获取或设置功能目录类型
         /// </summary>
         public FunctionType FunctionType { get; set; }

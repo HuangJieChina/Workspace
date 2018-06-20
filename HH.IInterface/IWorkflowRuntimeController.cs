@@ -53,10 +53,10 @@ namespace HH.IInterface
         /// <summary>
         /// 执行业务操作后返回业务对象
         /// </summary>
-        /// <param name="schemaCode"></param>
-        /// <param name="objectId"></param>
-        /// <param name="methodeCode"></param>
-        /// <returns></returns>
+        /// <param name="schemaCode">业务对象编码</param>
+        /// <param name="objectId">业务对象Id</param>
+        /// <param name="methodeCode">业务方法名称</param>
+        /// <returns>返回执行结果后的业务对象</returns>
         [HttpGet]
         BizObject ExecuteAction(string schemaCode, string objectId, string methodeCode);
         #endregion
@@ -93,6 +93,14 @@ namespace HH.IInterface
         /// <returns></returns>
         [HttpPost]
         JsonResult CancelWorkflow([FromBody]string instanceId, [FromBody]string comment);
+
+        /// <summary>
+        /// 异常修复
+        /// </summary>
+        /// <param name="instanceId">异常的流程实例Id</param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult FixedExpection([FromHeader]string instanceId);
         #endregion
 
         #region 流程运行接口 ------------------
@@ -107,7 +115,7 @@ namespace HH.IInterface
         /// <summary>
         /// 结束传阅任务
         /// </summary>
-        /// <param name="circulateItemId"></param>
+        /// <param name="circulateItemId">传阅任务Id</param>
         /// <returns></returns>
         [HttpPost]
         JsonResult FinishCirculateItem([FromBody]string circulateItemId);
@@ -115,7 +123,7 @@ namespace HH.IInterface
         /// <summary>
         /// 批量设置已阅
         /// </summary>
-        /// <param name="circulateItemIds"></param>
+        /// <param name="circulateItemIds">传阅任务Id集合</param>
         /// <returns></returns>
         [HttpPost]
         JsonResult FinishCirculateItem([FromBody]List<string> circulateItemIds);

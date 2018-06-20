@@ -116,6 +116,18 @@ namespace HH.API.Services
         }
 
         /// <summary>
+        /// 获取数据表记录总数
+        /// </summary>
+        /// <returns></returns>
+        public virtual int Count()
+        {
+            using (var conn = ConnectionFactory.DefaultConnection())
+            {
+                return conn.Count<T>(null);
+            }
+        }
+
+        /// <summary>
         /// 删除一个对象
         /// </summary>
         /// <param name="objectId"></param>

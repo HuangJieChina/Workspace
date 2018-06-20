@@ -22,6 +22,16 @@ namespace HH.API.Entity.BizObject
         public string InstanceName { get; set; }
 
         /// <summary>
+        /// 获取或设置流程模板编码
+        /// </summary>
+        public string WorkflowCode { get; set; }
+
+        /// <summary>
+        /// 获取或设置流程模板版本号
+        /// </summary>
+        public int WorkflowVersion { get; set; }
+
+        /// <summary>
         /// 获取或设置流程审批结果
         /// </summary>
         public bool Approval { get; set; }
@@ -30,6 +40,16 @@ namespace HH.API.Entity.BizObject
         /// 获取或设置计划完成时间
         /// </summary>
         public DateTime PlanFinishedTime { get; set; }
+
+        /// <summary>
+        /// 获取或设置流程实例完成时间
+        /// </summary>
+        public DateTime FinishedTime { get; set; }
+
+        /// <summary>
+        /// 获取或设置是否出现流程异常
+        /// </summary>
+        public bool Exceptional { get; set; }
 
         private PriorityType _Priority = PriorityType.Normal;
         /// <summary>
@@ -51,6 +71,12 @@ namespace HH.API.Entity.BizObject
         /// </summary>
         [NotMapped]
         public BizObject BizObject { get; set; }
+
+        /// <summary>
+        /// 获取或设置活动集合
+        /// </summary>
+        [NotMapped]
+        public List<BizToken> Tokens { get; set; }
 
         /// <summary>
         /// 获取数据库表名

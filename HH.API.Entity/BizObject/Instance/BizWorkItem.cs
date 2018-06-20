@@ -40,6 +40,11 @@ namespace HH.API.Entity.BizObject
         public DateTime PlanFinishedTime { get; set; }
 
         /// <summary>
+        /// 获取或设置任务完成时间
+        /// </summary>
+        public DateTime FinishedTime { get; set; }
+
+        /// <summary>
         /// 获取或设置转交人
         /// </summary>
         public string Transfer { get; set; }

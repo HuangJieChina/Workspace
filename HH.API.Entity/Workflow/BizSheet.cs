@@ -110,7 +110,7 @@ namespace HH.API.Entity.BizObject
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("SchemaCode={0},DisplayName={1},Properties={2}",
+            return string.Format("SchemaCode={0},CnName={1},Properties={2}",
                 this.SchemaCode,
                 this.DisplayName,
                 JsonConvert.SerializeObject(this.Properties));
