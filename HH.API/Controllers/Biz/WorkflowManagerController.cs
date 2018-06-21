@@ -72,22 +72,20 @@ namespace HH.API.Controllers
             this.workflowPackageRepository.Insert(workflowPackage);
 
             // 新增 数据模型
-            BizSchema schema = new BizSchema()
-            {
-                SchemaCode = workflowPackage.SchemaCode,
-                CreateBy = workflowPackage.CreateBy
-            };
-            schema.InitialDefaultProperties();
+            BizSchema schema = new BizSchema();
+            schema.InitialDefaultProperties(workflowPackage.SchemaCode, workflowPackage.CreatedBy);
 
             this.bizSchemaRepository.Insert(schema);
 
             // 新增 默认表单
-            BizSheet sheet = new BizSheet()
-            {
-                SchemaCode = workflowPackage.SchemaCode
-            };
+            BizSheet sheet = new BizSheet();
+            sheet.Initial(workflowPackage.SchemaCode, workflowPackage.CreatedBy);
 
             // 新增 默认流程
+            WorkflowTemplate workflow = new WorkflowTemplate();
+            workflow.Initial(workflowPackage.SchemaCode, workflowPackage.CreatedBy);
+
+
             return Json(new APIResult() { Message = "OK", ResultCode = ResultCode.Success });
         }
 

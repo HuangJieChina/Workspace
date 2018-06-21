@@ -68,6 +68,16 @@ namespace HH.API.Entity
         }
 
         /// <summary>
+        /// 创建一个默认的流程
+        /// </summary>
+        /// <param name="schemaCode"></param>
+        /// <param name="createdBy"></param>
+        public void Initial(string schemaCode, string createdBy)
+        {
+
+        }
+
+        /// <summary>
         /// 转换为String
         /// </summary>
         /// <returns></returns>

@@ -72,7 +72,7 @@ namespace HH.API.Entity.BizObject
         /// 初始化默认属性
         /// </summary>
         /// <param name="schemaCode"></param>
-        public void InitialDefaultProperties(string schemaCode)
+        public void InitialDefaultProperties(string schemaCode, string createBy)
         {
             this.Properties = new List<BizProperty>();
             this.Properties.Add(new BizProperty()
@@ -80,26 +80,26 @@ namespace HH.API.Entity.BizObject
                 PropertyName = PropertyName_ObjectId,
                 IsPrimaryKey = true,
                 IsRequired = true,
-                CreateBy = this.CreateBy
+                CreatedBy = this.CreatedBy
             });
             this.Properties.Add(new BizProperty()
             {
                 PropertyName = PropertyName_Name,
                 LogicType = LogicType.String,
-                CreateBy = this.CreateBy
+                CreatedBy = this.CreatedBy
             });
             this.Properties.Add(new BizProperty()
             {
                 PropertyName = PropertyName_CreateBy,
                 LogicType = LogicType.String,
-                CreateBy = this.CreateBy
+                CreatedBy = this.CreatedBy
             });
 
             this.Properties.Add(new BizProperty()
             {
                 PropertyName = PropertyName_CreatedTime,
                 LogicType = LogicType.DateTime,
-                CreateBy = this.CreateBy
+                CreatedBy = this.CreatedBy
             });
         }
 

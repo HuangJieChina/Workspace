@@ -98,7 +98,8 @@ namespace HH.API.Entity.BizObject
         /// 设置默认表单属性
         /// </summary>
         /// <param name="schemaCode"></param>
-        public void Initial(string schemaCode)
+        /// <param name="createdBy"></param>
+        public void Initial(string schemaCode, string createdBy)
         {
             this.SchemaCode = schemaCode;
             this.SheetCode = "Sheet_" + schemaCode;

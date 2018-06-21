@@ -72,7 +72,7 @@ namespace HH.API.Entity
         /// </summary>
         [Column(TypeName = "char")]
         [StringLength(36)]
-        public string CreateBy { get; set; }
+        public string CreatedBy { get; set; }
 
         /// <summary>
         /// CreatedTime
