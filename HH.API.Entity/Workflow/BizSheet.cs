@@ -14,10 +14,17 @@ namespace HH.API.Entity.BizObject
     [Serializable]
     public class BizSheet : EntityBase
     {
+        public BizSheet() { }
+
         /// <summary>
         /// 获取或设置所属业务模型编码
         /// </summary>
         public string SchemaCode { get; set; }
+
+        /// <summary>
+        /// 获取或设置表单编码
+        /// </summary>
+        public string SheetCode { get; set; }
 
         /// <summary>
         /// 获取或设置表单显示名称
@@ -86,6 +93,16 @@ namespace HH.API.Entity.BizObject
         /// 获取或设置表单排序值
         /// </summary>
         public int SortOrder { get; set; }
+
+        /// <summary>
+        /// 设置默认表单属性
+        /// </summary>
+        /// <param name="schemaCode"></param>
+        public void Initial(string schemaCode)
+        {
+            this.SchemaCode = schemaCode;
+            this.SheetCode = "Sheet_" + schemaCode;
+        }
 
         /// <summary>
         /// 获取或设置属性集合

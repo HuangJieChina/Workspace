@@ -69,6 +69,48 @@ namespace HH.API.Entity.BizObject
         }
 
         /// <summary>
+        /// 初始化默认属性
+        /// </summary>
+        /// <param name="schemaCode"></param>
+        public void InitialDefaultProperties(string schemaCode)
+        {
+            this.Properties = new List<BizProperty>();
+            this.Properties.Add(new BizProperty()
+            {
+                PropertyName = PropertyName_ObjectId,
+                IsPrimaryKey = true,
+                IsRequired = true,
+                CreateBy = this.CreateBy
+            });
+            this.Properties.Add(new BizProperty()
+            {
+                PropertyName = PropertyName_Name,
+                LogicType = LogicType.String,
+                CreateBy = this.CreateBy
+            });
+            this.Properties.Add(new BizProperty()
+            {
+                PropertyName = PropertyName_CreateBy,
+                LogicType = LogicType.String,
+                CreateBy = this.CreateBy
+            });
+
+            this.Properties.Add(new BizProperty()
+            {
+                PropertyName = PropertyName_CreatedTime,
+                LogicType = LogicType.DateTime,
+                CreateBy = this.CreateBy
+            });
+        }
+
+        #region 默认的属性名称 -----------------------
+        /// <summary>
+        /// 获取或设置业务对象的显示名称字段
+        /// </summary>
+        public const string PropertyName_Name = "Name";
+        #endregion
+
+        /// <summary>
         /// 转换为String
         /// </summary>
         /// <returns></returns>
@@ -111,6 +153,16 @@ namespace HH.API.Entity.BizObject
         /// 获取或设置是否系统保留字段
         /// </summary>
         public bool IsSystem { get; set; }
+
+        /// <summary>
+        /// 获取或设置是否是主键
+        /// </summary>
+        public bool IsPrimaryKey { get; set; }
+
+        /// <summary>
+        /// 获取或设置是否需要建立索引
+        /// </summary>
+        public bool IsIndexKey { get; set; }
 
         /// <summary>
         /// 获取或设置是否必填项

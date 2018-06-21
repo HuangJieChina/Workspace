@@ -6,10 +6,11 @@ using DapperExtensions;
 using System.Collections.Generic;
 using System.Linq;
 using HH.API.Entity.BizObject;
+using HH.API.IServices;
 
 namespace HH.API.Services
 {
-    public class BizSchemaRepository : RepositoryBase<BizSchema>
+    public class BizSchemaRepository : RepositoryBase<BizSchema>, IBizSchemaRepository
     {
         /// <summary>
         /// 构造函数

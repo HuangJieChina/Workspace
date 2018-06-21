@@ -63,6 +63,11 @@ namespace HH.API.Entity
         }
 
         /// <summary>
+        /// CreateBy
+        /// </summary>
+        public const string PropertyName_CreateBy = "CreateBy";
+
+        /// <summary>
         /// 获取或设置创建人
         /// </summary>
         [Column(TypeName = "char")]

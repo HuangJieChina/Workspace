@@ -20,15 +20,19 @@ namespace HH.API.Controllers
         /// 流程包
         /// </summary>
         private IWorkflowPackageRepository workflowPackageRepository = null;
+        private IBizSchemaRepository bizSchemaRepository = null;
         #endregion
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="workflowPackageRepository"></param>
-        public WorkflowManagerController(IWorkflowPackageRepository workflowPackageRepository)
+        /// <param name="bizSchemaRepository"></param>
+        public WorkflowManagerController(IWorkflowPackageRepository workflowPackageRepository,
+            IBizSchemaRepository bizSchemaRepository)
         {
             this.workflowPackageRepository = workflowPackageRepository;
+            this.bizSchemaRepository = bizSchemaRepository;
         }
 
         [AllowAnonymous]
@@ -66,8 +70,23 @@ namespace HH.API.Controllers
         {
             // 新增 WorkflowPackage
             this.workflowPackageRepository.Insert(workflowPackage);
+
             // 新增 数据模型
+            BizSchema schema = new BizSchema()
+            {
+                SchemaCode = workflowPackage.SchemaCode,
+                CreateBy = workflowPackage.CreateBy
+            };
+            schema.InitialDefaultProperties();
+
+            this.bizSchemaRepository.Insert(schema);
+
             // 新增 默认表单
+            BizSheet sheet = new BizSheet()
+            {
+                SchemaCode = workflowPackage.SchemaCode
+            };
+
             // 新增 默认流程
             return Json(new APIResult() { Message = "OK", ResultCode = ResultCode.Success });
         }
