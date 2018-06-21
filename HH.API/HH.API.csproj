@@ -9,6 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.2" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.0.1" />
@@ -20,7 +22,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HH.API.Entity\HH.API.Entity.csproj" />
-    <ProjectReference Include="..\HH.IInterface\HH.IInterface.csproj" />
+    <ProjectReference Include="..\HH.API.IServices\HH.API.IServices.csproj" />
+    <ProjectReference Include="..\HH.IInterface\HH.API.IController.csproj" />
     <ProjectReference Include="..\HH.Services\HH.API.Services.csproj" />
   </ItemGroup>
 

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using HH.IInterface;
 using HH.API.Entity;
+using HH.API.IController;
 
 namespace HH.API.Controllers
 {

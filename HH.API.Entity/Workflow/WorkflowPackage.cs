@@ -24,6 +24,11 @@ namespace HH.API.Entity
         public string PackageName { get; set; }
 
         /// <summary>
+        /// 获取或设置对应所属目录Id
+        /// </summary>
+        public string ParentId { get; set; }
+
+        /// <summary>
         /// 获取或设置应用包排序号
         /// </summary>
         public int SortOrder { get; set; }

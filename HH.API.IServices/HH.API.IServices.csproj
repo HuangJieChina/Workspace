@@ -5,12 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\HH.API.Entity\HH.API.Entity.csproj" />
+    <ProjectReference Include="..\Modules\DapperExtensionsDNXCore\DapperExtensionsDNXCore.csproj" />
   </ItemGroup>
 
 </Project>

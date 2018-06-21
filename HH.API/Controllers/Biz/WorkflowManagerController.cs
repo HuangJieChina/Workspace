@@ -3,16 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using HH.IInterface;
 using HH.API.Entity;
 using HH.API.Entity.BizObject;
 using HH.API.Services;
+using HH.API.IController;
+using HH.API.IServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HH.API.Controllers
 {
     [Route("api/[controller]")]
     public class WorkflowManagerController : APIController, IWorkflowManagerController
     {
+        #region 服务注入对象 --------------------
+        /// <summary>
+        /// 流程包
+        /// </summary>
+        private IWorkflowPackageRepository workflowPackageRepository = null;
+        #endregion
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="workflowPackageRepository"></param>
+        public WorkflowManagerController(IWorkflowPackageRepository workflowPackageRepository)
+        {
+            this.workflowPackageRepository = workflowPackageRepository;
+        }
+
+        [AllowAnonymous]
+        [HttpGet("Test1")]
+        public JsonResult Test1(string inputV)
+        {
+            inputV = this.workflowPackageRepository.SayHello(inputV);
+            return Json(new { X = "OK=" + inputV });
+        }
+
+        [HttpPost]
         public JsonResult AddBizProperty([FromBody] BizProperty property)
         {
             throw new NotImplementedException();
@@ -34,8 +61,13 @@ namespace HH.API.Controllers
         /// <param name="workflowPackage"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult AddWorkflowPackage([FromBody] WorkflowPackage workflowPackage)
+        public JsonResult AddWorkflowPackage([FromBody]WorkflowPackage workflowPackage)
         {
+            // 新增 WorkflowPackage
+            this.workflowPackageRepository.Insert(workflowPackage);
+            // 新增 数据模型
+            // 新增 默认表单
+            // 新增 默认流程
             return Json(new APIResult() { Message = "OK", ResultCode = ResultCode.Success });
         }
 

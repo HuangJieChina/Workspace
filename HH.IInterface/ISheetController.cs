@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 
-namespace HH.IInterface
+namespace HH.API.IController
 {
     /// <summary>
     /// 表单接口

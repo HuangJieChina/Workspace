@@ -17,6 +17,12 @@ using IdentityModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using HH.API.Controllers;
+using Autofac;
+using System.Reflection;
+using HH.API.Services;
+using Autofac.Extensions.DependencyInjection;
+using HH.API.IServices;
+using HH.API.Entity;
 
 namespace HH.API
 {
@@ -30,8 +36,53 @@ namespace HH.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        #region 使用 Autofac 之前 -------------------
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="services"></param>
+        //public void ConfigureServices(IServiceCollection services)
+        //{
+        //    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        //        .AddJwtBearer(o =>
+        //        {
+        //            o.TokenValidationParameters = new TokenValidationParameters
+        //            {
+        //                NameClaimType = JwtClaimTypes.Name,
+        //                RoleClaimType = JwtClaimTypes.Role,
+        //                ValidIssuer = Config.API_Issuer,
+        //                ValidAudience = Config.API_Audience,
+        //                IssuerSigningKey = Config.SymmetricKey
+        //                /***********************************TokenValidationParameters的参数默认值***********************************/
+        //                // RequireSignedTokens = true,  
+        //                // SaveSigninToken = false,  
+        //                // ValidateActor = false,  
+        //                // 将下面两个参数设置为false，可以不验证Issuer和Audience，但是不建议这样做。  
+        //                // ValidateAudience = true,  
+        //                // ValidateIssuer = true,   
+        //                // ValidateIssuerSigningKey = false,  
+        //                // 是否要求Token的Claims中必须包含Expires  
+        //                // RequireExpirationTime = true,  
+        //                // 允许的服务器时间偏移量  
+        //                // ClockSkew = TimeSpan.FromSeconds(300),  
+        //                // 是否验证Token有效期，使用当前时间与Token的Claims中的NotBefore和Expires对比  
+        //                // ValidateLifetime = true  
+        //            };
+        //        });
+
+        //    // 注册接口和实现类的映射关系
+        //    // services.AddScoped<IUserRepository, UserRepository>();
+
+        //    services.AddMvc();
+        //}
+        #endregion
+
+        /// <summary>
+        /// 服务配置
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(o =>
@@ -60,7 +111,12 @@ namespace HH.API
                     };
                 });
 
+            // 注册接口和实现类的映射关系
+            // services.AddScoped<IUserRepository, UserRepository>();
+            // services.AddSingleton<IWorkflowPackageRepository, WorkflowPackageRepository>();
+
             services.AddMvc();
+            return InitIoC(services);
         }
 
         /// <summary>
@@ -84,7 +140,22 @@ namespace HH.API
             // JWT认证
             app.UseAuthentication();
 
+            // 服务的依赖注入 Start
+
+            // End
+
             app.UseMvc();
+        }
+
+        /// <summary>
+        /// 依赖注入
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        private IServiceProvider InitIoC(IServiceCollection services)
+        {
+            IoCContainer.Register("HH.API.Services", "HH.API.IServices");//注册service
+            return IoCContainer.Build(services);
         }
     }
 }

@@ -8,7 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HH.API.Entity\HH.API.Entity.csproj" />
-    <ProjectReference Include="..\HH.IInterface\HH.IInterface.csproj" />
+    <ProjectReference Include="..\HH.API.IServices\HH.API.IServices.csproj" />
+    <ProjectReference Include="..\HH.IInterface\HH.API.IController.csproj" />
     <ProjectReference Include="..\Modules\DapperExtensionsDNXCore\DapperExtensionsDNXCore.csproj" />
   </ItemGroup>
 

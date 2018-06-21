@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using DapperExtensions.Sql;
 using System.Data.Common;
+using HH.API.IServices;
 
 namespace HH.API.Services
 {
@@ -15,7 +16,8 @@ namespace HH.API.Services
     /// TODO:待增加缓存机制
     /// TODO:待增加异步函数
     /// </summary>
-    public class RepositoryBase<T> where T : EntityBase, new()
+    public class RepositoryBase<T> : IRepositoryBase<T>
+        where T : EntityBase, new()
     {
         /// <summary>
         /// 基类构造函数

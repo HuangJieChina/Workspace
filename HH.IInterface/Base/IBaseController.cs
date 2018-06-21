@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace HH.IInterface
+namespace HH.API.IController
 {
     /// <summary>
     /// 接口基类

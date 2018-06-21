@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace HH.IInterface
+namespace HH.API.IController
 {
     /// <summary>
     /// 组织机构服务接口类
