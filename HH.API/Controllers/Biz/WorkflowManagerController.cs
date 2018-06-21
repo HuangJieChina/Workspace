@@ -35,6 +35,7 @@ namespace HH.API.Controllers
         [HttpGet("Test1")]
         public JsonResult Test1(string inputV)
         {
+            this.workflowPackageRepository.Count++;
             inputV = this.workflowPackageRepository.SayHello(inputV);
             return Json(new { X = "OK=" + inputV });
         }

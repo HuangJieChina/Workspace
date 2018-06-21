@@ -53,10 +53,6 @@ namespace HH.API
             {
                 var interfaceTypeName = interfaceAssemblyName + ".I" + type.Name;
                 var interfaceType = interfaceAssembly.GetType(interfaceTypeName);
-                //if (interfaceType == null)
-                //{
-                //    interfaceType = interfaceAssembly.GetType(interfaceTypeName + "`1");
-                //}
                 if (interfaceType == null) continue;
                 if (interfaceType.IsAssignableFrom(type))
                 {
@@ -87,13 +83,15 @@ namespace HH.API
         /// <summary>
         /// 构建IOC容器，需在各种Register后调用。
         /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceProvider Build(IServiceCollection services)
         {
             if (_otherAssembly != null)
             {
                 foreach (var item in _otherAssembly)
                 {
-                    _builder.RegisterAssemblyTypes(Assembly.Load(item));
+                    _builder.RegisterAssemblyTypes(Assembly.Load(item)).SingleInstance();
                 }
             }
 
@@ -101,7 +99,7 @@ namespace HH.API
             {
                 foreach (var type in _types)
                 {
-                    _builder.RegisterType(type);
+                    _builder.RegisterType(type).SingleInstance();
                 }
             }
 
@@ -109,7 +107,9 @@ namespace HH.API
             {
                 foreach (var dicType in _dicTypes)
                 {
-                    _builder.RegisterType(dicType.Value).As(dicType.Key);
+                    // _builder.RegisterType(dicType.Value).As(dicType.Key);//.SingleInstance();
+                    // 设置为单例模式
+                    _builder.RegisterType(dicType.Value).As(dicType.Key).SingleInstance();
                 }
             }
 

@@ -21,6 +21,8 @@ namespace HH.API.Services
 
         }
 
+        public int Count { get; set; }
+
         public string SayHello(string inputValue)
         {
             return "Hello," + inputValue;
