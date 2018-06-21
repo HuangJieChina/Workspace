@@ -61,7 +61,7 @@ namespace HH.API.Controllers
         {
             // Headers需要增加 Authorization:Bearer token
             // 需要先认证才能调用
-            return Json(new { Message = "OK" });
+            return Json(new { Message = "OK," + inputValue });
         }
 
         [AllowAnonymous]
@@ -118,10 +118,11 @@ namespace HH.API.Controllers
             return inputValue;
         }
 
+        [AllowAnonymous]
         [HttpPost("Test3")]
         public string Test3([FromBody]dynamic obj)
         {
-            return "Test3" + obj.inputValue;
+            return "Test3." + obj.inputValue;
         }
 
         [Authorize]

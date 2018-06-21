@@ -34,7 +34,7 @@ namespace HH.API.Services
                EntityConfig.Table.OrgUser, EntityConfig.Table.OrgUnit);
             using (DbConnection conn = this.OpenConnection())
             {
-                var x = conn.Query(txt, new { DisplayName = "zhang" }).ToList();
+                var x = conn.Query(txt, new { CnName = "zhang" }).ToList();
                 return x;
             }
         }

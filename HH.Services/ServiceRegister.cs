@@ -57,7 +57,7 @@ namespace HH.API.Services
         /// <summary>
         /// 初始化数据
         /// </summary>
-        public void InitialData()
+        private void InitialData()
         {
             try
             {
@@ -74,21 +74,27 @@ namespace HH.API.Services
             }
         }
 
+        /// <summary>
+        /// 菜单节点初始化
+        /// </summary>
         private void InitialFunctionNode()
         {
-            FunctionNodeRepository function = ServiceFactory.Instance.GetServices<FunctionNodeRepository>();
-            if (function.Count() == 0)
-            {
-                FunctionNode packageRoot = new FunctionNode()
-                {
-                    CreateBy = EntityConfig.Org.SystemUserId,
-                    DisplayName = EntityConfig.FunctionNode.WorkflowPackageRootName,
-                    IsRoot = true,
-                    FunctionType = FunctionType.WorkflowPackage
-                };
-            }
+            //FunctionNodeRepository function = ServiceFactory.Instance.GetServices<FunctionNodeRepository>();
+            //if (function.Count() == 0)
+            //{
+            //    FunctionNode packageRoot = new FunctionNode()
+            //    {
+            //        CreateBy = EntityConfig.Org.SystemUserId,
+            //        DisplayName = EntityConfig.FunctionNode.WorkflowPackageRootName,
+            //        IsRoot = true,
+            //        FunctionType = FunctionType.WorkflowPackage
+            //    };
+            //}
         }
 
+        /// <summary>
+        /// 组织对象初始化
+        /// </summary>
         private void InitialOrg()
         {
             OrgUnitRepository orgUnitRepository = ServiceFactory.Instance.GetServices<OrgUnitRepository>();

@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace HH.API.Services
 {
-    public class ServiceFactory
+    public class ServiceFactory : ServiceBase
     {
         private ServiceFactory() { }
 
@@ -19,7 +19,7 @@ namespace HH.API.Services
             {
                 try
                 {
-                    Monitor.Enter(_Instance);
+                    Monitor.Enter(lockObject);
                     if (_Instance == null)
                     {
                         _Instance = new ServiceFactory();
@@ -27,7 +27,7 @@ namespace HH.API.Services
                 }
                 finally
                 {
-                    Monitor.Exit(_Instance);
+                    Monitor.Exit(lockObject);
                 }
                 return _Instance;
             }
@@ -46,12 +46,14 @@ namespace HH.API.Services
 
             try
             {
-                Monitor.Enter(_Instance);
+                Monitor.Enter(lockObject);
 
                 if (services.ContainsKey(fullName))
                 {
                     return services[fullName] as T;
                 }
+                // 初始化数据，License验证
+                ServiceRegister.Instance.Initial();
 
                 T t = new T();
                 services.Add(fullName, t);
@@ -59,7 +61,7 @@ namespace HH.API.Services
             }
             finally
             {
-                Monitor.Exit(_Instance);
+                Monitor.Exit(lockObject);
             }
         }
     }

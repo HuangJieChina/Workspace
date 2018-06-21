@@ -22,12 +22,20 @@ namespace HH.IInterface
         BizObject GetBizObject([FromHeader]string schemaCode, [FromHeader]string objectId);
 
         /// <summary>
-        /// 保存表单数据
+        /// 新增表单数据
         /// </summary>
         /// <param name="bizObject"></param>
         /// <returns></returns>
         [HttpPost]
-        JsonResult SaveBizObject([FromBody]BizObject bizObject);
+        JsonResult AddBizObject([FromBody]BizObject bizObject);
+
+        /// <summary>
+        /// 更新表单数据
+        /// </summary>
+        /// <param name="bizObject"></param>
+        /// <returns></returns>
+        [HttpPost]
+        JsonResult UpdateBizObject([FromBody]BizObject bizObject);
 
         /// <summary>
         /// 移除业务数据
