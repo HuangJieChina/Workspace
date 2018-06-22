@@ -14,10 +14,32 @@ namespace HH.API.IController
         /// <summary>
         /// 增加流程目录
         /// </summary>
-        /// <param name="functionNode"></param>
+        /// <param name="parentId"></param>
+        /// <param name="functionName"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="isRoot"></param>
         /// <returns></returns>
-        [HttpPost]
-        JsonResult AddWorkflowFolder([FromBody]FunctionNode functionNode);
+        [HttpGet]
+        JsonResult AddWorkflowFolder([FromHeader]string parentId,
+            [FromHeader]string functionName,
+            [FromHeader]int sortOrder,
+            [FromHeader]bool isRoot);
+
+        /// <summary>
+        /// 获取根目录节点集合
+        /// </summary>
+        /// <param name="parentId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult GetRootFolders([FromHeader]string parentId);
+
+        /// <summary>
+        /// 根据上级Id获取直接子目录节点集合
+        /// </summary>
+        /// <param name="parentId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult GetSubFolders([FromHeader]string parentId);
         #endregion
 
         #region 流程包接口 --------------------

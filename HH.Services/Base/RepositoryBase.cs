@@ -164,8 +164,9 @@ namespace HH.API.Services
         /// <summary>
         /// 获取单个实体对象
         /// </summary>
-        /// <param name="objectId">实体对象Id</param>
-        /// <returns>实体对象</returns>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public virtual T GetObjectByKey(string key, string value)
         {
             IKeyCache<T> currentCache = this.GetKeyCache(key);
@@ -187,6 +188,40 @@ namespace HH.API.Services
             // 加入缓存
             currentCache.Save(value, result);
             return result;
+        }
+
+        /// <summary>
+        /// 获取实体对象集合
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public virtual List<T> GetListByKey(string key, string value)
+        {
+            string sql = string.Format("SELECT * FROM {0} WHERE {1}={2}{1}", this.TableName, key, ParamterChar);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add(key, value);
+
+            List<T> result = default(List<T>);
+            using (var conn = ConnectionFactory.DefaultConnection())
+            {
+                result = conn.Query<T>(sql, parameters).AsList();
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 单表数据查询
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="sort"></param>
+        /// <returns></returns>
+        public virtual List<T> GetList(object predicate = null, IList<ISort> sort = null)
+        {
+            using (DbConnection conn = this.OpenConnection())
+            {
+                return conn.GetList<T>(predicate, sort).AsList();
+            }
         }
 
         /// <summary>

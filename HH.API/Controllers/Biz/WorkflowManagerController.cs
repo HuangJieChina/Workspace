@@ -23,17 +23,20 @@ namespace HH.API.Controllers
         private IBizSchemaRepository bizSchemaRepository = null;
         private IBizSheetRepository bizSheetRepository = null;
         private IWorkflowTemplateRepository workflowTemplateRepository = null;
+        public IFunctionNodeRepository functionNodeRepository = null;
         #endregion
 
         public WorkflowManagerController(IWorkflowPackageRepository workflowPackageRepository,
             IBizSchemaRepository bizSchemaRepository,
             IBizSheetRepository bizSheetRepository,
-            IWorkflowTemplateRepository workflowTemplateRepository)
+            IWorkflowTemplateRepository workflowTemplateRepository,
+            IFunctionNodeRepository functionNodeRepository)
         {
             this.workflowPackageRepository = workflowPackageRepository;
             this.bizSchemaRepository = bizSchemaRepository;
             this.bizSheetRepository = bizSheetRepository;
             this.workflowTemplateRepository = workflowTemplateRepository;
+            this.functionNodeRepository = functionNodeRepository;
         }
 
         [AllowAnonymous]
@@ -56,7 +59,31 @@ namespace HH.API.Controllers
             throw new NotImplementedException();
         }
 
-        public JsonResult AddWorkflowFolder([FromBody] FunctionNode functionNode)
+        [HttpGet]
+        public JsonResult AddWorkflowFolder([FromHeader]string parentId,
+            [FromHeader]string functionName,
+            [FromHeader]int sortOrder,
+            [FromHeader]bool isRoot)
+        {
+            FunctionNode functionNode = new FunctionNode(parentId, functionName,
+                this.CurrentUser.ObjectId,
+                sortOrder,
+                isRoot,
+                FunctionType.WorkflowPackage);
+
+            this.functionNodeRepository.Insert(functionNode);
+
+            return Json(functionNode);
+        }
+
+        [HttpGet]
+        public JsonResult GetRootFolders([FromHeader] string parentId)
+        {
+            
+            throw new NotImplementedException();
+        }
+
+        public JsonResult GetSubFolders([FromHeader] string parentId)
         {
             throw new NotImplementedException();
         }
@@ -138,5 +165,7 @@ namespace HH.API.Controllers
         {
             throw new NotImplementedException();
         }
+
+
     }
 }
