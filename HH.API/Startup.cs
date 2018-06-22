@@ -23,6 +23,7 @@ using HH.API.Services;
 using Autofac.Extensions.DependencyInjection;
 using HH.API.IServices;
 using HH.API.Entity;
+using HH.API.Aop;
 
 namespace HH.API
 {
@@ -136,6 +137,8 @@ namespace HH.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseWhiteList();
 
             // JWT认证
             app.UseAuthentication();
