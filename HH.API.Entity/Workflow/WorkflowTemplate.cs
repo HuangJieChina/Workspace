@@ -14,6 +14,26 @@ namespace HH.API.Entity
     [Serializable]
     public class WorkflowTemplate : EntityBase
     {
+        public WorkflowTemplate() { }
+
+        /// <summary>
+        /// 流程模板构造函数
+        /// </summary>
+        /// <param name="schemaCode"></param>
+        /// <param name="workflowCode"></param>
+        /// <param name="displayName"></param>
+        /// <param name="createdBy"></param>
+        /// <param name="sortOrder"></param>
+        public WorkflowTemplate(string schemaCode, string workflowCode, string displayName,
+            string createdBy, int sortOrder)
+        {
+            this.SchemaCode = schemaCode;
+            this.WorkflowCode = workflowCode;
+            this.DisplayName = displayName;
+            this.CreatedBy = createdBy;
+            this.SortOrder = sortOrder;
+        }
+
         /// <summary>
         /// 获取或设置所属业务模型编码
         /// </summary>
@@ -68,22 +88,13 @@ namespace HH.API.Entity
         }
 
         /// <summary>
-        /// 创建一个默认的流程
-        /// </summary>
-        /// <param name="schemaCode"></param>
-        /// <param name="createdBy"></param>
-        public void Initial(string schemaCode, string createdBy)
-        {
-
-        }
-
-        /// <summary>
         /// 转换为String
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            return base.ToString();
+            return string.Format("SchemaCode={0},WorkflowCode={1},DisplayName={2}",
+                this.SchemaCode, this.WorkflowCode, this.DisplayName);
         }
 
         // End Class

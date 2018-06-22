@@ -21,18 +21,19 @@ namespace HH.API.Controllers
         /// </summary>
         private IWorkflowPackageRepository workflowPackageRepository = null;
         private IBizSchemaRepository bizSchemaRepository = null;
+        private IBizSheetRepository bizSheetRepository = null;
+        private IWorkflowTemplateRepository workflowTemplateRepository = null;
         #endregion
 
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="workflowPackageRepository"></param>
-        /// <param name="bizSchemaRepository"></param>
         public WorkflowManagerController(IWorkflowPackageRepository workflowPackageRepository,
-            IBizSchemaRepository bizSchemaRepository)
+            IBizSchemaRepository bizSchemaRepository,
+            IBizSheetRepository bizSheetRepository,
+            IWorkflowTemplateRepository workflowTemplateRepository)
         {
             this.workflowPackageRepository = workflowPackageRepository;
             this.bizSchemaRepository = bizSchemaRepository;
+            this.bizSheetRepository = bizSheetRepository;
+            this.workflowTemplateRepository = workflowTemplateRepository;
         }
 
         [AllowAnonymous]
@@ -65,41 +66,65 @@ namespace HH.API.Controllers
         /// </summary>
         /// <param name="workflowPackage"></param>
         /// <returns></returns>
-        [HttpPost]
-        public JsonResult AddWorkflowPackage([FromBody]WorkflowPackage workflowPackage)
+        [HttpGet]
+        public JsonResult AddWorkflowPackage([FromHeader]string folderId,
+            [FromHeader]string packageCode,
+            [FromHeader]string packageName,
+            [FromHeader]int sortOrder)
         {
             // 新增 WorkflowPackage
+            WorkflowPackage workflowPackage = new WorkflowPackage(folderId, packageCode, packageName, sortOrder);
             this.workflowPackageRepository.Insert(workflowPackage);
 
             // 新增 数据模型
-            BizSchema schema = new BizSchema();
-            schema.InitialDefaultProperties(workflowPackage.SchemaCode, workflowPackage.CreatedBy);
-
+            BizSchema schema = new BizSchema(packageCode, this.CurrentUser.ObjectId);
             this.bizSchemaRepository.Insert(schema);
 
             // 新增 默认表单
             BizSheet sheet = new BizSheet();
-            sheet.Initial(workflowPackage.SchemaCode, workflowPackage.CreatedBy);
+            sheet.Initial(packageCode, this.CurrentUser.ObjectId);
+            this.bizSheetRepository.Insert(sheet);
 
             // 新增 默认流程
-            WorkflowTemplate workflow = new WorkflowTemplate();
-            workflow.Initial(workflowPackage.SchemaCode, workflowPackage.CreatedBy);
-
+            WorkflowTemplate workflow = new WorkflowTemplate(packageCode,
+                packageCode,
+                packageName,
+                this.CurrentUser.ObjectId,
+                sortOrder);
+            this.workflowTemplateRepository.Insert(workflow);
 
             return Json(new APIResult() { Message = "OK", ResultCode = ResultCode.Success });
         }
 
-        public JsonResult AddWorkflowTemplate([FromBody] WorkflowTemplate workflowTemplate)
+        /// <summary>
+        /// 新增流程模板
+        /// </summary>
+        /// <param name="workflowTemplate"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult AddWorkflowTemplate([FromHeader]string schemaCode,
+            [FromHeader]string workflowCode,
+            [FromHeader]string displayName,
+            [FromHeader]int sortOrder)
+        {
+            // TODO:校验流程模板编码是否已经存在
+
+            WorkflowTemplate workflow = new WorkflowTemplate(schemaCode,
+                workflowCode,
+                displayName,
+                this.CurrentUser.ObjectId,
+                sortOrder);
+            this.workflowTemplateRepository.Insert(workflow);
+
+            return Json(new APIResult() { Message = "OK", ResultCode = ResultCode.Success });
+        }
+
+        public BizSchema GetBizSchemaByCode([FromHeader]string schemaCode)
         {
             throw new NotImplementedException();
         }
 
-        public BizSchema GetBizSchemaByCode(string schemaCode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public JsonResult PublishBizSchema([FromHeader] string schemaCode)
+        public JsonResult PublishBizSchema([FromHeader]string schemaCode)
         {
             throw new NotImplementedException();
         }

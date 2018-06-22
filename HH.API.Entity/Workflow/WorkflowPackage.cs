@@ -13,10 +13,23 @@ namespace HH.API.Entity
     [Serializable]
     public class WorkflowPackage : EntityBase
     {
+        public WorkflowPackage() { }
+
+        public WorkflowPackage(string folderId,
+            string packageCode,
+            string packageName,
+            int sortOrder)
+        {
+            this.FolderId = folderId;
+            this.PackageCode = packageCode;
+            this.PackageName = packageName;
+            this.SortOrder = sortOrder;
+        }
+
         /// <summary>
         /// 获取或设置流程包编码
         /// </summary>
-        public string SchemaCode { get; set; }
+        public string PackageCode { get; set; }
 
         /// <summary>
         /// 获取或设置流程包名称
@@ -26,7 +39,7 @@ namespace HH.API.Entity
         /// <summary>
         /// 获取或设置对应所属目录Id
         /// </summary>
-        public string ParentId { get; set; }
+        public string FolderId { get; set; }
 
         /// <summary>
         /// 获取或设置应用包排序号

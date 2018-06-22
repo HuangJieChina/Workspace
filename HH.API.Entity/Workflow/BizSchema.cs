@@ -14,6 +14,20 @@ namespace HH.API.Entity.BizObject
     [Serializable]
     public class BizSchema : EntityBase
     {
+        public BizSchema() { }
+
+        /// <summary>
+        /// 用于新建的构造函数
+        /// </summary>
+        /// <param name="schemaCode"></param>
+        /// <param name="createdBy"></param>
+        public BizSchema(string schemaCode, string createdBy)
+        {
+            this.SchemaCode = schemaCode;
+            this.CreatedBy = createdBy;
+            this.InitialDefaultProperties();
+        }
+
         /// <summary>
         /// 获取或设置业务对象编码
         /// </summary>
@@ -71,8 +85,7 @@ namespace HH.API.Entity.BizObject
         /// <summary>
         /// 初始化默认属性
         /// </summary>
-        /// <param name="schemaCode"></param>
-        public void InitialDefaultProperties(string schemaCode, string createBy)
+        public void InitialDefaultProperties()
         {
             this.Properties = new List<BizProperty>();
             this.Properties.Add(new BizProperty()

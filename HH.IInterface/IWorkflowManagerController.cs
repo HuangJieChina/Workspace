@@ -22,12 +22,18 @@ namespace HH.API.IController
 
         #region 流程包接口 --------------------
         /// <summary>
-        /// 增加流程目录
+        /// 增加流程包
         /// </summary>
-        /// <param name="workflowPackage"></param>
+        /// <param name="folderId"></param>
+        /// <param name="packageCode"></param>
+        /// <param name="packageName"></param>
+        /// <param name="sortOrder"></param>
         /// <returns></returns>
         [HttpPost]
-        JsonResult AddWorkflowPackage([FromBody]WorkflowPackage workflowPackage);
+        JsonResult AddWorkflowPackage([FromHeader]string folderId,
+            [FromHeader]string packageCode,
+            [FromHeader]string packageName,
+            [FromHeader]int sortOrder);
 
         /// <summary>
         /// 移除流程包
@@ -42,10 +48,16 @@ namespace HH.API.IController
         /// <summary>
         /// 增加业务流程模板
         /// </summary>
-        /// <param name="workflowTemplate"></param>
+        /// <param name="schemaCode"></param>
+        /// <param name="workflowCode"></param>
+        /// <param name="displayName"></param>
+        /// <param name="sortOrder"></param>
         /// <returns></returns>
         [HttpPost]
-        JsonResult AddWorkflowTemplate([FromBody]WorkflowTemplate workflowTemplate);
+        JsonResult AddWorkflowTemplate([FromHeader]string schemaCode,
+            [FromHeader]string workflowCode,
+            [FromHeader]string displayName,
+            [FromHeader]int sortOrder);
         #endregion
 
         #region 业务表单接口 ------------------

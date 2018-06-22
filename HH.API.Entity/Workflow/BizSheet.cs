@@ -17,6 +17,19 @@ namespace HH.API.Entity.BizObject
         public BizSheet() { }
 
         /// <summary>
+        /// 用于新建的构造函数
+        /// </summary>
+        /// <param name="schemaCode"></param>
+        /// <param name="sheetCode"></param>
+        /// <param name="createdBy"></param>
+        public BizSheet(string schemaCode, string sheetCode, string createdBy)
+        {
+            this.SchemaCode = schemaCode;
+            this.SheetCode = sheetCode;
+            this.CreatedBy = createdBy;
+        }
+
+        /// <summary>
         /// 获取或设置所属业务模型编码
         /// </summary>
         public string SchemaCode { get; set; }
@@ -103,6 +116,7 @@ namespace HH.API.Entity.BizObject
         {
             this.SchemaCode = schemaCode;
             this.SheetCode = "Sheet_" + schemaCode;
+            this.CreatedBy = createdBy;
         }
 
         /// <summary>
