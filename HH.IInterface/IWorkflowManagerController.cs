@@ -28,10 +28,9 @@ namespace HH.API.IController
         /// <summary>
         /// 获取根目录节点集合
         /// </summary>
-        /// <param name="parentId"></param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult GetRootFolders([FromHeader]string parentId);
+        JsonResult GetRootFolders();
 
         /// <summary>
         /// 根据上级Id获取直接子目录节点集合
@@ -80,6 +79,31 @@ namespace HH.API.IController
             [FromHeader]string workflowCode,
             [FromHeader]string displayName,
             [FromHeader]int sortOrder);
+
+        /// <summary>
+        /// 获取流程模板
+        /// </summary>
+        /// <param name="workflowCode"></param>
+        /// <param name="workflowVersion"></param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult GetWorkflowTemplate(string workflowCode, int workflowVersion);
+
+        /// <summary>
+        /// 获取最新发布版的流程模板
+        /// </summary>
+        /// <param name="workflowCode"></param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult GetDefaultWorkflowTemplate(string workflowCode);
+
+        /// <summary>
+        /// 获取设计中的流程模板
+        /// </summary>
+        /// <param name="workflowCode"></param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult GetDesignerWorkflowTemplate(string workflowCode);
         #endregion
 
         #region 业务表单接口 ------------------

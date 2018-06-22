@@ -77,15 +77,17 @@ namespace HH.API.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetRootFolders([FromHeader] string parentId)
+        public JsonResult GetRootFolders()
         {
-            
-            throw new NotImplementedException();
+            List<FunctionNode> roots = this.functionNodeRepository.GetRootFunctionNodesByType(FunctionType.WorkflowPackage);
+            return Json(roots);
         }
 
+        [HttpGet]
         public JsonResult GetSubFolders([FromHeader] string parentId)
         {
-            throw new NotImplementedException();
+            List<FunctionNode> functionNodes = this.functionNodeRepository.GetSubFunctionNodesByParent(parentId);
+            return Json(functionNodes);
         }
 
         /// <summary>
@@ -135,7 +137,6 @@ namespace HH.API.Controllers
             [FromHeader]int sortOrder)
         {
             // TODO:校验流程模板编码是否已经存在
-
             WorkflowTemplate workflow = new WorkflowTemplate(schemaCode,
                 workflowCode,
                 displayName,
@@ -144,6 +145,21 @@ namespace HH.API.Controllers
             this.workflowTemplateRepository.Insert(workflow);
 
             return Json(new APIResult() { Message = "OK", ResultCode = ResultCode.Success });
+        }
+
+        public JsonResult GetWorkflowTemplate(string workflowCode, int workflowVersion)
+        {
+            throw new NotImplementedException();
+        }
+
+        public JsonResult GetDefaultWorkflowTemplate(string workflowCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public JsonResult GetDesignerWorkflowTemplate(string workflowCode)
+        {
+            throw new NotImplementedException();
         }
 
         public BizSchema GetBizSchemaByCode([FromHeader]string schemaCode)
@@ -165,7 +181,6 @@ namespace HH.API.Controllers
         {
             throw new NotImplementedException();
         }
-
 
     }
 }

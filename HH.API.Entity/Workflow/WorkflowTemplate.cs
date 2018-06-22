@@ -32,6 +32,7 @@ namespace HH.API.Entity
             this.DisplayName = displayName;
             this.CreatedBy = createdBy;
             this.SortOrder = sortOrder;
+            this.WorkflowState = WorkflowState.Designer;
         }
 
         /// <summary>
@@ -53,6 +54,16 @@ namespace HH.API.Entity
         /// 获取或设置表单排序值
         /// </summary>
         public int SortOrder { get; set; }
+
+        /// <summary>
+        /// 获取或设置流程模板版本号
+        /// </summary>
+        public int WorkflowVersion { get; set; }
+
+        /// <summary>
+        /// 获取或设置流程模板状态
+        /// </summary>
+        public WorkflowState WorkflowState { get; set; }
 
         /// <summary>
         /// 获取或设置流程模板内容
@@ -100,6 +111,24 @@ namespace HH.API.Entity
         // End Class
     }
 
+    /// <summary>
+    /// 流程模板状态
+    /// </summary>
+    public enum WorkflowState
+    {
+        /// <summary>
+        /// 编辑状态
+        /// </summary>
+        Designer = 0,
+        /// <summary>
+        /// 已发布的
+        /// </summary>
+        Published = 1,
+        /// <summary>
+        /// 已作废的
+        /// </summary>
+        Discarded = 2
+    }
 
     public class WorkflowTemplateContent
     {
