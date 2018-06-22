@@ -8,6 +8,9 @@ using System.Reflection;
 using DapperExtensions.Sql;
 using System.Data.Common;
 using HH.API.IServices;
+using System.Threading;
+using HH.API.Entity.EntityCache;
+using HH.API.Entity.KeyCollectionCache;
 
 namespace HH.API.Services
 {
@@ -53,9 +56,50 @@ namespace HH.API.Services
             {
                 if (this._EntityCache == null)
                 {
-                    this._EntityCache = HH.API.Entity.EntityCache.Factory<T>.Instance.GetCache();
+                    this._EntityCache = EntityCacheFactory<T>.Instance.GetCache();
                 }
                 return this._EntityCache;
+            }
+        }
+
+        private Dictionary<string, IKeyCache<T>> _KeyCache = null;
+        /// <summary>
+        /// 获取实体(Key)缓存类
+        /// </summary>
+        public Dictionary<string, IKeyCache<T>> KeyCache
+        {
+            get
+            {
+                if (this._KeyCache == null)
+                {
+                    this._KeyCache = new Dictionary<string, IKeyCache<T>>();
+                }
+                return this._KeyCache;
+            }
+        }
+
+        /// <summary>
+        /// 获取Key缓存对象
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        private IKeyCache<T> GetKeyCache(string key)
+        {
+            if (this.KeyCache.ContainsKey(key)) return this.KeyCache[key];
+
+            try
+            {
+                Monitor.Enter(this);
+                if (!this.KeyCache.ContainsKey(key))
+                {
+                    IKeyCache<T> currentKeyCache = KeyCacheFactory<T>.Instance.GetCache();
+                    this.KeyCache.Add(key, currentKeyCache);
+                }
+                return this.KeyCache[key];
+            }
+            finally
+            {
+                Monitor.Exit(this);
             }
         }
 
@@ -115,6 +159,34 @@ namespace HH.API.Services
             {
                 return conn.Get<T>(objectId);
             }
+        }
+
+        /// <summary>
+        /// 获取单个实体对象
+        /// </summary>
+        /// <param name="objectId">实体对象Id</param>
+        /// <returns>实体对象</returns>
+        public virtual T GetObjectByKey(string key, string value)
+        {
+            IKeyCache<T> currentCache = this.GetKeyCache(key);
+
+            if (currentCache.Exists(value))
+            {
+                return currentCache.Get(value);
+            }
+
+            string sql = string.Format("SELECT * FROM {0} WHERE {1}={2}{1}", this.TableName, key, ParamterChar);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add(key, value);
+
+            T result = default(T);
+            using (var conn = ConnectionFactory.DefaultConnection())
+            {
+                result = conn.QueryFirst<T>(sql, parameters);
+            }
+            // 加入缓存
+            currentCache.Save(value, result);
+            return result;
         }
 
         /// <summary>
@@ -234,6 +306,17 @@ namespace HH.API.Services
             }
 
             return res;
+        }
+
+        /// <summary>
+        /// 获取数据存储表名称
+        /// </summary>
+        public string TableName
+        {
+            get
+            {
+                return new T().TableName;
+            }
         }
 
         /// <summary>

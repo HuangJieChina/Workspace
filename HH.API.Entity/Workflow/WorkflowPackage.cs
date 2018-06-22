@@ -26,6 +26,8 @@ namespace HH.API.Entity
             this.SortOrder = sortOrder;
         }
 
+        public const string PropertyName_PackageCode = "PackageCode";
+
         /// <summary>
         /// 获取或设置流程包编码
         /// </summary>

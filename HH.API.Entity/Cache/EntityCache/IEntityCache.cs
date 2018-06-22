@@ -15,7 +15,7 @@ namespace HH.API.Entity
         /// <summary>
         /// 新增缓存对象
         /// </summary>
-        /// <param name="t"></param>
+        /// <param name="t">缓存对象</param>
         void Save(T t);
 
         /// <summary>
@@ -34,14 +34,14 @@ namespace HH.API.Entity
         /// 根据Key值获取一个对象
         /// </summary>
         /// <param name="key">Key值</param>
-        /// <returns></returns>
+        /// <returns>实体对象</returns>
         T Get(string key);
 
         /// <summary>
         /// 检测是否存在
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">Key值</param>
+        /// <returns>检查结果</returns>
         bool Exists(string key);
 
         /// <summary>

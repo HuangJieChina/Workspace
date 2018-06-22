@@ -100,6 +100,10 @@ namespace HH.API.Entity.EntityCache
             finally { this.RWLock.ReleaseWriterLock(); }
         }
 
+        /// <summary>
+        /// 往缓存中增加数组
+        /// </summary>
+        /// <param name="array"></param>
         public void AddRange(List<T> array)
         {
             try

@@ -10,7 +10,7 @@ namespace HH.API.Entity.KeyCollectionCache
     /// <summary>
     /// 内存缓存
     /// </summary>
-    public class Memory<T> : IKeyCollectionCache<T> where T : EntityBase
+    public class Memory<T> : IKeyCache<T> where T : EntityBase
     {
         /// <summary>
         /// 设置默认缓存数据量大小
@@ -26,7 +26,7 @@ namespace HH.API.Entity.KeyCollectionCache
             this._MaxCacheSize = maxCacheSize;
         }
 
-        private Dictionary<string, List<T>> memoryCache = new Dictionary<string, List<T>>();
+        private Dictionary<string, T> memoryCache = new Dictionary<string, T>();
 
         private ReaderWriterLock _rwLock = null;
         /// <summary>
@@ -62,15 +62,18 @@ namespace HH.API.Entity.KeyCollectionCache
                 }
             }
         }
-        public List<T> Get(string key)
+        public T Get(string key)
         {
             try
             {
                 this.RWLock.AcquireReaderLock(-1);
-                if (!this.memoryCache.ContainsKey(key)) return default(List<T>);
+                if (!this.memoryCache.ContainsKey(key)) return default(T);
                 return this.memoryCache[key];
             }
-            finally { this.RWLock.ReleaseReaderLock(); }
+            finally
+            {
+                this.RWLock.ReleaseReaderLock();
+            }
         }
 
         private int _MaxCacheSize = 0;
@@ -122,29 +125,11 @@ namespace HH.API.Entity.KeyCollectionCache
                 this.RWLock.AcquireWriterLock(-1);
                 if (!this.memoryCache.ContainsKey(key))
                 {// 不存在则新增
-                    this.memoryCache.Add(key, new List<T>());
+                    this.memoryCache.Add(key, t);
                 }
-                if (this.memoryCache[key].Contains(t))
+                else
                 {
-                    this.memoryCache[key].Remove(t);
-                }
-                this.memoryCache[key].Add(t);
-            }
-            finally { this.RWLock.ReleaseWriterLock(); }
-        }
-
-        public void Remove(string key, T t)
-        {
-            try
-            {
-                this.RWLock.AcquireWriterLock(-1);
-                if (!this.memoryCache.ContainsKey(key))
-                {// 不存在则新增
-                    return;
-                }
-                if (this.memoryCache[key].Contains(t))
-                {
-                    this.memoryCache[key].Remove(t);
+                    this.memoryCache[key] = t;
                 }
             }
             finally { this.RWLock.ReleaseWriterLock(); }

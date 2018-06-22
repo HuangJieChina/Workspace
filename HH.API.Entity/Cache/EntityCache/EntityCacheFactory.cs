@@ -5,23 +5,23 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HH.API.Entity.KeyCollectionCache
+namespace HH.API.Entity.EntityCache
 {
     /// <summary>
-    /// KeyValue 缓存工厂类
+    /// 实体对象缓存工厂类
     /// </summary>
-    public class Factory<T> where T : EntityBase
+    public class EntityCacheFactory<T> where T : EntityBase
     {
-        private Factory() { }
+        private EntityCacheFactory() { }
 
-        private static Factory<T> _Instance = null;
-        public static Factory<T> Instance
+        private static EntityCacheFactory<T> _Instance = null;
+        public static EntityCacheFactory<T> Instance
         {
             get
             {
                 if (_Instance == null)
                 {
-                    _Instance = new Factory<T>();
+                    _Instance = new EntityCacheFactory<T>();
                 }
                 return _Instance;
             }
@@ -31,7 +31,7 @@ namespace HH.API.Entity.KeyCollectionCache
         /// 获取缓存对象
         /// </summary>
         /// <returns></returns>
-        public IKeyCollectionCache<T> GetCache()
+        public IEntityCache<T> GetCache()
         {
             return this.GetCache(int.MaxValue);
         }
@@ -41,7 +41,7 @@ namespace HH.API.Entity.KeyCollectionCache
         /// </summary>
         /// <param name="maxCacheSize"></param>
         /// <returns></returns>
-        public IKeyCollectionCache<T> GetCache(int maxCacheSize)
+        public IEntityCache<T> GetCache(int maxCacheSize)
         {
             return new Memory<T>(maxCacheSize);
         }

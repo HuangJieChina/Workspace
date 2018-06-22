@@ -23,9 +23,20 @@ namespace HH.API.Services
 
         public int Count { get; set; }
 
+
         public string SayHello(string inputValue)
         {
             return "Hello," + inputValue;
+        }
+
+        /// <summary>
+        /// 根据编码获取对象
+        /// </summary>
+        /// <param name="packageCode"></param>
+        /// <returns></returns>
+        public WorkflowPackage GetWorkflowPackageByCode(string packageCode)
+        {
+            return this.GetObjectByKey(WorkflowPackage.PropertyName_PackageCode, packageCode);
         }
     }
 }

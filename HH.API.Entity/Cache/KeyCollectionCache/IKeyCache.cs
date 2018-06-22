@@ -10,7 +10,7 @@ namespace HH.API.Entity
     /// KeyValue缓存接口
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IKeyCollectionCache<T> where T : EntityBase
+    public interface IKeyCache<T> where T : EntityBase
     {
         /// <summary>
         /// 新增缓存对象
@@ -23,12 +23,6 @@ namespace HH.API.Entity
         /// 移除缓存对象
         /// </summary>
         /// <param name="key"></param>
-        void Remove(string key, T t);
-
-        /// <summary>
-        /// 根据Key值移除对象
-        /// </summary>
-        /// <param name="key"></param>
         void Remove(string key);
 
         /// <summary>
@@ -36,7 +30,7 @@ namespace HH.API.Entity
         /// </summary>
         /// <param name="key">Key值</param>
         /// <returns></returns>
-        List<T> Get(string key);
+        T Get(string key);
 
         /// <summary>
         /// 检查是否存在
