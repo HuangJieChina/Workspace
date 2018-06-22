@@ -11,10 +11,10 @@ namespace Test.Test
 
         public void Test_Method1()
         {
-            Dictionary<string, string> headers = new Dictionary<string, string>();
-            headers.Add("inputValue", "Hello");
-
-            string result = this.HttpGet(ServerUri + "/values/Method1", headers);
+            Dictionary<string, string> paramters = new Dictionary<string, string>();
+            paramters.Add("inputValue", "Hello");
+            
+            string result = this.HttpGet(ServerUri + "/values/Method2", paramters);
             Console.WriteLine("Test_Method1->" + result);
         }
 

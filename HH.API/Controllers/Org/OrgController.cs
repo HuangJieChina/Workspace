@@ -36,12 +36,12 @@ namespace HH.API.Controllers
             throw new NotImplementedException();
         }
 
-        public JsonResult RemoveUnit([FromHeader] string objectId)
+        public JsonResult RemoveUnit( string objectId)
         {
             throw new NotImplementedException();
         }
 
-        public JsonResult RemoveUser([FromHeader] string objectId)
+        public JsonResult RemoveUser( string objectId)
         {
             throw new NotImplementedException();
         }

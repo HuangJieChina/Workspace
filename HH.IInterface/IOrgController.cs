@@ -23,7 +23,7 @@ namespace HH.API.IController
         /// <param name="objectId">组织Id</param>
         /// <returns>返回结果</returns>
         [HttpGet]
-        JsonResult RemoveUnit([FromHeader]string objectId);
+        JsonResult RemoveUnit(string objectId);
 
         /// <summary>
         /// 更新组织信息
@@ -73,7 +73,7 @@ namespace HH.API.IController
         /// <param name="objectId">用户Id</param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult RemoveUser([FromHeader] string objectId);
+        JsonResult RemoveUser( string objectId);
 
         /// <summary>
         /// 根据上级组织ID获取用户

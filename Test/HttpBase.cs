@@ -46,23 +46,26 @@ namespace Test
         /// Get请求
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="headers"></param>
+        /// <param name="paramters"></param>
         /// <returns></returns>
-        public string HttpGet(string url, Dictionary<string, string> headers)
+        public string HttpGet(string url, Dictionary<string, string> paramters)
         {
             string result = string.Empty;
             try
             {
-                HttpWebRequest wbRequest = (HttpWebRequest)WebRequest.Create(url);
-                wbRequest.Method = "GET";
-                if (headers != null)
+                if (paramters != null)
                 {
-                    foreach (string key in headers.Keys)
+                    foreach (string key in paramters.Keys)
                     {
-                        this.setHeaderValue(wbRequest.Headers, key, headers[key]);
+                        url += url.Contains("?") ? "&" : "?";
+                        url += key + "=" + paramters[key];
+                        // this.setHeaderValue(wbRequest.Headers, key, headers[key]);
                     }
                 }
 
+                HttpWebRequest wbRequest = (HttpWebRequest)WebRequest.Create(url);
+                wbRequest.Method = "GET";
+                
                 HttpWebResponse wbResponse = (HttpWebResponse)wbRequest.GetResponse();
                 using (Stream responseStream = wbResponse.GetResponseStream())
                 {

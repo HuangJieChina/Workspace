@@ -20,10 +20,10 @@ namespace HH.API.IController
         /// <param name="isRoot"></param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult AddWorkflowFolder([FromHeader]string parentId,
-            [FromHeader]string functionName,
-            [FromHeader]int sortOrder,
-            [FromHeader]bool isRoot);
+        JsonResult AddWorkflowFolder(string parentId,
+            string functionName,
+            int sortOrder,
+            bool isRoot);
 
         /// <summary>
         /// 获取根目录节点集合
@@ -38,7 +38,7 @@ namespace HH.API.IController
         /// <param name="parentId"></param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult GetSubFolders([FromHeader]string parentId);
+        JsonResult GetSubFolders(string parentId);
         #endregion
 
         #region 流程包接口 --------------------
@@ -51,10 +51,10 @@ namespace HH.API.IController
         /// <param name="sortOrder"></param>
         /// <returns></returns>
         [HttpPost]
-        JsonResult AddWorkflowPackage([FromHeader]string folderId,
-            [FromHeader]string packageCode,
-            [FromHeader]string packageName,
-            [FromHeader]int sortOrder);
+        JsonResult AddWorkflowPackage(string folderId,
+            string packageCode,
+            string packageName,
+            int sortOrder);
 
         /// <summary>
         /// 移除流程包
@@ -62,7 +62,7 @@ namespace HH.API.IController
         /// <param name="schemaCode">业务模型编码</param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult RemoveWorkflowPackage([FromHeader]string schemaCode);
+        JsonResult RemoveWorkflowPackage(string schemaCode);
         #endregion
 
         #region 业务流程接口 ------------------
@@ -75,10 +75,10 @@ namespace HH.API.IController
         /// <param name="sortOrder"></param>
         /// <returns></returns>
         [HttpPost]
-        JsonResult AddWorkflowTemplate([FromHeader]string schemaCode,
-            [FromHeader]string workflowCode,
-            [FromHeader]string displayName,
-            [FromHeader]int sortOrder);
+        JsonResult AddWorkflowTemplate(string schemaCode,
+            string workflowCode,
+            string displayName,
+            int sortOrder);
 
         /// <summary>
         /// 获取流程模板
@@ -139,7 +139,7 @@ namespace HH.API.IController
         /// <param name="property"></param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult RemoveBizProperty([FromHeader]string schemaCode);
+        JsonResult RemoveBizProperty(string schemaCode);
 
         /// <summary>
         /// 发布数据模型
@@ -147,7 +147,7 @@ namespace HH.API.IController
         /// <param name="schemaCode"></param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult PublishBizSchema([FromHeader]string schemaCode);
+        JsonResult PublishBizSchema(string schemaCode);
 
         #endregion
     }

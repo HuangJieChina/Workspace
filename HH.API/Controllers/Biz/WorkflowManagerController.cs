@@ -60,10 +60,10 @@ namespace HH.API.Controllers
         }
 
         [HttpGet]
-        public JsonResult AddWorkflowFolder([FromHeader]string parentId,
-            [FromHeader]string functionName,
-            [FromHeader]int sortOrder,
-            [FromHeader]bool isRoot)
+        public JsonResult AddWorkflowFolder(string parentId,
+            string functionName,
+            int sortOrder,
+            bool isRoot)
         {
             FunctionNode functionNode = new FunctionNode(parentId, functionName,
                 this.CurrentUser.ObjectId,
@@ -84,7 +84,7 @@ namespace HH.API.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetSubFolders([FromHeader] string parentId)
+        public JsonResult GetSubFolders( string parentId)
         {
             List<FunctionNode> functionNodes = this.functionNodeRepository.GetSubFunctionNodesByParent(parentId);
             return Json(functionNodes);
@@ -96,10 +96,10 @@ namespace HH.API.Controllers
         /// <param name="workflowPackage"></param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult AddWorkflowPackage([FromHeader]string folderId,
-            [FromHeader]string packageCode,
-            [FromHeader]string packageName,
-            [FromHeader]int sortOrder)
+        public JsonResult AddWorkflowPackage(string folderId,
+            string packageCode,
+            string packageName,
+            int sortOrder)
         {
             // 新增 WorkflowPackage
             WorkflowPackage workflowPackage = new WorkflowPackage(folderId, packageCode, packageName, sortOrder);
@@ -131,10 +131,10 @@ namespace HH.API.Controllers
         /// <param name="workflowTemplate"></param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult AddWorkflowTemplate([FromHeader]string schemaCode,
-            [FromHeader]string workflowCode,
-            [FromHeader]string displayName,
-            [FromHeader]int sortOrder)
+        public JsonResult AddWorkflowTemplate(string schemaCode,
+            string workflowCode,
+            string displayName,
+            int sortOrder)
         {
             // TODO:校验流程模板编码是否已经存在
             WorkflowTemplate workflow = new WorkflowTemplate(schemaCode,
@@ -162,22 +162,22 @@ namespace HH.API.Controllers
             throw new NotImplementedException();
         }
 
-        public BizSchema GetBizSchemaByCode([FromHeader]string schemaCode)
+        public BizSchema GetBizSchemaByCode(string schemaCode)
         {
             throw new NotImplementedException();
         }
 
-        public JsonResult PublishBizSchema([FromHeader]string schemaCode)
+        public JsonResult PublishBizSchema(string schemaCode)
         {
             throw new NotImplementedException();
         }
 
-        public JsonResult RemoveBizProperty([FromHeader] string schemaCode)
+        public JsonResult RemoveBizProperty( string schemaCode)
         {
             throw new NotImplementedException();
         }
 
-        public JsonResult RemoveWorkflowPackage([FromHeader] string schemaCode)
+        public JsonResult RemoveWorkflowPackage( string schemaCode)
         {
             throw new NotImplementedException();
         }

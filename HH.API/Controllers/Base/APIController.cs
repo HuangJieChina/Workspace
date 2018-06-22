@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using IdentityModel;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Cors;
 
 namespace HH.API.Controllers
 {
@@ -17,6 +18,7 @@ namespace HH.API.Controllers
     /// Controller 基类
     /// </summary>
     // [Authorize]
+    [EnableCors("AllowAllOrigin")]  // 跨域支持
     public class APIController : Controller
     {
         /// <summary>

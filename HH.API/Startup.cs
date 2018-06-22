@@ -116,6 +116,19 @@ namespace HH.API
             // services.AddScoped<IUserRepository, UserRepository>();
             // services.AddSingleton<IWorkflowPackageRepository, WorkflowPackageRepository>();
 
+            // 配置跨域
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigin", builder =>
+                {
+                    builder.AllowAnyOrigin() //允许任何来源的主机访问
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();//指定处理cookie
+                });
+            });
+            // End
+
             services.AddMvc();
             return InitIoC(services);
         }
@@ -138,6 +151,7 @@ namespace HH.API
                 app.UseDeveloperExceptionPage();
             }
 
+            // 白名单
             app.UseWhiteList();
 
             // JWT认证

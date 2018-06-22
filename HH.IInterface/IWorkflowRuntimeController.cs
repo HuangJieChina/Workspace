@@ -19,7 +19,7 @@ namespace HH.API.IController
         /// <param name="objectId"></param>
         /// <returns></returns>
         [HttpGet]
-        BizObject GetBizObject([FromHeader]string schemaCode, [FromHeader]string objectId);
+        BizObject GetBizObject(string schemaCode, string objectId);
 
         /// <summary>
         /// 新增表单数据
@@ -44,7 +44,7 @@ namespace HH.API.IController
         /// <param name="objectId"></param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult RemoveBizObject([FromHeader]string schemaCode, [FromHeader]string objectId);
+        JsonResult RemoveBizObject(string schemaCode, string objectId);
 
         /// <summary>
         /// 获取业务列表的数据
@@ -108,7 +108,7 @@ namespace HH.API.IController
         /// <param name="instanceId">异常的流程实例Id</param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult FixedExpection([FromHeader]string instanceId);
+        JsonResult FixedExpection(string instanceId);
         #endregion
 
         #region 流程运行接口 ------------------
@@ -161,7 +161,7 @@ namespace HH.API.IController
         /// <param name="instanceId">流程实例数据</param>
         /// <returns></returns>
         [HttpPost]
-        BizInstanceContext GetInstanceContext([FromHeader]string instanceId);
+        BizInstanceContext GetInstanceContext(string instanceId);
 
         #endregion
     }

@@ -20,16 +20,16 @@ namespace HH.API.Controllers
     public class ValuesController : APIController
     {
         // GET api/values
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
 
         private List<string> xx = new List<string>();
 
         [HttpGet("LoginIn")]
-        public JsonResult LoginIn([FromHeader]string inputValue)
+        public JsonResult LoginIn(string inputValue)
         {
             WorkflowTemplate workflowTemplate = new WorkflowTemplate()
             {
@@ -57,7 +57,7 @@ namespace HH.API.Controllers
         }
 
         [HttpGet("Method1")]
-        public JsonResult Method1([FromHeader]string inputValue)
+        public JsonResult Method1(string inputValue)
         {
             // Headers需要增加 Authorization:Bearer token
             // 需要先认证才能调用
@@ -66,15 +66,15 @@ namespace HH.API.Controllers
 
         [AllowAnonymous]
         [HttpGet("Method2")]
-        public JsonResult Method2([FromHeader]string inputValue)
+        public JsonResult Method2(string inputValue)
         {
             // Headers需要增加 Authorization:Bearer token
             // 需要先认证才能调用
-            return Json(new { Message = "OK" });
+            return Json(new { Message = "OK," + inputValue });
         }
 
         [HttpGet("QueryUser")]
-        public JsonResult QueryUser([FromHeader]string inputValue)
+        public JsonResult QueryUser(string inputValue)
         {
             OrgUserRepository userRepository = new OrgUserRepository();
             long userCount = 0;
@@ -87,7 +87,7 @@ namespace HH.API.Controllers
         }
 
         [HttpGet("QueryUser1")]
-        public APIResult QueryUser1([FromHeader]string inputValue)
+        public APIResult QueryUser1(string inputValue)
         {
             OrgUserRepository userRepository = new OrgUserRepository();
             long userCount = 0;
@@ -107,22 +107,22 @@ namespace HH.API.Controllers
         }
 
         [HttpGet("Test1/{inputValue}")]
-        public string Test1(string inputValue)
+        public JsonResult Test1(string inputValue)
         {
-            return inputValue;
+            return Json(new { Result = "Test1->" + inputValue });
         }
 
         [HttpGet("Test2")]
-        public string Test2([FromHeader]string inputValue)
+        public JsonResult Test2(string inputValue)
         {
-            return inputValue;
+            return Json(new { Result = "Test2->" + inputValue });
         }
 
         [AllowAnonymous]
         [HttpPost("Test3")]
-        public string Test3([FromBody]dynamic obj)
+        public JsonResult Test3([FromBody]dynamic obj)
         {
-            return "Test3." + obj.inputValue;
+            return Json(new { Result = "Test3->" + obj.inputValue });
         }
 
         [Authorize]
