@@ -17,6 +17,7 @@ namespace HH.API.Entity
         /// </summary>
         public const string EveryOne = "EveryOne";
 
+        public const string PropertyName_Code = "Code";
         /// <summary>
         /// 获取或设置用户登录帐号
         /// </summary>

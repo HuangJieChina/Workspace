@@ -33,6 +33,25 @@ namespace HH.API.Controllers
             this.orgRoleUserRepository = orgRoleUserRepository;
         }
 
+        public JsonResult AddOrgRole([FromBody] OrgRole orgRole)
+        {
+            this.orgRoleRepository.Insert(orgRole);
+            JsonResult validateResult = null;
+            if (this.DataValidator<OrgRole>(orgRole, out validateResult)) return validateResult;
+
+            if (this.orgRoleRepository.GetOrgRoleByCode(orgRole.Code) != null)
+            {
+                return Json(new APIResult()
+                {
+                    ResultCode = ResultCode.CodeDuplicate,
+                    Message = "角色编码已经存在"
+                });
+            }
+
+            dynamic result = this.orgRoleRepository.Insert(orgRole);
+            return Json(new APIResult() { ResultCode = ResultCode.Success, Extend = orgRole });
+        }
+
         /// <summary>
         /// 新增组织单元
         /// </summary>
@@ -106,6 +125,11 @@ namespace HH.API.Controllers
             return Json(new APIResult() { ResultCode = ResultCode.Success, Extend = user });
         }
 
+        public JsonResult FindRoleUsers(string orgId, string roleCode)
+        {
+            throw new NotImplementedException();
+        }
+
         [HttpGet]
         public JsonResult GetChildUnitsByParent(string parentId)
         {
@@ -120,10 +144,20 @@ namespace HH.API.Controllers
             return Json(orgUsers);
         }
 
+        public JsonResult GetManager(string orgId)
+        {
+            throw new NotImplementedException();
+        }
+
         [HttpGet]
         public JsonResult GetOrgUnit(string objectId)
         {
             return Json(this.orgUnitRepository.GetObjectById(objectId));
+        }
+
+        public JsonResult RemoveOrgRole(string objectId)
+        {
+            throw new NotImplementedException();
         }
 
         [HttpGet]
@@ -138,6 +172,11 @@ namespace HH.API.Controllers
         {
             bool res = this.orgUserRepository.RemoveObjectById(objectId);
             return Json(res);
+        }
+
+        public JsonResult UpdateOrgRole([FromBody] OrgRole orgRole)
+        {
+            throw new NotImplementedException();
         }
 
         [HttpPost]

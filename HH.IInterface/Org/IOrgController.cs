@@ -73,7 +73,7 @@ namespace HH.API.IController
         /// <param name="objectId">用户Id</param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult RemoveUser( string objectId);
+        JsonResult RemoveUser(string objectId);
 
         /// <summary>
         /// 根据上级组织ID获取用户
@@ -82,6 +82,51 @@ namespace HH.API.IController
         /// <returns></returns>
         [HttpGet]
         JsonResult GetChildUsersByParent(string parentId);
+        #endregion
+
+        #region  角色信息 -----------------
+        /// <summary>
+        /// 增加组织角色
+        /// </summary>
+        /// <param name="orgRole"></param>
+        /// <returns></returns>
+        [HttpPost]
+        JsonResult AddOrgRole([FromBody]OrgRole orgRole);
+
+        /// <summary>
+        /// 更新组织角色
+        /// </summary>
+        /// <param name="orgRole"></param>
+        /// <returns></returns>
+        [HttpPost]
+        JsonResult UpdateOrgRole([FromBody]OrgRole orgRole);
+
+        /// <summary>
+        ///  删除组织角色
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult RemoveOrgRole(string objectId);
+        #endregion
+
+        #region 找人函数 -----------------
+        /// <summary>
+        /// 根据角色找人
+        /// </summary>
+        /// <param name="orgId">组织Id</param>
+        /// <param name="roleCode">角色编码</param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult FindRoleUsers(string orgId, string roleCode);
+
+        /// <summary>
+        /// 获取组织对象的管理者
+        /// </summary>
+        /// <param name="orgId">组织Id</param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult GetManager(string orgId);
         #endregion
     }
 }

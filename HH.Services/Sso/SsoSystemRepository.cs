@@ -90,7 +90,9 @@ namespace HH.API.Services
 
         public bool ResetSecret(string corpId, string secret, string newSecret)
         {
-            throw new NotImplementedException();
+            SsoSystem ssoSystem = this.GetSsoSystemByCorpId(corpId, secret);
+            ssoSystem.SetSecret(newSecret);
+            return true;
         }
 
         /// <summary>

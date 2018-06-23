@@ -19,6 +19,9 @@ namespace HH.API.Services
 
         }
 
-
+        public OrgRole GetOrgRoleByCode(string code)
+        {
+            return this.GetObjectByKey(OrgRole.PropertyName_Code, code);
+        }
     }
 }
