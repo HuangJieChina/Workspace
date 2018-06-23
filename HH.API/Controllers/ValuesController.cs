@@ -130,7 +130,7 @@ namespace HH.API.Controllers
         [HttpGet("TestAuth")]
         public string TestAuth(string inputValue)
         {
-            return "Test auth->" + inputValue + "," + CurrentUser.ObjectId;
+            return "Test auth->" + inputValue + "," + this.Authorization.ObjectId;
         }
 
         // GET api/values/5
@@ -167,14 +167,14 @@ namespace HH.API.Controllers
             OrgUnit u = new OrgUnit()
             {
                 ObjectId = Guid.NewGuid().ToString(),
-                DisplayName = "Test"
+                UnitName = "Test"
             };
             OrgUnitRepository d = new OrgUnitRepository();
             dynamic result = d.Insert(u);
 
             List<OrgUnit> units = d.GetAll();
 
-            units[0].DisplayName = "修改后的名称" + DateTime.Now.ToLongTimeString();
+            units[0].UnitName = "修改后的名称" + DateTime.Now.ToLongTimeString();
             d.Update(units[0]);
 
 

@@ -105,9 +105,9 @@ namespace HH.API.Services
                 OrgUnit rootUnit = new OrgUnit()
                 {
                     ObjectId = EntityConfig.Org.SystemOrgId,
-                    DisplayName = "我的公司",
+                    UnitName = "我的公司",
                     IsRootUnit = true,
-                    Enabled = true
+                    IsEnabled = true
                 };
                 orgUnitRepository.Insert(rootUnit);
 

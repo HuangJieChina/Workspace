@@ -5,10 +5,11 @@ using Dapper;
 using DapperExtensions;
 using System.Collections.Generic;
 using System.Linq;
+using HH.API.IServices;
 
 namespace HH.API.Services
 {
-    public class OrgUnitRepository : RepositoryBase<OrgUnit>
+    public class OrgUnitRepository : RepositoryBase<OrgUnit>, IOrgUnitRepository
     {
         /// <summary>
         /// 构造函数
@@ -16,6 +17,27 @@ namespace HH.API.Services
         public OrgUnitRepository()
         {
 
+        }
+
+        public List<OrgUnit> GetChildUnitsByParent(string parentId, bool recursive)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 是否存在指定名称的组织对象
+        /// </summary>
+        /// <param name="parentId"></param>
+        /// <param name="unitName"></param>
+        /// <returns></returns>
+        public bool IsExistsOrgName(string parentId, string unitName)
+        {
+            IList<IPredicate> predList = new List<IPredicate>();
+            predList.Add(Predicates.Field<OrgUnit>(p => p.ParentId, Operator.Eq, parentId));
+            predList.Add(Predicates.Field<OrgUnit>(p => p.UnitName, Operator.Eq, unitName));
+            IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
+
+            return this.GetSingle(predGroup) != null;
         }
 
         /// <summary>
@@ -33,7 +55,7 @@ namespace HH.API.Services
             IList<IPredicate> predList = new List<IPredicate>();
             if (!string.IsNullOrWhiteSpace(displayName))
             {
-                predList.Add(Predicates.Field<OrgUnit>(p => p.DisplayName, Operator.Like, displayName));
+                predList.Add(Predicates.Field<OrgUnit>(p => p.UnitName, Operator.Like, displayName));
             }
             IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
 

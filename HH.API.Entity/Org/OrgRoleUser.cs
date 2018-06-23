@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -26,8 +27,26 @@ namespace HH.API.Entity
         public string UserId { get; set; }
 
         /// <summary>
+        /// 获取或设置当前用户管理范围的存储对象
+        /// </summary>
+        [JsonIgnore]
+        [StringLength(4000)]
+        public string UnitScopesValue
+        {
+            get
+            {
+                return JsonConvert.SerializeObject(this.UnitScopes);
+            }
+            set
+            {
+                this.UnitScopes = JsonConvert.DeserializeObject<List<string>>(value);
+            }
+        }
+
+        /// <summary>
         /// 获取或设置当前用户做为本角色的服务范围，默认服务范围为本组织
         /// </summary>
+        [NotMapped]
         public List<string> UnitScopes { get; set; }
 
         /// <summary>

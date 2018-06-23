@@ -185,8 +185,17 @@ namespace HH.API.Services
             {
                 result = conn.QueryFirst<T>(sql, parameters);
             }
-            // 加入缓存
-            currentCache.Save(value, result);
+            // KeyCache和EntityCache指向同一个实例
+            if (this.EntityCache.Get(result.ObjectId) != null)
+            {
+                currentCache.Save(value, this.EntityCache.Get(result.ObjectId));
+            }
+            else
+            {
+                this.EntityCache.Save(result); // 注意：这里不是完全线程安全的
+                // 加入缓存
+                currentCache.Save(value, result);
+            }
             return result;
         }
 
@@ -222,6 +231,18 @@ namespace HH.API.Services
             {
                 return conn.GetList<T>(predicate, sort).AsList();
             }
+        }
+
+        /// <summary>
+        /// 查询单条数据
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public virtual T GetSingle(object predicate = null)
+        {
+            List<T> result = this.GetList(predicate);
+            if (result != null && result.Count > 0) return result[0];
+            return default(T);
         }
 
         /// <summary>

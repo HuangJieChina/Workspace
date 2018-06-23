@@ -28,12 +28,17 @@ namespace HH.API.Entity
         /// </summary>
         [StringLength(50, MinimumLength = 1)]
         [Required]
-        public string Name { get; set; }
+        public string RoleName { get; set; }
+
+        /// <summary>
+        /// 获取或设置是否激活
+        /// </summary>
+        public bool IsEnabled { get; set; }
 
         /// <summary>
         /// 获取或设置角色类型
         /// </summary>
-        public UnitType RoleType { get; set; }
+        public OrgRoleType RoleType { get; set; }
 
         /// <summary>
         /// 获取是否是全部用户组
@@ -54,23 +59,9 @@ namespace HH.API.Entity
         {
             get
             {
-                return EntityConfig.Table.OrgUser;
+                return EntityConfig.Table.OrgRole;
             }
         }
     }
 
-    /// <summary>
-    /// 组织类型
-    /// </summary>
-    public enum UnitType
-    {
-        /// <summary>
-        /// 系统组织
-        /// </summary>
-        System,
-        /// <summary>
-        /// 用户组织
-        /// </summary>
-        User
-    }
 }

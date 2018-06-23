@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HH.API.Entity;
+using System;
+using System.Collections.Generic;
 using Test.Test;
 
 namespace Test

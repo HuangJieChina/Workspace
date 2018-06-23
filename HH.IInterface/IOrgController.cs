@@ -47,7 +47,7 @@ namespace HH.API.IController
         /// <param name="objectId">组织ID</param>
         /// <returns></returns>
         [HttpGet]
-        OrgUnit GetUnit(string objectId);
+        JsonResult GetOrgUnit(string objectId);
         #endregion
 
         #region 用户信息 -----------------

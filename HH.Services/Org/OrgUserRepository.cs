@@ -6,10 +6,11 @@ using DapperExtensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Common;
+using HH.API.IServices;
 
 namespace HH.API.Services
 {
-    public class OrgUserRepository : RepositoryBase<OrgUser>
+    public class OrgUserRepository : RepositoryBase<OrgUser>, IOrgUserRepository
     {
         /// <summary>
         /// 构造函数
@@ -19,6 +20,22 @@ namespace HH.API.Services
 
         }
 
+        public List<OrgUser> GetChildUsersByParent(string parentId, bool recursive)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 根据用户编码获取用户
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public OrgUser GetOrgUserByCode(string code)
+        {
+            return this.GetObjectByKey(OrgUser.PropertyName_Code, code);
+        }
+
+        #region DEMO 测试 ----------------------
         /// <summary>
         /// 查询用户信息
         /// </summary>
@@ -73,6 +90,6 @@ namespace HH.API.Services
             // 执行结果
             return this.GetPageList(sqlCount, sqlQuery, pageIndex, pageSize, out recordCount, predGroup, sort);
         }
-
+        #endregion
     }
 }
