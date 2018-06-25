@@ -20,8 +20,6 @@ namespace HH.API.Services
 
         }
 
-        private static object lockObject = new object();
-
         private static ServiceRegister _Instance = null;
         /// <summary>
         /// 获取对象实例
@@ -49,6 +47,8 @@ namespace HH.API.Services
 
         private static bool initialized = false;
 
+        private readonly static object lockObject = new object();
+
         /// <summary>
         /// 服务初始化
         /// </summary>
@@ -59,11 +59,11 @@ namespace HH.API.Services
                 Monitor.Enter(lockObject);
                 if (initialized) return;
 
+                initialized = true;
+
                 // 主体操作开始 -------
                 this.InitialData();
                 // End
-
-                initialized = true;
             }
             finally
             {
@@ -80,6 +80,8 @@ namespace HH.API.Services
             VerifyLicense();
             // TODO:服务数据初始化过程
             InitialFunctionNode();
+            // 初始化组织
+            InitialOrg();
         }
 
         /// <summary>
@@ -105,8 +107,8 @@ namespace HH.API.Services
         /// </summary>
         private void InitialOrg()
         {
-            OrgUnitRepository orgUnitRepository = ServiceFactory.Instance.GetServices<OrgUnitRepository>();
-            OrgUserRepository orgUserRepository = ServiceFactory.Instance.GetServices<OrgUserRepository>();
+            OrgUnitRepository orgUnitRepository = new OrgUnitRepository();
+            OrgUserRepository orgUserRepository = new OrgUserRepository();
 
             if (orgUnitRepository.Count() == 0)
             {

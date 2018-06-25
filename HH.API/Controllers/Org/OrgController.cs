@@ -56,20 +56,30 @@ namespace HH.API.Controllers
         }
 
         /// <summary>
+        /// 获取组织根节点
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetRootUnit")]
+        public JsonResult GetRootUnit()
+        {
+            return Json(this.orgUnitRepository.RootUnit);
+        }
+
+        /// <summary>
         /// 新增组织单元
         /// </summary>
         /// <param name="orgUnit"></param>
         /// <returns></returns>
-        [HttpPost]
-        public JsonResult AddUnit([FromBody] OrgUnit orgUnit)
+        [HttpPost("AddOrgUnit")]
+        public JsonResult AddOrgUnit([FromBody] OrgUnit orgUnit)
         {
             #region 数据格式校验 -----------------
             // 数据格式校验
             JsonResult validateResult = null;
-            if (this.DataValidator<OrgUnit>(orgUnit, out validateResult)) return validateResult;
+            if (!this.DataValidator<OrgUnit>(orgUnit, out validateResult)) return validateResult;
 
             // 验证上级组织是否存在
-            OrgUnit parentUnit = this.orgUnitRepository.GetObjectById(orgUnit.ObjectId);
+            OrgUnit parentUnit = this.orgUnitRepository.GetObjectById(orgUnit.ParentId);
             if (parentUnit == null)
             {
                 return Json(new APIResult()
@@ -96,6 +106,11 @@ namespace HH.API.Controllers
             return Json(new APIResult() { ResultCode = ResultCode.Success, Extend = orgUnit });
         }
 
+        /// <summary>
+        /// 新增用户信息
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult AddUser([FromBody]OrgUser user)
         {
@@ -124,6 +139,9 @@ namespace HH.API.Controllers
                 });
             }
             #endregion
+            // 设置密码为加密方式
+            user.SetPassword(user.Password);
+
             dynamic result = this.orgUserRepository.Insert(user);
             return Json(new APIResult() { ResultCode = ResultCode.Success, Extend = user });
         }
@@ -166,6 +184,7 @@ namespace HH.API.Controllers
             return Json(this.orgUnitRepository.GetObjectById(objectId));
         }
 
+        [HttpGet("RemoveOrgRole")]
         public JsonResult RemoveOrgRole(string objectId)
         {
             bool res = this.orgRoleRepository.RemoveObjectById(objectId);
@@ -173,7 +192,7 @@ namespace HH.API.Controllers
         }
 
         [HttpGet]
-        public JsonResult RemoveUnit(string objectId)
+        public JsonResult RemoveOrgUnit(string objectId)
         {
             bool res = this.orgUnitRepository.RemoveObjectById(objectId);
             return Json(res);
@@ -186,6 +205,13 @@ namespace HH.API.Controllers
             return Json(res);
         }
 
+        [HttpGet]
+        public JsonResult ResetPassword(string userCode, string oldPassword, string newPassword)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
         public JsonResult UpdateOrgRole([FromBody]OrgRole orgRole)
         {
             bool res = this.orgRoleRepository.Update(orgRole);
@@ -193,12 +219,17 @@ namespace HH.API.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateUnit([FromBody]OrgUnit orgUnit)
+        public JsonResult UpdateOrgUnit([FromBody]OrgUnit orgUnit)
         {
             bool res = this.orgUnitRepository.Update(orgUnit);
             return Json(res);
         }
 
+        /// <summary>
+        /// 更新用户
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult UpdateUser([FromBody]OrgUser user)
         {

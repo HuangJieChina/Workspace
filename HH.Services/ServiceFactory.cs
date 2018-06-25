@@ -52,9 +52,7 @@ namespace HH.API.Services
                 {
                     return services[fullName] as T;
                 }
-                // 初始化数据，License验证
-                ServiceRegister.Instance.Initial();
-
+                
                 T t = new T();
                 services.Add(fullName, t);
                 return t;

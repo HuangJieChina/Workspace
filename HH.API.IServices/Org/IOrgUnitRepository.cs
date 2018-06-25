@@ -33,5 +33,10 @@ namespace HH.API.IServices
         /// <param name="recursive">是否递归</param>
         /// <returns>返回子组织对象集合</returns>
         List<OrgUnit> GetChildUnitsByParent(string parentId, bool recursive);
+
+        /// <summary>
+        /// 获取组织根节点
+        /// </summary>
+        OrgUnit RootUnit { get; }
     }
 }

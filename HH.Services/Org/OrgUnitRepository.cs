@@ -19,6 +19,17 @@ namespace HH.API.Services
 
         }
 
+        /// <summary>
+        /// 获取组织根节点
+        /// </summary>
+        public OrgUnit RootUnit
+        {
+            get
+            {
+                return this.GetObjectByKey(OrgUnit.PropertyName_IsRootUnit, "1");
+            }
+        }
+
         public List<OrgUnit> GetChildUnitsByParent(string parentId, bool recursive)
         {
             throw new NotImplementedException();

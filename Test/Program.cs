@@ -11,9 +11,12 @@ namespace Test
         {
             Console.WriteLine("Hello World!");
 
-            ValuesTest valuesTest = new ValuesTest();
-            valuesTest.Test_Method1();
-            valuesTest.Test_Test3();
+            OrgTest orgTest = new OrgTest();
+            orgTest.Test_AddUnit();
+
+            //ValuesTest valuesTest = new ValuesTest();
+            //valuesTest.Test_Method1();
+            //valuesTest.Test_Test3();
 
             Console.ReadLine();
         }

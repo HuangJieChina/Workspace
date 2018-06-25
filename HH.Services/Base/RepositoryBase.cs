@@ -45,6 +45,9 @@ namespace HH.API.Services
                 new List<Assembly>(),
                 sqlDialect);
 
+            // 表结构验证
+            this.CheckTableSchema();
+
             // 注册码校验
             ServiceRegister.Instance.Initial();
         }
@@ -107,7 +110,18 @@ namespace HH.API.Services
         }
 
         /// <summary>
-        /// 获取数据库连接对象
+        /// 确认表结构已经创建
+        /// </summary>
+        private void CheckTableSchema()
+        {
+            using (var conn = ConnectionFactory.DefaultConnection())
+            {
+                conn.Get<T>(Guid.Empty.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 获取数据库连接对象(注意使用后一定要立即关闭)
         /// </summary>
         /// <returns></returns>
         public DbConnection OpenConnection()

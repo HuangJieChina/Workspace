@@ -10,12 +10,15 @@ namespace HH.API.IController
     public interface IOrgController : IBaseController
     {
         #region 组织机构 -----------------
+        [HttpGet("GetRootUnit")]
+        JsonResult GetRootUnit();
+
         /// <summary>
         /// 添加组织信息
         /// </summary>
         /// <param name="orgUnit">组织对象</param>
         [HttpPost]
-        JsonResult AddUnit([FromBody]OrgUnit orgUnit);
+        JsonResult AddOrgUnit([FromBody]OrgUnit orgUnit);
 
         /// <summary>
         /// 删除组织信息
@@ -23,7 +26,7 @@ namespace HH.API.IController
         /// <param name="objectId">组织Id</param>
         /// <returns>返回结果</returns>
         [HttpGet]
-        JsonResult RemoveUnit(string objectId);
+        JsonResult RemoveOrgUnit(string objectId);
 
         /// <summary>
         /// 更新组织信息
@@ -31,7 +34,7 @@ namespace HH.API.IController
         /// <param name="orgUnit">组织对象</param>
         /// <returns></returns>
         [HttpPost]
-        JsonResult UpdateUnit([FromBody]OrgUnit orgUnit);
+        JsonResult UpdateOrgUnit([FromBody]OrgUnit orgUnit);
 
         /// <summary>
         /// 根据上级组织ID获取子组织单元
@@ -51,6 +54,16 @@ namespace HH.API.IController
         #endregion
 
         #region 用户信息 -----------------
+        /// <summary>
+        /// 用户密码重置
+        /// </summary>
+        /// <param name="userCode"></param>
+        /// <param name="oldPassword"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult ResetPassword(string userCode, string oldPassword, string newPassword);
+
         /// <summary>
         /// 新增用户
         /// </summary>

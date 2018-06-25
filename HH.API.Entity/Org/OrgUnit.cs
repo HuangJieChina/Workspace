@@ -25,6 +25,9 @@ namespace HH.API.Entity
         /// </summary>
         public int SortOrder { get; set; }
 
+
+        public const string PropertyName_IsRootUnit = "IsRootUnit";
+
         /// <summary>
         /// 获取或设置是否根节点
         /// </summary>

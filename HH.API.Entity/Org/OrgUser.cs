@@ -77,10 +77,15 @@ namespace HH.API.Entity
         /// </summary>
         public bool RelationUserId { get; set; }
 
+        private DateTime _BirthDay = new DateTime(1980, 1, 1);
         /// <summary>
         /// 获取或设置用户生日
         /// </summary>
-        public DateTime BirthDay { get; set; }
+        public DateTime BirthDay
+        {
+            get { return this._BirthDay; }
+            set { this._BirthDay = value; }
+        }
 
         /// <summary>
         /// 获取或设置用户性别,男=0，女=1
@@ -103,6 +108,25 @@ namespace HH.API.Entity
         /// 获取或设置用户是否超级管理员
         /// </summary>
         public bool IsAdministrator { get; set; }
+
+        /// <summary>
+        /// 设置用户密码
+        /// </summary>
+        /// <param name="password"></param>
+        public void SetPassword(string password)
+        {
+            this.Password = this.GetMD5Encrypt32(password);
+        }
+
+        /// <summary>
+        /// 检查密码是否匹配
+        /// </summary>
+        /// <param name="password">用户密码</param>
+        /// <returns></returns>
+        public bool ValidatePassword(string password)
+        {
+            return this.GetMD5Encrypt32(password).Equals(this.Password);
+        }
 
         /// <summary>
         /// 获取数据库表名

@@ -77,7 +77,7 @@ namespace Test
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.ToString());
             }
             return result;
         }
