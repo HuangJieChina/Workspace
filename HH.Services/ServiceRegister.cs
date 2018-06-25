@@ -1,4 +1,5 @@
 ﻿using HH.API.Entity;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,6 +20,8 @@ namespace HH.API.Services
 
         }
 
+        private static object lockObject = new object();
+
         private static ServiceRegister _Instance = null;
         /// <summary>
         /// 获取对象实例
@@ -29,7 +32,7 @@ namespace HH.API.Services
             {
                 try
                 {
-                    Monitor.Enter(_Instance);
+                    Monitor.Enter(lockObject);
 
                     if (_Instance == null)
                     {
@@ -38,7 +41,7 @@ namespace HH.API.Services
                 }
                 finally
                 {
-                    Monitor.Exit(_Instance);
+                    Monitor.Exit(lockObject);
                 }
                 return _Instance;
             }
@@ -51,7 +54,21 @@ namespace HH.API.Services
         /// </summary>
         public void Initial()
         {
-            VerifyLicense();
+            try
+            {
+                Monitor.Enter(lockObject);
+                if (initialized) return;
+
+                // 主体操作开始 -------
+                this.InitialData();
+                // End
+
+                initialized = true;
+            }
+            finally
+            {
+                Monitor.Exit(lockObject);
+            }
         }
 
         /// <summary>
@@ -59,19 +76,10 @@ namespace HH.API.Services
         /// </summary>
         private void InitialData()
         {
-            try
-            {
-                Monitor.Enter(initialized);
-                if (initialized) return;
-
-                // TODO:服务数据初始化过程
-                InitialFunctionNode();
-                initialized = true;
-            }
-            finally
-            {
-                Monitor.Exit(initialized);
-            }
+            // 校验注册码
+            VerifyLicense();
+            // TODO:服务数据初始化过程
+            InitialFunctionNode();
         }
 
         /// <summary>
@@ -141,7 +149,8 @@ namespace HH.API.Services
         /// <param name="e"></param>
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            Console.WriteLine("注册码检查");
+            LogManager.GetCurrentClassLogger().Error("注册码检查");
+            // Console.WriteLine("注册码检查");
         }
     }
 }

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace HH.API.Entity
 {
     /// <summary>
-    /// 角色类
+    /// 角色类(角色表和组织无关)
     /// </summary>
     [Serializable]
     public class OrgRole : EntityBase

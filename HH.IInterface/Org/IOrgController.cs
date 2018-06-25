@@ -114,19 +114,19 @@ namespace HH.API.IController
         /// <summary>
         /// 根据角色找人
         /// </summary>
-        /// <param name="orgId">组织Id</param>
+        /// <param name="objectId">组织Id</param>
         /// <param name="roleCode">角色编码</param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult FindRoleUsers(string orgId, string roleCode);
+        JsonResult FindRoleUsers(string objectId, string roleCode);
 
         /// <summary>
         /// 获取组织对象的管理者
         /// </summary>
-        /// <param name="orgId">组织Id</param>
+        /// <param name="objectId">组织Id</param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult GetManager(string orgId);
+        JsonResult GetManager(string objectId);
         #endregion
     }
 }

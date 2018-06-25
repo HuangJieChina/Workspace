@@ -9,7 +9,7 @@ namespace HH.API.Entity
     /// 组织用户类
     /// </summary>
     [Serializable]
-    public class OrgUser : EntityBase
+    public class OrgUser : OrganizationObject
     {
         public const string PropertyName_Code = "Code";
         /// <summary>
@@ -67,32 +67,15 @@ namespace HH.API.Entity
         public string WeChatId { get; set; }
 
         /// <summary>
-        /// 获取或设置用户所属组织Id
-        /// </summary>
-        [Column(TypeName = "char")]
-        [StringLength(36)]
-        public string ParentId { get; set; }
-
-        /// <summary>
         /// 获取或设置用户的密码(MD5加密)
         /// </summary>
         [StringLength(64, MinimumLength = 6)]
         public string Password { get; set; }
 
         /// <summary>
-        /// 获取或设置用户的上级经理
-        /// </summary>
-        public string ManagerId { get; set; }
-
-        /// <summary>
         /// 获取或设置虚拟用户关联的真实用户Id
         /// </summary>
         public bool RelationUserId { get; set; }
-
-        /// <summary>
-        /// 获取或设置同步源的用户ID
-        /// </summary>
-        public string SourceId { get; set; }
 
         /// <summary>
         /// 获取或设置用户生日
@@ -103,12 +86,6 @@ namespace HH.API.Entity
         /// 获取或设置用户性别,男=0，女=1
         /// </summary>
         public int Gender { get; set; }
-
-
-        /// <summary>
-        /// 获取或设置用户是否启用
-        /// </summary>
-        public bool IsEnabled { get; set; }
 
         /// <summary>
         /// 获取或设置是否系统用户
@@ -126,7 +103,6 @@ namespace HH.API.Entity
         /// 获取或设置用户是否超级管理员
         /// </summary>
         public bool IsAdministrator { get; set; }
-
 
         /// <summary>
         /// 获取数据库表名

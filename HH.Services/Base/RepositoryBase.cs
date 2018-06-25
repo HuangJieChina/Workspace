@@ -44,6 +44,9 @@ namespace HH.API.Services
             DapperExtensions.DapperExtensions.Configure(typeof(ClassMapperBase<>),
                 new List<Assembly>(),
                 sqlDialect);
+
+            // 注册码校验
+            ServiceRegister.Instance.Initial();
         }
 
         private IEntityCache<T> _EntityCache = null;

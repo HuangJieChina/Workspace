@@ -106,10 +106,10 @@ namespace HH.API.Controllers
             };
         }
 
-        [HttpGet("Test1/{inputValue}")]
-        public JsonResult Test1(string inputValue)
+        [HttpGet("Test1/{inputValue1}/{inputValue2}")]
+        public JsonResult Test1(string inputValue1, string inputValue2)
         {
-            return Json(new { Result = "Test1->" + inputValue });
+            return Json(new { Result = "Test1->" + inputValue1 + "," + inputValue2 });
         }
 
         [HttpGet("Test2")]
@@ -134,7 +134,7 @@ namespace HH.API.Controllers
         }
 
         // GET api/values/5
-        [HttpGet]
+        [HttpGet("AddUnit")]
         public APIResult AddUnit(OrgUnit unit)
         {
             TestRepository test = new TestRepository();

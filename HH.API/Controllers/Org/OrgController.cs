@@ -19,18 +19,21 @@ namespace HH.API.Controllers
         public IOrgUnitRepository orgUnitRepository = null;
         public IOrgUserRepository orgUserRepository = null;
         public IOrgRoleRepository orgRoleRepository = null;
+        public IOrgGroupRepository orgGroupRepository = null;
         public IOrgRoleUserRepository orgRoleUserRepository = null;
         #endregion
 
         public OrgController(IOrgUnitRepository orgUnitRepository,
             IOrgUserRepository orgUserRepository,
             IOrgRoleRepository orgRoleRepository,
-            IOrgRoleUserRepository orgRoleUserRepository)
+            IOrgRoleUserRepository orgRoleUserRepository,
+            IOrgGroupRepository orgGroupRepository)
         {
             this.orgUnitRepository = orgUnitRepository;
             this.orgUserRepository = orgUserRepository;
             this.orgRoleRepository = orgRoleRepository;
             this.orgRoleUserRepository = orgRoleUserRepository;
+            this.orgGroupRepository = orgGroupRepository;
         }
 
         public JsonResult AddOrgRole([FromBody] OrgRole orgRole)
@@ -125,7 +128,7 @@ namespace HH.API.Controllers
             return Json(new APIResult() { ResultCode = ResultCode.Success, Extend = user });
         }
 
-        public JsonResult FindRoleUsers(string orgId, string roleCode)
+        public JsonResult FindRoleUsers(string objectId, string roleCode)
         {
             throw new NotImplementedException();
         }
@@ -144,9 +147,17 @@ namespace HH.API.Controllers
             return Json(orgUsers);
         }
 
-        public JsonResult GetManager(string orgId)
+        /// <summary>
+        /// 获取经理(用户/组织/用户组)
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetManager(string objectId)
         {
-            throw new NotImplementedException();
+            OrganizationObject organizationObject = this.GetOrganizationObjectById(objectId);
+            OrgUser user = this.orgUserRepository.GetObjectById(organizationObject.ManagerId);
+            return Json(user);
         }
 
         [HttpGet]
@@ -157,7 +168,8 @@ namespace HH.API.Controllers
 
         public JsonResult RemoveOrgRole(string objectId)
         {
-            throw new NotImplementedException();
+            bool res = this.orgRoleRepository.RemoveObjectById(objectId);
+            return Json(res);
         }
 
         [HttpGet]
@@ -174,23 +186,44 @@ namespace HH.API.Controllers
             return Json(res);
         }
 
-        public JsonResult UpdateOrgRole([FromBody] OrgRole orgRole)
+        public JsonResult UpdateOrgRole([FromBody]OrgRole orgRole)
         {
-            throw new NotImplementedException();
+            bool res = this.orgRoleRepository.Update(orgRole);
+            return Json(res);
         }
 
         [HttpPost]
-        public JsonResult UpdateUnit([FromBody] OrgUnit orgUnit)
+        public JsonResult UpdateUnit([FromBody]OrgUnit orgUnit)
         {
             bool res = this.orgUnitRepository.Update(orgUnit);
             return Json(res);
         }
 
         [HttpPost]
-        public JsonResult UpdateUser([FromBody] OrgUser user)
+        public JsonResult UpdateUser([FromBody]OrgUser user)
         {
             bool res = this.orgUserRepository.Update(user);
             return Json(res);
         }
+
+        #region 私有方法 ---------------------------
+        /// <summary>
+        /// 根据组织Id获取组织对象
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <returns></returns>
+        protected OrganizationObject GetOrganizationObjectById(string objectId)
+        {
+            OrganizationObject organizationObject = null;
+            organizationObject = this.orgUnitRepository.GetObjectById(objectId) as OrganizationObject;
+            if (organizationObject != null) return organizationObject;
+
+            organizationObject = this.orgUserRepository.GetObjectById(objectId) as OrganizationObject;
+            if (organizationObject != null) return organizationObject;
+
+            organizationObject = this.orgGroupRepository.GetObjectById(objectId) as OrganizationObject;
+            return organizationObject;
+        }
+        #endregion
     }
 }

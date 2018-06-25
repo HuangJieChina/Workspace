@@ -43,6 +43,11 @@ namespace HH.API.Entity
             public const string OrgRole = "OrgRole";
 
             /// <summary>
+            /// 用户组
+            /// </summary>
+            public const string OrgGroup = "OrgGroup";
+
+            /// <summary>
             /// 角色/用户表
             /// </summary>
             public const string OrgRoleUser = "OrgRoleUser";
