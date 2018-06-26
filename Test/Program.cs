@@ -11,8 +11,12 @@ namespace Test
         {
             Console.WriteLine("Hello World!");
 
-            OrgTest orgTest = new OrgTest();
-            orgTest.Test_AddUnit();
+            //OrgTest orgTest = new OrgTest();
+            //orgTest.Test_AddUnit();
+
+            WorkflowManagerTest workflowManagerTest = new WorkflowManagerTest();
+            workflowManagerTest.Test_AddFolder();
+            workflowManagerTest.Test_AddWorkflowPackage();
 
             //ValuesTest valuesTest = new ValuesTest();
             //valuesTest.Test_Method1();

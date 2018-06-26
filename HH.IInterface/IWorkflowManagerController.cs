@@ -19,7 +19,7 @@ namespace HH.API.IController
         /// <param name="sortOrder"></param>
         /// <param name="isRoot"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("AddWorkflowFolder")]
         JsonResult AddWorkflowFolder(string parentId,
             string functionName,
             int sortOrder,

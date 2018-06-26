@@ -98,6 +98,10 @@ namespace HH.API.Entity
 
             public const string BizWorkItemFinished = "BizWorkItemFinished";
 
+            /// <summary>
+            /// 目录表
+            /// </summary>
+            public const string SysFunctionNode = "SysFunctionNode";
 
             /// <summary>
             /// Vessel表

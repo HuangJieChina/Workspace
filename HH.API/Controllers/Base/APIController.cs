@@ -45,6 +45,17 @@ namespace HH.API.Controllers
         }
 
         /// <summary>
+        /// 获取日志写入对象
+        /// </summary>
+        public Logger LogWriter
+        {
+            get
+            {
+                return NLog.LogManager.GetCurrentClassLogger();
+            }
+        }
+
+        /// <summary>
         /// 实体格式数据校验
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -100,6 +111,8 @@ namespace HH.API.Controllers
             });
         }
         #endregion
+
+
     }
 
     /// <summary>

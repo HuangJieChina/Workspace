@@ -24,6 +24,11 @@ namespace HH.API
         /// </summary>
         DataFromatError = 1,
 
+        /// <summary>
+        /// 名称重复
+        /// </summary>
+        NameDuplicate = 2,
+
         #region 组织机构服务以10开头
         /// <summary>
         /// 编码重复

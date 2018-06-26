@@ -34,6 +34,8 @@ namespace HH.API.Entity.BizObject
         /// </summary>
         public string SchemaCode { get; set; }
 
+        public const string PropertyName_SheetCode = "SheetCode";
+
         /// <summary>
         /// 获取或设置表单编码
         /// </summary>

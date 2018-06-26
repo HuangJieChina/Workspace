@@ -74,6 +74,7 @@ namespace HH.API.Entity.BizObject
         /// <summary>
         /// 获取数据库表名
         /// </summary>
+        [NotMapped]
         public override string TableName
         {
             get

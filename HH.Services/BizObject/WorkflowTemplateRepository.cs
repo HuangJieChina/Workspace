@@ -20,5 +20,20 @@ namespace HH.API.Services
         {
 
         }
+
+        public List<WorkflowTemplate> GetPublishedWorkflowTemplates(string workflowCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public WorkflowTemplate GetWorkflowTemplate(string workflowCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public WorkflowTemplate GetWorkflowTemplate(string workflowCode, int workflowVersion)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

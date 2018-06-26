@@ -10,6 +10,7 @@ using HH.API.IController;
 using HH.API.IServices;
 using Microsoft.AspNetCore.Authorization;
 
+
 namespace HH.API.Controllers
 {
     [Route("api/[controller]")]
@@ -39,15 +40,6 @@ namespace HH.API.Controllers
             this.functionNodeRepository = functionNodeRepository;
         }
 
-        [AllowAnonymous]
-        [HttpGet("Test1")]
-        public JsonResult Test1(string inputV)
-        {
-            this.workflowPackageRepository.Count++;
-            inputV = this.workflowPackageRepository.SayHello(inputV);
-            return Json(new { X = "OK=" + inputV });
-        }
-
         [HttpPost]
         public JsonResult AddBizProperty([FromBody] BizProperty property)
         {
@@ -59,7 +51,7 @@ namespace HH.API.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpGet]
+        [HttpGet("AddWorkflowFolder")]
         public JsonResult AddWorkflowFolder(string parentId,
             string functionName,
             int sortOrder,
@@ -70,21 +62,46 @@ namespace HH.API.Controllers
                 sortOrder,
                 isRoot,
                 FunctionType.WorkflowPackage);
+            // 根节点设置 ParentId 为null
+            if (isRoot) parentId = null;
 
-            this.functionNodeRepository.Insert(functionNode);
+            #region 数据格式校验 ---------
+            if (this.functionNodeRepository.GetFunctionNodeByName(FunctionType.WorkflowPackage, parentId, functionName) != null)
+            {
+                return Json(new APIResult()
+                {
+                    ResultCode = ResultCode.NameDuplicate,
+                    Message = "This name is already exists."
+                });
+            }
+            if (!isRoot)
+            {// TODO:判断ParentId是否存在
+                FunctionNode parentNode = this.functionNodeRepository.GetObjectById(parentId);
+                if (functionNode == null)
+                {
+                    return Json(new APIResult()
+                    {
+                        ResultCode = ResultCode.ParentNotExists,
+                        Message = "Parent is not exists."
+                    });
+                }
+            }
+            #endregion
 
-            return Json(functionNode);
+            dynamic res = this.functionNodeRepository.Insert(functionNode);
+
+            return Json(res);
         }
 
-        [HttpGet]
+        [HttpGet("GetRootFolders")]
         public JsonResult GetRootFolders()
         {
             List<FunctionNode> roots = this.functionNodeRepository.GetRootFunctionNodesByType(FunctionType.WorkflowPackage);
             return Json(roots);
         }
 
-        [HttpGet]
-        public JsonResult GetSubFolders( string parentId)
+        [HttpGet("GetSubFolders")]
+        public JsonResult GetSubFolders(string parentId)
         {
             List<FunctionNode> functionNodes = this.functionNodeRepository.GetSubFunctionNodesByParent(parentId);
             return Json(functionNodes);
@@ -93,14 +110,28 @@ namespace HH.API.Controllers
         /// <summary>
         /// 添加流程包
         /// </summary>
-        /// <param name="workflowPackage"></param>
+        /// <param name="folderId"></param>
+        /// <param name="packageCode"></param>
+        /// <param name="packageName"></param>
+        /// <param name="sortOrder"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("AddWorkflowPackage")]
         public JsonResult AddWorkflowPackage(string folderId,
             string packageCode,
             string packageName,
             int sortOrder)
         {
+            #region 数据格式校验 -----------------------
+            if (this.workflowPackageRepository.GetWorkflowPackageByCode(packageCode) != null)
+            {// 编码已经存在
+                return Json(new APIResult()
+                {
+                    ResultCode = ResultCode.CodeDuplicate,
+                    Message = "Workflow package code is already exists."
+                });
+            }
+            #endregion
+
             // 新增 WorkflowPackage
             WorkflowPackage workflowPackage = new WorkflowPackage(folderId, packageCode, packageName, sortOrder);
             this.workflowPackageRepository.Insert(workflowPackage);
@@ -112,7 +143,15 @@ namespace HH.API.Controllers
             // 新增 默认表单
             BizSheet sheet = new BizSheet();
             sheet.Initial(packageCode, this.Authorization.ObjectId);
-            this.bizSheetRepository.Insert(sheet);
+            if (this.bizSheetRepository.GetBizSheetByCode(sheet.SheetCode) == null)
+            {
+                this.bizSheetRepository.Insert(sheet);
+            }
+            else
+            {
+                this.LogWriter.Warn(string.Format("系统表单未自动创建，因为已经存在相同的表单编号：{0}",
+                    sheet.SheetCode));
+            }
 
             // 新增 默认流程
             WorkflowTemplate workflow = new WorkflowTemplate(packageCode,
@@ -120,7 +159,15 @@ namespace HH.API.Controllers
                 packageName,
                 this.Authorization.ObjectId,
                 sortOrder);
-            this.workflowTemplateRepository.Insert(workflow);
+            if (this.workflowTemplateRepository.GetWorkflowTemplate(workflow.WorkflowCode) == null)
+            {
+                this.workflowTemplateRepository.Insert(workflow);
+            }
+            else
+            {
+                this.LogWriter.Warn(string.Format("流程模板未自动创建，因为已经存在相同的流程模板编号：{0}",
+                    workflow.WorkflowCode));
+            }
 
             return Json(new APIResult() { Message = "OK", ResultCode = ResultCode.Success });
         }
@@ -172,12 +219,12 @@ namespace HH.API.Controllers
             throw new NotImplementedException();
         }
 
-        public JsonResult RemoveBizProperty( string schemaCode)
+        public JsonResult RemoveBizProperty(string schemaCode)
         {
             throw new NotImplementedException();
         }
 
-        public JsonResult RemoveWorkflowPackage( string schemaCode)
+        public JsonResult RemoveWorkflowPackage(string schemaCode)
         {
             throw new NotImplementedException();
         }

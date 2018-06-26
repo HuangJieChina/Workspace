@@ -19,6 +19,27 @@ namespace HH.API.Services
 
         }
 
+        public FunctionNode GetFunctionNodeByName(FunctionType functionType, string parentId, string functionName)
+        {
+            // 查询条件
+            IList<IPredicate> predList = new List<IPredicate>();
+
+            predList.Add(Predicates.Field<FunctionNode>(p => p.FunctionType, Operator.Eq, (int)functionType));
+            if (string.IsNullOrEmpty(parentId))
+            {
+                predList.Add(Predicates.Field<FunctionNode>(p => p.IsRoot, Operator.Eq, "1"));
+            }
+            else
+            {
+                predList.Add(Predicates.Field<FunctionNode>(p => p.ParentId, Operator.Eq, parentId));
+            }
+            predList.Add(Predicates.Field<FunctionNode>(p => p.FunctionName, Operator.Eq, functionName));
+
+            IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
+
+            return this.GetSingle(predGroup);
+        }
+
         /// <summary>
         /// 根据业务类型获取根节点集合
         /// </summary>

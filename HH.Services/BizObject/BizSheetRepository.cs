@@ -19,5 +19,10 @@ namespace HH.API.Services
         {
 
         }
+
+        public BizSheet GetBizSheetByCode(string sheetCode)
+        {
+            return this.GetObjectByKey(BizSheet.PropertyName_SheetCode, sheetCode);
+        }
     }
 }

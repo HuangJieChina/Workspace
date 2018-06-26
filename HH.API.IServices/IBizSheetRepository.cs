@@ -11,6 +11,11 @@ namespace HH.API.IServices
     /// </summary>
     public interface IBizSheetRepository : IRepositoryBase<BizSheet>
     {
-
+        /// <summary>
+        /// 获取或设置表单编码
+        /// </summary>
+        /// <param name="sheetCode"></param>
+        /// <returns></returns>
+        BizSheet GetBizSheetByCode(string sheetCode);
     }
 }

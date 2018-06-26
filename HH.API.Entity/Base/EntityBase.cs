@@ -126,11 +126,11 @@ namespace HH.API.Entity
             PropertyInfo[] properties = this.GetType().GetProperties();
             foreach (PropertyInfo property in properties)
             {
-                // 检查必填项
                 RequiredAttribute required = property.GetCustomAttribute<RequiredAttribute>();
                 if (required != null)
-                {
-                    if (string.IsNullOrEmpty(property.GetValue(this) + string.Empty))
+                {// 检查必填项
+                    string propertyValue = (property.GetValue(this) + string.Empty).Trim();
+                    if (string.IsNullOrEmpty(propertyValue))
                     {
                         if (!string.IsNullOrEmpty(required.ErrorMessage))
                         {
@@ -143,7 +143,24 @@ namespace HH.API.Entity
                         }
                     }
                 }
-                // 长度是否有超出
+                StringLengthAttribute stringLength = property.GetCustomAttribute<StringLengthAttribute>();
+                if (stringLength != null)
+                {// 长度是否有超出
+                    string propertyValue = (property.GetValue(this) + string.Empty).Trim();
+                    if (propertyValue.Length >= stringLength.MaximumLength
+                        || propertyValue.Length <= stringLength.MinimumLength)
+                    {
+                        if (!string.IsNullOrEmpty(stringLength.ErrorMessage))
+                        {
+                            errors.Add(stringLength.ErrorMessage);
+                        }
+                        else
+                        {
+                            errors.Add(string.Format("The attribute name [{0}] content length must between {1} and {2}.",
+                                property.Name, stringLength.MinimumLength, stringLength.MaximumLength));
+                        }
+                    }
+                }
             }
             return errors.Count == 0;
         }

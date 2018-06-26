@@ -24,5 +24,14 @@ namespace HH.API.IServices
         /// <param name="parentId">父节点Id</param>
         /// <returns>子节点集合</returns>
         List<FunctionNode> GetSubFunctionNodesByParent(string parentId);
+
+        /// <summary>
+        /// 根据名称获取节点
+        /// </summary>
+        /// <param name="functionType"></param>
+        /// <param name="parentId"></param>
+        /// <param name="functionName"></param>
+        /// <returns></returns>
+        FunctionNode GetFunctionNodeByName(FunctionType functionType, string parentId, string functionName);
     }
 }

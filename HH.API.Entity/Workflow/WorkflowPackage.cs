@@ -31,11 +31,14 @@ namespace HH.API.Entity
         /// <summary>
         /// 获取或设置流程包编码
         /// </summary>
+        [StringLength(128, MinimumLength = 3)]
+        [Required]
         public string PackageCode { get; set; }
 
         /// <summary>
         /// 获取或设置流程包名称
         /// </summary>
+        [Required]
         public string PackageName { get; set; }
 
         /// <summary>

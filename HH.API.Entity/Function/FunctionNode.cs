@@ -76,7 +76,7 @@ namespace HH.API.Entity
         {
             get
             {
-                return EntityConfig.Table.AppPackage;
+                return EntityConfig.Table.SysFunctionNode;
             }
         }
 
