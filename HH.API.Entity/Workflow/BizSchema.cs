@@ -28,6 +28,7 @@ namespace HH.API.Entity.BizObject
             this.InitialDefaultProperties();
         }
 
+        public const string PropertyName_SchemaCode = "SchemaCode";
         /// <summary>
         /// 获取或设置业务对象编码
         /// </summary>
@@ -92,6 +93,7 @@ namespace HH.API.Entity.BizObject
             this.Properties.Add(new BizProperty()
             {
                 PropertyName = PropertyName_ObjectId,
+                ParentSchemaCode = this.SchemaCode,
                 IsPrimaryKey = true,
                 IsRequired = true,
                 CreatedBy = this.CreatedBy
@@ -100,12 +102,14 @@ namespace HH.API.Entity.BizObject
             {
                 PropertyName = PropertyName_Name,
                 LogicType = LogicType.String,
+                ParentSchemaCode = this.SchemaCode,
                 CreatedBy = this.CreatedBy
             });
             this.Properties.Add(new BizProperty()
             {
                 PropertyName = PropertyName_CreateBy,
                 LogicType = LogicType.String,
+                ParentSchemaCode = this.SchemaCode,
                 CreatedBy = this.CreatedBy
             });
 
@@ -113,6 +117,7 @@ namespace HH.API.Entity.BizObject
             {
                 PropertyName = PropertyName_CreatedTime,
                 LogicType = LogicType.DateTime,
+                ParentSchemaCode = this.SchemaCode,
                 CreatedBy = this.CreatedBy
             });
         }

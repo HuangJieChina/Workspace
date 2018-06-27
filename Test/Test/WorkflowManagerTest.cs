@@ -1,4 +1,5 @@
 ﻿using HH.API.Entity;
+using HH.API.Entity.BizObject;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,34 @@ namespace Test.Test
                 string result = this.HttpGet(ServerUri + "/WorkflowManager/AddWorkflowPackage", parameters);
                 Console.WriteLine("WorkflowManager.AddWorkflowPackage->" + result);
             }
+        }
+
+        public void Test_AddBizProperty()
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("schemaCode", "POTest");
+
+            string bizSchemaValue = this.HttpGet(ServerUri + "/WorkflowManager/GetBizSchemaByCode", parameters);
+
+            BizSchema bizSchema = JsonConvert.DeserializeObject<BizSchema>(bizSchemaValue);
+
+            BizProperty property1 = new BizProperty()
+            {
+                ParentSchemaCode = bizSchema.SchemaCode,
+                PropertyName = "Title",
+                LogicType = LogicType.String
+            };
+            string result = this.HttpPost(ServerUri + "/WorkflowManager/AddBizProperty", JsonConvert.SerializeObject(property1));
+            Console.WriteLine("Test_AddBizProperty1->" + result);
+
+            BizProperty property2 = new BizProperty()
+            {
+                ParentSchemaCode = bizSchema.SchemaCode,
+                PropertyName = "Money",
+                LogicType = LogicType.Decimal
+            };
+            result = this.HttpPost(ServerUri + "/WorkflowManager/AddBizProperty", JsonConvert.SerializeObject(property2));
+            Console.WriteLine("Test_AddBizProperty2->" + result);
         }
     }
 }

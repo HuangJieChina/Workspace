@@ -8,6 +8,8 @@ namespace HH.API.IServices
 {
     public interface IBizSchemaRepository : IRepositoryBase<BizSchema>
     {
-        
+        BizSchema GetBizSchemaByCode(string schemaCode);
+
+        dynamic AddBizProperty(BizProperty property);
     }
 }

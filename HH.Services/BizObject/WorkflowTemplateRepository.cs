@@ -21,19 +21,58 @@ namespace HH.API.Services
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="workflowCode"></param>
+        /// <returns></returns>
         public List<WorkflowTemplate> GetPublishedWorkflowTemplates(string workflowCode)
         {
-            throw new NotImplementedException();
+            return this.GetListByKey(WorkflowTemplate.PropertyName_WorkflowCode, workflowCode);
         }
 
-        public WorkflowTemplate GetWorkflowTemplate(string workflowCode)
+        /// <summary>
+        /// 获取正在设计的流程模板的流程模板
+        /// </summary>
+        /// <param name="workflowCode"></param>
+        /// <returns></returns>
+        public WorkflowTemplate GetDesignWorkflowTemplate(string workflowCode)
         {
-            throw new NotImplementedException();
+            IList<IPredicate> predList = new List<IPredicate>();
+            predList.Add(Predicates.Field<WorkflowTemplate>(p => p.WorkflowCode, Operator.Eq, workflowCode));
+            predList.Add(Predicates.Field<WorkflowTemplate>(p => p.WorkflowState, Operator.Eq, (int)WorkflowState.Design));
+            IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
+
+            return this.GetSingle(predGroup);
         }
 
+        /// <summary>
+        /// 获取正在运行版本的流程模板
+        /// </summary>
+        /// <param name="workflowCode"></param>
+        /// <returns></returns>
+        public WorkflowTemplate GetDefaultWorkflowTemplate(string workflowCode)
+        {
+            WorkflowTemplate template = this.GetDesignWorkflowTemplate(workflowCode);
+
+            return this.GetWorkflowTemplate(workflowCode, template.WorkflowVersion);
+        }
+
+        /// <summary>
+        /// 根据版本号获取
+        /// </summary>
+        /// <param name="workflowCode"></param>
+        /// <param name="workflowVersion"></param>
+        /// <returns></returns>
         public WorkflowTemplate GetWorkflowTemplate(string workflowCode, int workflowVersion)
         {
-            throw new NotImplementedException();
+            IList<IPredicate> predList = new List<IPredicate>();
+            predList.Add(Predicates.Field<WorkflowTemplate>(p => p.WorkflowCode, Operator.Eq, workflowCode));
+            predList.Add(Predicates.Field<WorkflowTemplate>(p => p.WorkflowVersion, Operator.Eq, workflowVersion));
+            predList.Add(Predicates.Field<WorkflowTemplate>(p => p.WorkflowState, Operator.Eq, (int)WorkflowState.Published));
+            IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
+
+            return this.GetSingle(predGroup);
         }
     }
 }

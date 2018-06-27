@@ -200,8 +200,10 @@ namespace HH.API.Services
             T result = default(T);
             using (var conn = ConnectionFactory.DefaultConnection())
             {
-                result = conn.QueryFirst<T>(sql, parameters);
+                result = conn.QueryFirstOrDefault<T>(sql, parameters);
             }
+            // 获取到的是空值
+            if (result == null) return result;
             // KeyCache和EntityCache指向同一个实例
             if (this.EntityCache.Get(result.ObjectId) != null)
             {
@@ -242,8 +244,13 @@ namespace HH.API.Services
         /// <param name="predicate"></param>
         /// <param name="sort"></param>
         /// <returns></returns>
-        public virtual List<T> GetList(object predicate = null, IList<ISort> sort = null)
+        public virtual List<T> GetList(object predicate, IList<ISort> sort = null)
         {
+            if (predicate == null)
+            {
+                throw new Exception("predicate不允许为空，或者使用GetAll方法!");
+            }
+
             using (DbConnection conn = this.OpenConnection())
             {
                 return conn.GetList<T>(predicate, sort).AsList();
@@ -307,9 +314,21 @@ namespace HH.API.Services
         /// <returns></returns>
         public virtual List<T> GetAll()
         {
+            IList<ISort> sort = new List<ISort>();
+            sort.Add(new Sort() { Ascending = false, PropertyName = EntityBase.PropertyName_CreatedTime });
+            return this.GetAll(sort);
+        }
+
+        /// <summary>
+        /// 获取全部数据
+        /// </summary>
+        /// <param name="sort"></param>
+        /// <returns></returns>
+        public virtual List<T> GetAll(IList<ISort> sort = null)
+        {
             using (var conn = ConnectionFactory.DefaultConnection())
             {
-                return conn.GetList<T>().AsList<T>();
+                return conn.GetList<T>(null, sort).AsList<T>();
             }
         }
 

@@ -123,7 +123,7 @@ namespace HH.API.IController
         /// <param name="schemaCode">业务模型编码</param>
         /// <returns></returns>
         [HttpGet]
-        BizSchema GetBizSchemaByCode(string schemaCode);
+        JsonResult GetBizSchemaByCode(string schemaCode);
 
         /// <summary>
         /// 增加业务属性

@@ -40,10 +40,11 @@ namespace HH.API.Controllers
             this.functionNodeRepository = functionNodeRepository;
         }
 
-        [HttpPost]
+        [HttpPost("AddBizProperty")]
         public JsonResult AddBizProperty([FromBody] BizProperty property)
         {
-            throw new NotImplementedException();
+            dynamic result = this.bizSchemaRepository.AddBizProperty(property);
+            return Json(result);
         }
 
         public JsonResult AddBizSheet([FromBody] BizSheet bizSheet)
@@ -159,7 +160,7 @@ namespace HH.API.Controllers
                 packageName,
                 this.Authorization.ObjectId,
                 sortOrder);
-            if (this.workflowTemplateRepository.GetWorkflowTemplate(workflow.WorkflowCode) == null)
+            if (this.workflowTemplateRepository.GetDesignWorkflowTemplate(workflow.WorkflowCode) == null)
             {
                 this.workflowTemplateRepository.Insert(workflow);
             }
@@ -196,7 +197,8 @@ namespace HH.API.Controllers
 
         public JsonResult GetWorkflowTemplate(string workflowCode, int workflowVersion)
         {
-            throw new NotImplementedException();
+            WorkflowTemplate template = this.workflowTemplateRepository.GetWorkflowTemplate(workflowCode, workflowVersion);
+            return Json(template);
         }
 
         public JsonResult GetDefaultWorkflowTemplate(string workflowCode)
@@ -209,9 +211,11 @@ namespace HH.API.Controllers
             throw new NotImplementedException();
         }
 
-        public BizSchema GetBizSchemaByCode(string schemaCode)
+        [HttpGet("GetBizSchemaByCode")]
+        public JsonResult GetBizSchemaByCode(string schemaCode)
         {
-            throw new NotImplementedException();
+            BizSchema bizSchema = this.bizSchemaRepository.GetBizSchemaByCode(schemaCode);
+            return Json(bizSchema);
         }
 
         public JsonResult PublishBizSchema(string schemaCode)

@@ -395,7 +395,7 @@ namespace DapperExtensions
                     if (s.Length == 0) return sqlGenerator.Configuration.Dialect.EmptyExpression;
                     return s;
                 }
-                                        ) + ")";
+              ) + ")";
         }
     }
 

@@ -120,7 +120,10 @@ namespace HH.API.Services
                     IsEnabled = true
                 };
                 orgUnitRepository.Insert(rootUnit);
+            }
 
+            if (orgUserRepository.Count() == 0)
+            {
                 OrgUser user = new OrgUser()
                 {
                     ObjectId = EntityConfig.Org.SystemUserId,

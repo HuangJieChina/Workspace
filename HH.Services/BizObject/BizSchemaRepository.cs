@@ -19,5 +19,37 @@ namespace HH.API.Services
         {
 
         }
+
+        public dynamic AddBizProperty(BizProperty property)
+        {
+            using (var conn = ConnectionFactory.DefaultConnection())
+            {
+                return conn.Insert<BizProperty>(property);
+            }
+        }
+
+        public BizSchema GetBizSchemaByCode(string schemaCode)
+        {
+            return this.GetObjectByKey(BizSchema.PropertyName_SchemaCode, schemaCode);
+        }
+
+        /// <summary>
+        /// 新增
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public override dynamic Insert(BizSchema t)
+        {
+            dynamic result;
+            using (var conn = ConnectionFactory.DefaultConnection())
+            {
+                result = conn.Insert<BizSchema>(t);
+                conn.Insert<BizProperty>(t.Properties);
+            }
+
+            return result;
+        }
+
+        // End class
     }
 }

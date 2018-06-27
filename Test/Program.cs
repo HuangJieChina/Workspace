@@ -17,6 +17,7 @@ namespace Test
             WorkflowManagerTest workflowManagerTest = new WorkflowManagerTest();
             workflowManagerTest.Test_AddFolder();
             workflowManagerTest.Test_AddWorkflowPackage();
+            workflowManagerTest.Test_AddBizProperty();
 
             //ValuesTest valuesTest = new ValuesTest();
             //valuesTest.Test_Method1();

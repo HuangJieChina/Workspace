@@ -13,7 +13,14 @@ namespace HH.API.IServices
         /// </summary>
         /// <param name="workflowCode"></param>
         /// <returns></returns>
-        WorkflowTemplate GetWorkflowTemplate(string workflowCode);
+        WorkflowTemplate GetDesignWorkflowTemplate(string workflowCode);
+
+        /// <summary>
+        /// 获取默认的已发布版本流程模板
+        /// </summary>
+        /// <param name="workflowCode"></param>
+        /// <returns></returns>
+        WorkflowTemplate GetDefaultWorkflowTemplate(string workflowCode);
 
         /// <summary>
         /// 获取指定版本的流程模板

@@ -32,9 +32,10 @@ namespace HH.API.Entity
             this.DisplayName = displayName;
             this.CreatedBy = createdBy;
             this.SortOrder = sortOrder;
-            this.WorkflowState = WorkflowState.Designer;
+            this.WorkflowState = WorkflowState.Design;
         }
 
+        public const string PropertyName_WorkflowCode = "WorkflowCode";
         /// <summary>
         /// 获取或设置所属业务模型编码
         /// </summary>
@@ -117,9 +118,9 @@ namespace HH.API.Entity
     public enum WorkflowState
     {
         /// <summary>
-        /// 编辑状态
+        /// 设计版本
         /// </summary>
-        Designer = 0,
+        Design = 0,
         /// <summary>
         /// 已发布的
         /// </summary>
