@@ -1,4 +1,5 @@
 ﻿using HH.API.Entity;
+using HH.API.Services;
 using System;
 using System.Collections.Generic;
 using Test.Test;
@@ -14,6 +15,8 @@ namespace Test
             //OrgTest orgTest = new OrgTest();
             //orgTest.Test_AddUnit();
 
+            Test();
+
             WorkflowManagerTest workflowManagerTest = new WorkflowManagerTest();
             workflowManagerTest.Test_AddFolder();
             workflowManagerTest.Test_AddWorkflowPackage();
@@ -24,6 +27,12 @@ namespace Test
             //valuesTest.Test_Test3();
 
             Console.ReadLine();
+        }
+
+        static void Test()
+        {
+            DynamicDB dB = new DynamicDB();
+
         }
     }
 }

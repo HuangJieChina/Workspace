@@ -11,5 +11,7 @@ namespace HH.API.IServices
         BizSchema GetBizSchemaByCode(string schemaCode);
 
         dynamic AddBizProperty(BizProperty property);
+
+        bool PublishBizSchema(string schemaCode);
     }
 }

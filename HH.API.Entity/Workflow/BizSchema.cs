@@ -32,6 +32,7 @@ namespace HH.API.Entity.BizObject
         /// <summary>
         /// 获取或设置业务对象编码
         /// </summary>
+        [Required]
         public string SchemaCode { get; set; }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace HH.API.Entity.BizObject
             this.Properties.Add(new BizProperty()
             {
                 PropertyName = PropertyName_ObjectId,
-                ParentSchemaCode = this.SchemaCode,
+                SchemaCode = this.SchemaCode,
                 IsPrimaryKey = true,
                 IsRequired = true,
                 CreatedBy = this.CreatedBy
@@ -102,14 +103,14 @@ namespace HH.API.Entity.BizObject
             {
                 PropertyName = PropertyName_Name,
                 LogicType = LogicType.String,
-                ParentSchemaCode = this.SchemaCode,
+                SchemaCode = this.SchemaCode,
                 CreatedBy = this.CreatedBy
             });
             this.Properties.Add(new BizProperty()
             {
                 PropertyName = PropertyName_CreateBy,
                 LogicType = LogicType.String,
-                ParentSchemaCode = this.SchemaCode,
+                SchemaCode = this.SchemaCode,
                 CreatedBy = this.CreatedBy
             });
 
@@ -117,7 +118,7 @@ namespace HH.API.Entity.BizObject
             {
                 PropertyName = PropertyName_CreatedTime,
                 LogicType = LogicType.DateTime,
-                ParentSchemaCode = this.SchemaCode,
+                SchemaCode = this.SchemaCode,
                 CreatedBy = this.CreatedBy
             });
         }
@@ -151,12 +152,13 @@ namespace HH.API.Entity.BizObject
         /// <summary>
         /// 属性的显示名称
         /// </summary>
+        [Required]
         public string PropertyName { get; set; }
 
         /// <summary>
         /// 获取或设置所归属的业务对象编码
         /// </summary>
-        public string ParentSchemaCode { get; set; }
+        public string SchemaCode { get; set; }
 
         /// <summary>
         /// 获取或设置当前属性的业务逻辑类型

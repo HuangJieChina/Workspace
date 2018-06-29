@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using HH.API.Entity.BizObject;
 using HH.API.IServices;
+using System.Dynamic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 namespace HH.API.Services
 {
@@ -17,7 +20,7 @@ namespace HH.API.Services
         /// </summary>
         public BizSchemaRepository()
         {
-
+            
         }
 
         public dynamic AddBizProperty(BizProperty property)
@@ -48,6 +51,19 @@ namespace HH.API.Services
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="schemaCode"></param>
+        /// <returns></returns>
+        public bool PublishBizSchema(string schemaCode)
+        {
+            dynamic obj = new System.Dynamic.ExpandoObject();
+
+            // 创建表结构
+            return true;
         }
 
         // End class

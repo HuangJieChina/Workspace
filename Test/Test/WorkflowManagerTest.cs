@@ -52,7 +52,7 @@ namespace Test.Test
 
             BizProperty property1 = new BizProperty()
             {
-                ParentSchemaCode = bizSchema.SchemaCode,
+                SchemaCode = bizSchema.SchemaCode,
                 PropertyName = "Title",
                 LogicType = LogicType.String
             };
@@ -61,7 +61,7 @@ namespace Test.Test
 
             BizProperty property2 = new BizProperty()
             {
-                ParentSchemaCode = bizSchema.SchemaCode,
+                SchemaCode = bizSchema.SchemaCode,
                 PropertyName = "Money",
                 LogicType = LogicType.Decimal
             };

@@ -218,9 +218,28 @@ namespace HH.API.Controllers
             return Json(bizSchema);
         }
 
+        /// <summary>
+        /// 发布
+        /// </summary>
+        /// <param name="schemaCode"></param>
+        /// <returns></returns>
+        [HttpGet("PublishBizSchema")]
         public JsonResult PublishBizSchema(string schemaCode)
         {
-            throw new NotImplementedException();
+            if (this.bizSchemaRepository.GetBizSchemaByCode(schemaCode) == null)
+            {
+                return Json(new APIResult()
+                {
+                    Message = "业务模型不存在",
+                    ResultCode = ResultCode.SchemaNotExists
+                });
+            }
+            bool res = this.bizSchemaRepository.PublishBizSchema(schemaCode);
+
+            return Json(new APIResult()
+            {
+                ResultCode = res ? ResultCode.Success : ResultCode.Error
+            });
         }
 
         public JsonResult RemoveBizProperty(string schemaCode)

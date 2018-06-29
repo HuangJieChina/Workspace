@@ -28,6 +28,10 @@ namespace HH.API
         /// 名称重复
         /// </summary>
         NameDuplicate = 2,
+        /// <summary>
+        /// 业务模型不存在
+        /// </summary>
+        SchemaNotExists = 3,
 
         #region 组织机构服务以10开头
         /// <summary>
