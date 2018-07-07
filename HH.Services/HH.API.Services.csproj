@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Modules\DapperExtensionsDNXCore\DapperExtensionsDNXCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Base\Database\" />
+  </ItemGroup>
+
 </Project>

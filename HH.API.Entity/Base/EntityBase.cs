@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HH.API.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,24 +17,27 @@ namespace HH.API.Entity
     [Serializable]
     public abstract class EntityBase
     {
+        #region 构造函数 -----------------------
         /// <summary>
         /// 基类构造函数
         /// </summary>
-        public EntityBase()
+        public EntityBase() : this(null)
         {
-            this.CreatedTime = DateTime.Now;
-            this.ModifiedTime = DateTime.Now;
         }
 
         /// <summary>
         /// 基类构造函数
         /// </summary>
         /// <param name="objectId"></param>
-        public EntityBase(string objectId) : base()
+        public EntityBase(string objectId)
         {
             this.ObjectId = ObjectId;
+            this.CreatedTime = DateTime.Now;
+            this.ModifiedTime = DateTime.Now;
         }
+        #endregion
 
+        #region 公共属性定义 -------------------
         /// <summary>
         /// 获取数据库表名称
         /// </summary>
@@ -115,7 +119,9 @@ namespace HH.API.Entity
         /// 获取或设置扩展字段3
         /// </summary>
         public string ExtendField3 { get; set; }
+        #endregion
 
+        #region 基类方法定义 -------------------
         /// <summary>
         /// 数据格式校验
         /// </summary>
@@ -172,17 +178,7 @@ namespace HH.API.Entity
         /// <returns></returns>
         public string GetMD5Encrypt32(string inputValue)
         {
-            string outString = string.Empty;
-            MD5 md5 = MD5.Create(); //实例化一个md5对像
-                                    // 加密后是一个字节类型的数组，这里要注意编码UTF8/Unicode等的选择　
-            byte[] s = md5.ComputeHash(Encoding.UTF8.GetBytes(inputValue));
-            // 通过使用循环，将字节类型的数组转换为字符串，此字符串是常规字符格式化所得
-            for (int i = 0; i < s.Length; i++)
-            {
-                // 将得到的字符串使用十六进制类型格式。格式后的字符是小写的字母，如果使用大写（X）则格式后的字符是大写字符 
-                outString = outString + s[i].ToString("X");
-            }
-            return outString;
+            return MD5Encryptor.GetMD5Encrypt32(inputValue);
         }
 
         /// <summary>
@@ -191,8 +187,11 @@ namespace HH.API.Entity
         /// <returns></returns>
         public override string ToString()
         {
-            return this.GetType().FullName + ",ObjectID=" + this.ObjectId;
-            // return base.ToString();
+            return string.Format("Type={0},ObjectID={1},CreatedTime={2}",
+                this.GetType().FullName,
+                this.ObjectId,
+                this.CreatedTime.ToLongTimeString());
         }
+        #endregion
     }
 }

@@ -36,6 +36,8 @@ namespace HH.API.Aop
         /// <returns></returns>
         public async Task Invoke(HttpContext context)
         {
+            // TODO:发送开始请求调用的消息，用于记录每次的请求调用
+
             string remoteIp = context.Connection.RemoteIpAddress.ToString();
             if (remoteIp.EndsWith("100"))
             {// 白名单检查
@@ -46,6 +48,5 @@ namespace HH.API.Aop
             }
             await _next.Invoke(context);
         }
-
     }
 }

@@ -53,7 +53,7 @@ namespace Test.Test
             BizProperty property1 = new BizProperty()
             {
                 SchemaCode = bizSchema.SchemaCode,
-                PropertyName = "Title",
+                PropertyCode = "Title",
                 LogicType = LogicType.String
             };
             string result = this.HttpPost(ServerUri + "/WorkflowManager/AddBizProperty", JsonConvert.SerializeObject(property1));
@@ -62,11 +62,23 @@ namespace Test.Test
             BizProperty property2 = new BizProperty()
             {
                 SchemaCode = bizSchema.SchemaCode,
-                PropertyName = "Money",
-                LogicType = LogicType.Decimal
+                PropertyCode = "Money",
+                LogicType = LogicType.Numeric
             };
             result = this.HttpPost(ServerUri + "/WorkflowManager/AddBizProperty", JsonConvert.SerializeObject(property2));
             Console.WriteLine("Test_AddBizProperty2->" + result);
+        }
+
+        /// <summary>
+        /// 测试发布
+        /// </summary>
+        public void Test_PublishSchema()
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("schemaCode", "POTest");
+
+            string result = this.HttpGet(ServerUri + "/WorkflowManager/PublishBizSchema", parameters);
+            Console.WriteLine("Test_PublishSchema->" + result);
         }
     }
 }

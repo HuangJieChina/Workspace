@@ -221,7 +221,7 @@ namespace HH.API.Controllers
         /// <summary>
         /// 发布
         /// </summary>
-        /// <param name="schemaCode"></param>
+        /// <param name="schemaCode">业务模型编码</param>
         /// <returns></returns>
         [HttpGet("PublishBizSchema")]
         public JsonResult PublishBizSchema(string schemaCode)

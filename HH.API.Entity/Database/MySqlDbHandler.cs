@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using HH.API.Entity.BizObject;
 
 namespace HH.API.Entity.Database
 {
@@ -17,6 +18,11 @@ namespace HH.API.Entity.Database
         }
 
         public bool ModifyTable(string tableName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RegisterBizTable(BizSchema bizSchema)
         {
             throw new NotImplementedException();
         }

@@ -45,33 +45,23 @@ namespace HH.API.Entity.BizObject
         /// </summary>
         public string Description { get; set; }
 
-        ///// <summary>
-        ///// 用来存储的属性内容
-        ///// </summary>
-        //public string PropertiesContent
-        //{
-        //    get
-        //    {
-        //        if (this.Properties != null)
-        //        {
-        //            return JsonConvert.SerializeObject(this.Properties);
-        //        }
-        //        return string.Empty;
-        //    }
-        //    set
-        //    {
-        //        if (!string.IsNullOrEmpty(this.PropertiesContent))
-        //        {
-        //            this.Properties = JsonConvert.DeserializeObject<List<Property>>(value);
-        //        }
-        //    }
-        //}
-
         /// <summary>
         /// 获取或设置属性集合
         /// </summary>
         [NotMapped]
         public List<BizProperty> Properties { get; set; }
+
+        /// <summary>
+        /// 获取或设置数据库的存储表名称
+        /// </summary>
+        [NotMapped]
+        public string DataTableName
+        {
+            get
+            {
+                return "D_" + this.SchemaCode;
+            }
+        }
 
         /// <summary>
         /// 获取数据库表名
@@ -93,32 +83,36 @@ namespace HH.API.Entity.BizObject
             this.Properties = new List<BizProperty>();
             this.Properties.Add(new BizProperty()
             {
-                PropertyName = PropertyName_ObjectId,
+                PropertyCode = PropertyName_ObjectId,
                 SchemaCode = this.SchemaCode,
                 IsPrimaryKey = true,
+                IsSystem = true,
                 IsRequired = true,
                 CreatedBy = this.CreatedBy
             });
             this.Properties.Add(new BizProperty()
             {
-                PropertyName = PropertyName_Name,
+                PropertyCode = PropertyName_Name,
                 LogicType = LogicType.String,
                 SchemaCode = this.SchemaCode,
+                IsSystem = true,
                 CreatedBy = this.CreatedBy
             });
             this.Properties.Add(new BizProperty()
             {
-                PropertyName = PropertyName_CreateBy,
+                PropertyCode = PropertyName_CreateBy,
                 LogicType = LogicType.String,
                 SchemaCode = this.SchemaCode,
+                IsSystem = true,
                 CreatedBy = this.CreatedBy
             });
 
             this.Properties.Add(new BizProperty()
             {
-                PropertyName = PropertyName_CreatedTime,
+                PropertyCode = PropertyName_CreatedTime,
                 LogicType = LogicType.DateTime,
                 SchemaCode = this.SchemaCode,
+                IsSystem = true,
                 CreatedBy = this.CreatedBy
             });
         }
@@ -150,10 +144,17 @@ namespace HH.API.Entity.BizObject
     public class BizProperty : EntityBase
     {
         /// <summary>
-        /// 属性的显示名称
+        /// 获取或设置数据项编码(对应的是数据库字段名)
         /// </summary>
         [Required]
+        public string PropertyCode { get; set; }
+
+        /// <summary>
+        /// 获取或设置数据项显示名称
+        /// </summary>
         public string PropertyName { get; set; }
+
+        public const string PropertyName_SchemaCode = "SchemaCode";
 
         /// <summary>
         /// 获取或设置所归属的业务对象编码
@@ -168,7 +169,7 @@ namespace HH.API.Entity.BizObject
         /// <summary>
         /// 获取或设置存储的最大长度
         /// </summary>
-        public int MaxLength { get; set; }
+        public int MaxLength { get; set; } = 200;
 
         /// <summary>
         /// 获取或设置是否系统保留字段
@@ -215,10 +216,25 @@ namespace HH.API.Entity.BizObject
         /// </summary>
         public string FormulaExpression { get; set; }
 
+        public const string PropertyName_SortOrder = "SortOrder";
+
         /// <summary>
         /// 获取或设置排序顺序
         /// </summary>
         public int SortOrder { get; set; }
+
+        /// <summary>
+        /// 获取当前类型是否真实创建字段
+        /// </summary>
+        public bool IsRealyColumn
+        {
+            get
+            {
+                return !(this.LogicType == LogicType.Attachment
+                    || this.LogicType == LogicType.Comment
+                    || this.LogicType == LogicType.SubTable);
+            }
+        }
 
         /// <summary>
         /// 获取数据库表名
@@ -251,13 +267,9 @@ namespace HH.API.Entity.BizObject
         /// </summary>
         DateTime = 2,
         /// <summary>
-        /// 单一结构：整数类型
-        /// </summary>
-        Int = 3,
-        /// <summary>
         /// 单一结构：数值类型
         /// </summary>
-        Decimal = 4,
+        Numeric = 3,
         /// <summary>
         /// 单一结构：时间段，存储结构为 Ticks(long)
         /// </summary>

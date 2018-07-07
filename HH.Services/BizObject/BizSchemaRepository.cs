@@ -20,20 +20,53 @@ namespace HH.API.Services
         /// </summary>
         public BizSchemaRepository()
         {
-            
+
         }
 
         public dynamic AddBizProperty(BizProperty property)
         {
+            dynamic res = null;
             using (var conn = ConnectionFactory.DefaultConnection())
             {
-                return conn.Insert<BizProperty>(property);
+                res = conn.Insert<BizProperty>(property);
             }
+
+            // 更新缓存
+            if (res != null)
+            {
+                BizSchema bizSchema = this.GetObjectByKeyFromCache(BizSchema.PropertyName_SchemaCode, property.SchemaCode);
+                if (bizSchema != null)
+                {
+                    bizSchema.Properties.Add(property);
+                }
+            }
+            return res;
         }
 
+        /// <summary>
+        /// 获取数据模型
+        /// </summary>
+        /// <param name="schemaCode"></param>
+        /// <returns></returns>
         public BizSchema GetBizSchemaByCode(string schemaCode)
         {
-            return this.GetObjectByKey(BizSchema.PropertyName_SchemaCode, schemaCode);
+            return this.GetObjectByKey(BizSchema.PropertyName_SchemaCode,
+                schemaCode,
+                (conn, bizSchema) =>
+                 {
+                     // 查询条件
+                     IList<IPredicate> predList = new List<IPredicate>();
+                     IFieldPredicate fieldPredicate = Predicates.Field<BizProperty>(p => p.SchemaCode, Operator.Eq, bizSchema.SchemaCode);
+                     predList.Add(fieldPredicate);
+
+                     IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
+
+                     // SortOrder
+                     List<ISort> sort = new List<ISort>();
+                     sort.Add(new Sort() { Ascending = true, PropertyName = BizProperty.PropertyName_SortOrder });
+
+                     bizSchema.Properties = conn.GetList<BizProperty>(predGroup, sort).ToList();
+                 });
         }
 
         /// <summary>
@@ -44,6 +77,11 @@ namespace HH.API.Services
         public override dynamic Insert(BizSchema t)
         {
             dynamic result;
+            if (this.GetBizSchemaByCode(t.SchemaCode) != null)
+            {
+                throw new Exception(string.Format("Schema code {{0}} is exists", t.SchemaCode));
+            }
+
             using (var conn = ConnectionFactory.DefaultConnection())
             {
                 result = conn.Insert<BizSchema>(t);
@@ -60,9 +98,15 @@ namespace HH.API.Services
         /// <returns></returns>
         public bool PublishBizSchema(string schemaCode)
         {
-            dynamic obj = new System.Dynamic.ExpandoObject();
+            BizSchema bizSchema = this.GetBizSchemaByCode(schemaCode);
+            if (bizSchema == null)
+            {
+                throw new Exception(string.Format("Schema code {{0}} is not exists", schemaCode));
+            }
 
             // 创建表结构
+            DbHandlerFactory.Instance.GetDefaultDbHandler<BizSchema>().RegisterBizTable(bizSchema);
+
             return true;
         }
 

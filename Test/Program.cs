@@ -15,24 +15,18 @@ namespace Test
             //OrgTest orgTest = new OrgTest();
             //orgTest.Test_AddUnit();
 
-            Test();
-
             WorkflowManagerTest workflowManagerTest = new WorkflowManagerTest();
             workflowManagerTest.Test_AddFolder();
             workflowManagerTest.Test_AddWorkflowPackage();
             workflowManagerTest.Test_AddBizProperty();
+            workflowManagerTest.Test_PublishSchema();
 
             //ValuesTest valuesTest = new ValuesTest();
             //valuesTest.Test_Method1();
             //valuesTest.Test_Test3();
 
-            Console.ReadLine();
+            Console.WriteLine("Complete ...");
         }
 
-        static void Test()
-        {
-            DynamicDB dB = new DynamicDB();
-
-        }
     }
 }

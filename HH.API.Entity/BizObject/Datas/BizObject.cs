@@ -85,6 +85,16 @@ namespace HH.API.Entity.BizObject
         }
 
         /// <summary>
+        /// 获取数据项的值
+        /// </summary>
+        /// <param name="name">数据项名称</param>
+        /// <returns></returns>
+        public object GetValue(string name)
+        {
+            return this[name];
+        }
+
+        /// <summary>
         /// 设置数据项的值
         /// </summary>
         /// <typeparam name="T"></typeparam>

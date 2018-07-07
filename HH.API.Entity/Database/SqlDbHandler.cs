@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Text;
+using HH.API.Entity.BizObject;
 
 namespace HH.API.Entity.Database
 {
@@ -192,6 +193,178 @@ namespace HH.API.Entity.Database
                 {
                     column.ColumnType = "tinyint";
                 }
+            }
+            return column;
+        }
+
+        /// <summary>
+        /// 注册业务数据表
+        /// </summary>
+        /// <param name="bizSchema"></param>
+        /// <returns></returns>
+        public bool RegisterBizTable(BizSchema bizSchema)
+        {
+            return this.RegisterBizTable(bizSchema.DataTableName, bizSchema.Properties);
+        }
+
+        /// <summary>
+        /// 注册数据表
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="bizProperties"></param>
+        /// <returns></returns>
+        private bool RegisterBizTable(string tableName, List<BizProperty> bizProperties)
+        {
+            if (this.IsExistsTable(tableName))
+            {// 存在数据表
+                this.ModifyBizTable(tableName, bizProperties);
+            }
+            else
+            {// 新增数据表
+                this.CreateBizTable(tableName, bizProperties);
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 创建业务数据表
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="bizProperties"></param>
+        /// <returns></returns>
+        private bool CreateBizTable(string tableName, List<BizProperty> bizProperties)
+        {
+            // 构造创建表的 SQL 语句
+            StringBuilder sql = new StringBuilder();
+            sql.Append("Create Table [" + tableName + "]");
+            sql.Append("(");
+
+            sql.Append(string.Format("[{0}] {1}", EntityBase.PropertyName_ObjectId, "char(36) Primary Key,"));
+            foreach (BizProperty property in bizProperties)
+            {
+                if (!property.IsRealyColumn || property.IsPrimaryKey) continue;
+
+                DbColumn column = this.GetColumnFromBizProperty(property);
+                sql.Append(column.ToString());
+                sql.Append(",");
+            }
+
+            sql.Remove(sql.Length - 1, 1); // 移除最后一个 ，符号
+            sql.Append(")");
+            return ConnectionFactory.ExecuteNonQuery(sql.ToString()) > 0;
+        }
+
+        /// <summary>
+        /// 修改数据表
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public bool ModifyBizTable(string tableName, List<BizProperty> bizProperties)
+        {
+            string sqlColumn = string.Format(@"SELECT a.name as columnname,c.name as typename,a.length FROM 
+                                                    syscolumns a 
+                                                    inner JOIN sysobjects b ON a.id=b.id 
+                                                    Inner JOIN systypes c ON a.xtype=c.xtype
+                                                    where b.XType='U'
+                                                    And b.Name='{0}'
+                                                    And c.status=0", tableName);
+
+            Dictionary<string, DbColumn> columns = new Dictionary<string, DbColumn>();
+
+            ConnectionFactory.ExecuteSqlReader(sqlColumn, (reader) =>
+            {
+                while (reader.Read())
+                {
+                    if (!reader.HasRows)
+                    {
+                        throw new Exception("table not exists,tableName=" + tableName);
+                    }
+                    string columnName = reader.GetFieldValue<string>(0);
+                    string typeName = reader.GetFieldValue<string>(1);
+
+                    int length = int.Parse(reader.GetValue(2).ToString());
+                    columns.Add(columnName.ToLower(), new DbColumn(columnName, typeName, length));
+                }
+            });
+
+            // 注：这里不删除业务字段
+            foreach (BizProperty property in bizProperties)
+            {
+                // 系统字段不做变化
+                if (property.IsSystem) continue;
+
+                DbColumn column = null;
+                column = this.GetColumnFromBizProperty(property);
+
+                string alertSql = string.Empty;
+                if (!columns.ContainsKey(property.PropertyCode.ToLower()))
+                {// 新增字段
+                    columns.Remove(property.PropertyCode.ToLower());
+                    alertSql = string.Format("alter table {0} add {1}", tableName, column.ToString());
+                }
+                else
+                {// 修改字段
+                    DbColumn oldColumn = columns[property.PropertyCode.ToLower()];
+                    if (!oldColumn.CompareChange(column.ColumnType, column.ColumnLength))
+                    {
+                        columns.Remove(property.PropertyCode.ToLower());
+                        continue;
+                    }
+                    // 比较字段长度是否变化
+                    alertSql = string.Format("alter table {0} alter column {1}", tableName, column.ToString());
+
+                    columns.Remove(property.PropertyCode.ToLower());
+                }
+
+                // 处理字段的变化(新增和修改)
+                ConnectionFactory.ExecuteNonQuery(alertSql);
+            }
+
+            // 处理被移除的字段
+            // TODO:这里需要考虑是否移除业务数据字段
+            foreach (string key in columns.Keys)
+            {
+                if (key.Equals(EntityBase.PropertyName_ObjectId, StringComparison.OrdinalIgnoreCase)) continue;
+                string deleteSql = string.Format("alter table {0} drop column {1}", tableName, key);
+                // ConnectionFactory.ExecuteNonQuery(deleteSql);
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 获取字段信息
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        public DbColumn GetColumnFromBizProperty(BizProperty property)
+        {
+            DbColumn column = new DbColumn()
+            {
+                ColumnName = property.PropertyCode
+            };
+
+            // 获取字段长度
+            column.ColumnLength = property.MaxLength;
+
+            if (property.LogicType == LogicType.String)
+            {// 文本类型，使用 varchar 存储
+                column.ColumnType = "varchar";
+            }
+            else if (property.LogicType == LogicType.DateTime)
+            {// 日期型
+                column.ColumnType = "datetime";
+            }
+            else if (property.LogicType == LogicType.Numeric)
+            {// 数值型
+                column.ColumnType = "decimal";
+            }
+            else if (property.LogicType == LogicType.Html)
+            {// 富文本
+                column.ColumnType = "ntext";
+            }
+            else if (property.LogicType == LogicType.Orgainzation)
+            {// 组织机构
+                column.ColumnType = "varchar";
             }
             return column;
         }

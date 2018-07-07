@@ -27,29 +27,41 @@ namespace HH.API.Services
         /// </summary>
         public RepositoryBase()
         {
-            // 重新设置默认配置项
-            ISqlDialect sqlDialect = null;
-            switch (ConnectionFactory.DatabaseType)
-            {
-                case DatabaseType.MySql:
-                    sqlDialect = new MySqlDialect();
-                    break;
-                case DatabaseType.SqlServer:
-                    sqlDialect = new SqlServerDialect();
-                    break;
-                default:
-                    throw new Exception("此数据库类型未实现!");
-            }
-
             DapperExtensions.DapperExtensions.Configure(typeof(ClassMapperBase<>),
                 new List<Assembly>(),
-                sqlDialect);
+                SqlDialect);
 
             // 表结构验证
             this.CheckTableSchema();
 
             // 注册码校验
             ServiceRegister.Instance.Initial();
+        }
+
+        private ISqlDialect sqlDialect = null;
+        /// <summary>
+        /// 获取或设置SQL构造对象
+        /// </summary>
+        protected ISqlDialect SqlDialect
+        {
+            get
+            {
+                if (this.sqlDialect == null)
+                {
+                    switch (ConnectionFactory.DatabaseType)
+                    {
+                        case DatabaseType.MySql:
+                            this.sqlDialect = new MySqlDialect();
+                            break;
+                        case DatabaseType.SqlServer:
+                            this.sqlDialect = new SqlServerDialect();
+                            break;
+                        default:
+                            throw new Exception("此数据库类型未实现!");
+                    }
+                }
+                return this.sqlDialect;
+            }
         }
 
         private IEntityCache<T> _EntityCache = null;
@@ -130,6 +142,32 @@ namespace HH.API.Services
         }
 
         /// <summary>
+        /// 批量执行SQL语句
+        /// </summary>
+        /// <param name="commandContexts"></param>
+        public virtual int ExecuteSql(List<CommandDefinition> commandDefinitions)
+        {
+            int count = 0;
+            using (var conn = ConnectionFactory.DefaultConnection())
+            {
+                // 事务
+                IDbTransaction transaction = conn.BeginTransaction();
+
+                foreach (CommandDefinition commandDefinition in commandDefinitions)
+                {
+                    count += conn.Execute(commandDefinition.CommandText,
+                        commandDefinition.Parameters,
+                        transaction,
+                        commandDefinition.CommandTimeout,
+                        commandDefinition.CommandType);
+                }
+
+                transaction.Commit();
+            }
+            return count;
+        }
+
+        /// <summary>
         /// 插入实体数据
         /// </summary>
         /// <param name="t">实体对象</param>
@@ -179,41 +217,76 @@ namespace HH.API.Services
         }
 
         /// <summary>
-        /// 获取单个实体对象
+        /// 从缓存中读取
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public virtual T GetObjectByKeyFromCache(string key, string value)
+        {
+            IKeyCache<T> currentCache = this.GetKeyCache(key);
+            return currentCache.Exists(value) ? currentCache.Get(value) : null;
+        }
+
+        /// <summary>
+        /// 加入缓存
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public virtual void SaveObjectByKeyToCache(T obj, string key, string value)
+        {
+            // KeyCache和EntityCache指向同一个实例
+            IKeyCache<T> currentCache = this.GetKeyCache(key);
+            if (this.EntityCache.Get(obj.ObjectId) != null)
+            {
+                currentCache.Save(value, this.EntityCache.Get(obj.ObjectId));
+            }
+            else
+            {
+                this.EntityCache.Save(obj); // 注意：这里不是完全线程安全的
+                // 加入缓存
+                currentCache.Save(value, obj);
+            }
+        }
+
+        /// <summary>
+        /// 从缓存中获取
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
         public virtual T GetObjectByKey(string key, string value)
         {
-            IKeyCache<T> currentCache = this.GetKeyCache(key);
+            return this.GetObjectByKey(key, value, null);
+        }
 
-            if (currentCache.Exists(value))
-            {
-                return currentCache.Get(value);
-            }
+        /// <summary>
+        /// 获取单个实体对象
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public virtual T GetObjectByKey(string key, string value, Action<DbConnection, T> action)
+        {
+            T result = this.GetObjectByKeyFromCache(key, value);
+            if (result != default(T)) return result;
 
-            string sql = string.Format("SELECT * FROM {0} WHERE {1}={2}{1}", this.TableName, key, ParamterChar);
+            string sql = string.Format("SELECT * FROM {0} WHERE {1}={2}{1}", this.TableName, key,
+                this.SqlDialect.ParameterPrefix);
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add(key, value);
 
-            T result = default(T);
             using (var conn = ConnectionFactory.DefaultConnection())
             {
                 result = conn.QueryFirstOrDefault<T>(sql, parameters);
+                if (action != null && result != null) action(conn, result);
             }
             // 获取到的是空值
-            if (result == null) return result;
-            // KeyCache和EntityCache指向同一个实例
-            if (this.EntityCache.Get(result.ObjectId) != null)
+            if (result != null)
             {
-                currentCache.Save(value, this.EntityCache.Get(result.ObjectId));
-            }
-            else
-            {
-                this.EntityCache.Save(result); // 注意：这里不是完全线程安全的
-                // 加入缓存
-                currentCache.Save(value, result);
+                this.SaveObjectByKeyToCache(result, key, value);
             }
             return result;
         }
@@ -226,7 +299,8 @@ namespace HH.API.Services
         /// <returns></returns>
         public virtual List<T> GetListByKey(string key, string value)
         {
-            string sql = string.Format("SELECT * FROM {0} WHERE {1}={2}{1}", this.TableName, key, ParamterChar);
+            string sql = string.Format("SELECT * FROM {0} WHERE {1}={2}{1}", this.TableName, key,
+                this.SqlDialect.ParameterPrefix);
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add(key, value);
 
@@ -401,6 +475,17 @@ namespace HH.API.Services
         }
 
         /// <summary>
+        /// 获取查询化参数的前缀词
+        /// </summary>
+        public char ParameterPrefix
+        {
+            get
+            {
+                return this.SqlDialect.ParameterPrefix;
+            }
+        }
+
+        /// <summary>
         /// 获取数据存储表名称
         /// </summary>
         public string TableName
@@ -408,27 +493,6 @@ namespace HH.API.Services
             get
             {
                 return new T().TableName;
-            }
-        }
-
-        /// <summary>
-        /// 存储过程的参数
-        /// </summary>
-        public string ParamterChar
-        {
-            get
-            {
-                switch (ConnectionFactory.DatabaseType)
-                {
-                    case DatabaseType.SqlServer:
-                        return "@";
-                    case DatabaseType.MySql:
-                        return "?";
-                    case DatabaseType.Oracle:
-                        return ":";
-                    default:
-                        throw new NotSupportedException();
-                }
             }
         }
 
