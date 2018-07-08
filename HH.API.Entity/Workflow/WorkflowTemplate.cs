@@ -71,12 +71,12 @@ namespace HH.API.Entity
         /// </summary>
         [NotMapped]
         [JsonIgnore]
-        public WorkflowTemplateContent WorkflowTemplateContent { get; private set; }
+        public WorkflowTemplateDefine WorkflowTemplateContent { get; private set; }
 
         /// <summary>
         /// 获取或设置JSON格式的内容
         /// </summary>
-        public string Content
+        public string ContentText
         {
             get
             {
@@ -84,18 +84,19 @@ namespace HH.API.Entity
             }
             set
             {
-                this.WorkflowTemplateContent = JsonConvert.DeserializeObject<WorkflowTemplateContent>(value);
+                this.WorkflowTemplateContent = JsonConvert.DeserializeObject<WorkflowTemplateDefine>(value);
             }
         }
 
         /// <summary>
         /// 获取数据库表名
         /// </summary>
+        [NotMapped]
         public override string TableName
         {
             get
             {
-                return EntityConfig.Table.BizSchema;
+                return EntityConfig.Table.BizWorkflowTemplate;
             }
         }
 
@@ -131,7 +132,7 @@ namespace HH.API.Entity
         Discarded = 2
     }
 
-    public class WorkflowTemplateContent
+    public class WorkflowTemplateDefine
     {
         /// <summary>
         /// 获取或设置流程实例名称公式

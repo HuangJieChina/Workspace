@@ -43,6 +43,30 @@ namespace HH.API.Controllers
         [HttpPost("AddBizProperty")]
         public JsonResult AddBizProperty([FromBody] BizProperty property)
         {
+            // 数据格式校验
+            JsonResult validateResult = null;
+            if (!this.DataValidator<BizProperty>(property, out validateResult)) return validateResult;
+
+            // 验证 SchemaCode 是否有效
+            BizSchema bizSchema = this.bizSchemaRepository.GetBizSchemaByCode(property.SchemaCode);
+            if (bizSchema == null)
+            {
+                return Json(new APIResult()
+                {
+                    ResultCode = ResultCode.SchemaNotExists,
+                    Message = "Schema is not exists"
+                });
+            }
+            // 验证编码是否重复
+            if (bizSchema.Properties.Exists((p) => { return p.PropertyCode == property.PropertyCode; }))
+            {
+                return Json(new APIResult()
+                {
+                    ResultCode = ResultCode.CodeDuplicate,
+                    Message = "Property code is exists."
+                });
+            }
+
             dynamic result = this.bizSchemaRepository.AddBizProperty(property);
             return Json(result);
         }
@@ -138,7 +162,7 @@ namespace HH.API.Controllers
             this.workflowPackageRepository.Insert(workflowPackage);
 
             // 新增 数据模型
-            BizSchema schema = new BizSchema(packageCode, this.Authorization.ObjectId);
+            BizSchema schema = new BizSchema(packageCode, packageName, this.Authorization.ObjectId);
             this.bizSchemaRepository.Insert(schema);
 
             // 新增 默认表单

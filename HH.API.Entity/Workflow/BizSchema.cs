@@ -20,11 +20,13 @@ namespace HH.API.Entity.BizObject
         /// 用于新建的构造函数
         /// </summary>
         /// <param name="schemaCode"></param>
+        /// <param name="displayName"></param>
         /// <param name="createdBy"></param>
-        public BizSchema(string schemaCode, string createdBy)
+        public BizSchema(string schemaCode, string displayName, string createdBy)
         {
             this.SchemaCode = schemaCode;
             this.CreatedBy = createdBy;
+            this.DisplayName = displayName;
             this.InitialDefaultProperties();
         }
 
@@ -159,6 +161,7 @@ namespace HH.API.Entity.BizObject
         /// <summary>
         /// 获取或设置所归属的业务对象编码
         /// </summary>
+        [Required]
         public string SchemaCode { get; set; }
 
         /// <summary>
@@ -271,13 +274,13 @@ namespace HH.API.Entity.BizObject
         /// </summary>
         Numeric = 3,
         /// <summary>
-        /// 单一结构：时间段，存储结构为 Ticks(long)
-        /// </summary>
-        TimeSpan = 5,
-        /// <summary>
         /// 单一结构：组织类型,存储结构为JSON格式,[{ID:"xxx1",Name:"yyy1"},{ID:"xxx2",Name:"yyy2"}]
         /// </summary>
-        Orgainzation = 6,
+        Orgainzation = 5,
+        /// <summary>
+        /// 单一结构：地图数据，存储结构为 Ticks(long)
+        /// </summary>
+        Map = 6,
 
         #region 复合类型
         /// <summary>

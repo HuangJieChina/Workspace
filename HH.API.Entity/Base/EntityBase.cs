@@ -153,8 +153,8 @@ namespace HH.API.Entity
                 if (stringLength != null)
                 {// 长度是否有超出
                     string propertyValue = (property.GetValue(this) + string.Empty).Trim();
-                    if (propertyValue.Length >= stringLength.MaximumLength
-                        || propertyValue.Length <= stringLength.MinimumLength)
+                    if (propertyValue.Length > stringLength.MaximumLength
+                        || propertyValue.Length < stringLength.MinimumLength)
                     {
                         if (!string.IsNullOrEmpty(stringLength.ErrorMessage))
                         {

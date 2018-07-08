@@ -85,6 +85,11 @@ namespace HH.API.Entity
             /// </summary>
             public const string BizWorkflowPackage = "BizWorkflowPackage";
 
+            /// <summary>
+            /// 流程模板表
+            /// </summary>
+            public const string BizWorkflowTemplate = "BizWorkflowTemplate";
+
             public const string BizInstanceContext = "BizInstanceContext";
 
             /// <summary>

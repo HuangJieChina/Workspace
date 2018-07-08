@@ -11,6 +11,7 @@ using HH.API.IServices;
 using System.Threading;
 using HH.API.Entity.EntityCache;
 using HH.API.Entity.KeyCollectionCache;
+using HH.API.Common;
 
 namespace HH.API.Services
 {
@@ -140,6 +141,25 @@ namespace HH.API.Services
         {
             return ConnectionFactory.DefaultConnection();
         }
+
+        #region Lock Properties ---------------------------
+        private KeyLock keyLock = null;
+        /// <summary>
+        /// 获取KeyLock
+        /// </summary>
+        public KeyLock KeyLock
+        {
+            get
+            {
+                if (this.keyLock == null)
+                {
+                    this.keyLock = new KeyLock();
+                }
+                return this.keyLock;
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// 批量执行SQL语句

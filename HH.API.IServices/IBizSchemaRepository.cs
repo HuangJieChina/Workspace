@@ -12,6 +12,8 @@ namespace HH.API.IServices
 
         dynamic AddBizProperty(BizProperty property);
 
+        BizProperty GetBizProperty(string objectId);
+
         bool PublishBizSchema(string schemaCode);
     }
 }

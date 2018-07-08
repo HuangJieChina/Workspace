@@ -13,6 +13,9 @@ using System.Reflection.Emit;
 
 namespace HH.API.Services
 {
+    /// <summary>
+    /// 业务模型数据存储
+    /// </summary>
     public class BizSchemaRepository : RepositoryBase<BizSchema>, IBizSchemaRepository
     {
         /// <summary>
@@ -23,24 +26,58 @@ namespace HH.API.Services
 
         }
 
+        /// <summary>
+        /// 新增业务属性
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
         public dynamic AddBizProperty(BizProperty property)
         {
-            dynamic res = null;
-            using (var conn = ConnectionFactory.DefaultConnection())
-            {
-                res = conn.Insert<BizProperty>(property);
-            }
+            //if (string.IsNullOrWhiteSpace(property.SchemaCode))
+            //{
+            //    throw new Exception("Schema code can not be empty.");
+            //}
 
-            // 更新缓存
-            if (res != null)
+            try
             {
-                BizSchema bizSchema = this.GetObjectByKeyFromCache(BizSchema.PropertyName_SchemaCode, property.SchemaCode);
-                if (bizSchema != null)
+                this.KeyLock.Lock(property.SchemaCode);
+                BizSchema bizSchema = this.GetBizSchemaByCode(property.SchemaCode);
+                //if (bizSchema == null)
+                //{// 业务模型不存在
+                //    throw new Exception(string.Format("Schema is not exists,which schema code is {0}.", property.SchemaCode));
+                //}
+
+                //if (bizSchema.Properties.Exists((p) => p.PropertyCode == property.PropertyCode))
+                //{// 相同编码已经存在
+                //    throw new Exception(string.Format("This property code {0} is alerady exists.", property.PropertyCode));
+                //}
+
+                dynamic res = null;
+                using (var conn = ConnectionFactory.DefaultConnection())
+                {
+                    res = conn.Insert<BizProperty>(property);
+                }
+
+                // 更新缓存
+                if (res != null)
                 {
                     bizSchema.Properties.Add(property);
                 }
+                return res;
             }
-            return res;
+            finally
+            {
+                this.KeyLock.UnLock(property.SchemaCode);
+            }
+        }
+
+        
+        public BizProperty GetBizProperty(string objectId)
+        {
+            using (var conn = ConnectionFactory.DefaultConnection())
+            {
+                return conn.Get<BizProperty>(objectId);
+            }
         }
 
         /// <summary>
@@ -77,10 +114,10 @@ namespace HH.API.Services
         public override dynamic Insert(BizSchema t)
         {
             dynamic result;
-            if (this.GetBizSchemaByCode(t.SchemaCode) != null)
-            {
-                throw new Exception(string.Format("Schema code {{0}} is exists", t.SchemaCode));
-            }
+            //if (this.GetBizSchemaByCode(t.SchemaCode) != null)
+            //{
+            //    throw new Exception(string.Format("Schema code {{0}} is exists", t.SchemaCode));
+            //}
 
             using (var conn = ConnectionFactory.DefaultConnection())
             {
@@ -99,10 +136,10 @@ namespace HH.API.Services
         public bool PublishBizSchema(string schemaCode)
         {
             BizSchema bizSchema = this.GetBizSchemaByCode(schemaCode);
-            if (bizSchema == null)
-            {
-                throw new Exception(string.Format("Schema code {{0}} is not exists", schemaCode));
-            }
+            //if (bizSchema == null)
+            //{
+            //    throw new Exception(string.Format("Schema code {{0}} is not exists", schemaCode));
+            //}
 
             // 创建表结构
             DbHandlerFactory.Instance.GetDefaultDbHandler<BizSchema>().RegisterBizTable(bizSchema);
