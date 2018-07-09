@@ -38,8 +38,10 @@ namespace HH.API.Services
             {
                 bizSchema = this.GetBizSchemaByCode(bizObject.SchemaCode);
             }
+            bizObject.CreatedTime = DateTime.Now;
+
             List<CommandDefinition> commandDefinitions = this.GeneralInsert(bizSchema, bizObject);
-            return this.ExecuteSql(commandDefinitions);
+            return this.ExecuteSql(commandDefinitions) > 0 ? bizObject.ObjectId : string.Empty;
         }
 
         public BizObject GetBizObjectById(string schemaCode, string objectId)
@@ -70,8 +72,8 @@ namespace HH.API.Services
         /// <param name="predicate"></param>
         /// <param name="sort"></param>
         /// <returns></returns>
-        public List<BizObject> GetBizObjects(string schemaCode, 
-            object predicate = null, 
+        public List<BizObject> GetBizObjects(string schemaCode,
+            object predicate = null,
             IList<ISort> sort = null)
         {
             throw new NotImplementedException();

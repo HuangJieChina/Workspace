@@ -20,6 +20,8 @@ namespace Test
             workflowManagerTest.Test_AddWorkflowPackage();
             workflowManagerTest.Test_AddBizProperty();
             workflowManagerTest.Test_PublishSchema();
+            workflowManagerTest.Test_AddBizObject();
+
 
             //ValuesTest valuesTest = new ValuesTest();
             //valuesTest.Test_Method1();

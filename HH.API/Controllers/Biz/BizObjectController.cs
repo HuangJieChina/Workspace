@@ -5,12 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HH.API.Entity;
 using HH.API.Entity.BizObject;
+using HH.API.IServices;
 
 namespace HH.API.Controllers
 {
     [Route("api/[controller]")]
     public class BizObjectController : APIController
     {
+        public BizObjectController(IBizObjectRepository bizObjectRepository)
+        {
+            this.bizObjectRepository = bizObjectRepository;
+        }
+
+        private IBizObjectRepository bizObjectRepository = null;
+
         /// <summary>
         /// 添加业务结构
         /// </summary>
@@ -23,7 +31,16 @@ namespace HH.API.Controllers
             });
         }
 
+        [HttpPost("AddBizObject")]
+        public JsonResult AddBizObject([FromBody]BizObject bizObject)
+        {
+            // 当前访问的用户
+            bizObject.CreatedBy = string.Empty;
 
-        
+            dynamic res = this.bizObjectRepository.AddBizObject(bizObject);
+
+            return Json(res);
+        }
+
     }
 }

@@ -80,5 +80,28 @@ namespace Test.Test
             string result = this.HttpGet(ServerUri + "/WorkflowManager/PublishBizSchema", parameters);
             Console.WriteLine("Test_PublishSchema->" + result);
         }
+
+        /// <summary>
+        /// 测试新增业务对象
+        /// </summary>
+        public void Test_AddBizObject()
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("schemaCode", "POTest");
+
+            string bizSchemaValue = this.HttpGet(ServerUri + "/WorkflowManager/GetBizSchemaByCode", parameters);
+
+            BizSchema bizSchema = JsonConvert.DeserializeObject<BizSchema>(bizSchemaValue);
+
+            BizObject bizObject = new BizObject(bizSchema);
+
+            bizObject.SetValue("Title", "这个是一个主题....");
+            bizObject.SetValue("Money", 35.22);
+
+            var postValue = JsonConvert.SerializeObject(bizObject);
+
+            string result = this.HttpPost(ServerUri + "/BizObject/AddBizObject", postValue);
+            Console.WriteLine("Test_AddBizObject->" + result);
+        }
     }
 }
