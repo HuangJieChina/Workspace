@@ -87,7 +87,7 @@ namespace HH.API.Entity.BizObject
         {
             get
             {
-                return EntityConfig.Table.BizInstanceContext;
+                return EntityConfig.Table.InstanceContext;
             }
         }
     }

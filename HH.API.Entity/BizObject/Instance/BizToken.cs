@@ -58,7 +58,7 @@ namespace HH.API.Entity.BizObject
         {
             get
             {
-                return EntityConfig.Table.BizToken;
+                return EntityConfig.Table.Token;
             }
         }
     }

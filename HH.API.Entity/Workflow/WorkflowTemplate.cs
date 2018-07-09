@@ -96,7 +96,7 @@ namespace HH.API.Entity
         {
             get
             {
-                return EntityConfig.Table.BizWorkflowTemplate;
+                return EntityConfig.Table.WorkflowTemplate;
             }
         }
 

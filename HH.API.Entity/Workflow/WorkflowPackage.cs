@@ -59,7 +59,7 @@ namespace HH.API.Entity
         {
             get
             {
-                return EntityConfig.Table.BizWorkflowPackage;
+                return EntityConfig.Table.WorkflowPackage;
             }
         }
 

@@ -104,7 +104,7 @@ namespace HH.API.Entity.BizObject
         {
             get
             {
-                return EntityConfig.Table.BizWorkItemUnFinished;
+                return EntityConfig.Table.WorkItemUnFinished;
             }
         }
     }
@@ -124,7 +124,7 @@ namespace HH.API.Entity.BizObject
         {
             get
             {
-                return EntityConfig.Table.BizWorkItemFinished;
+                return EntityConfig.Table.WorkItemFinished;
             }
         }
     }
@@ -144,7 +144,7 @@ namespace HH.API.Entity.BizObject
         {
             get
             {
-                return EntityConfig.Table.BizWorkItemFinished;
+                return EntityConfig.Table.WorkItemFinished;
             }
         }
     }
@@ -164,7 +164,7 @@ namespace HH.API.Entity.BizObject
         {
             get
             {
-                return EntityConfig.Table.BizWorkItemFinished;
+                return EntityConfig.Table.WorkItemFinished;
             }
         }
     }

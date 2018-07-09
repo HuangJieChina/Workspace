@@ -10,7 +10,7 @@ namespace HH.API.Entity.BizObject.Instance
     /// 任务转交记录表
     /// </summary>
     [Serializable]
-    public class BizWorkItemTrack : EntityBase
+    public class WorkItemTrack : EntityBase
     {
         /// <summary>
         /// 获取或设置工作任务Id
@@ -41,7 +41,7 @@ namespace HH.API.Entity.BizObject.Instance
         {
             get
             {
-                return EntityConfig.Table.BizWorkItemTrack;
+                return EntityConfig.Table.WorkItemTrack;
             }
         }
     }
