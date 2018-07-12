@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace HH.API.Entity.BizObject.Instance
+namespace HH.API.Entity.Instance
 {
     /// <summary>
     /// 任务转交记录表

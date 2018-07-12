@@ -1,5 +1,6 @@
 ﻿using HH.API.Entity;
-using HH.API.Entity.BizObject;
+using HH.API.Entity.BizData;
+using HH.API.Entity.BizModel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

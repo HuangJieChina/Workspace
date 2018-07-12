@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HH.API.Entity.BizModel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HH.API.Entity.BizObject
+namespace HH.API.Entity.BizData
 {
     /// <summary>
     /// 所有实体类的基类

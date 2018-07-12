@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HH.API.Entity.BizObject
+namespace HH.API.Entity.Message
 {
     /// <summary>
     /// 业务流程消息对象

@@ -1,5 +1,5 @@
 ﻿using DapperExtensions;
-using HH.API.Entity.BizObject;
+using HH.API.Entity.BizData;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,5 +1,6 @@
 ﻿using HH.API.Entity;
-using HH.API.Entity.BizObject;
+using HH.API.Entity.BizModel;
+using HH.API.Entity.Instance;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace HH.API.IController
         /// <summary>
         /// 获取或设置业务流程实例数据
         /// </summary>
-        public BizInstanceContext InstanceContext { get; set; }
+        public InstanceContext InstanceContext { get; set; }
 
         /// <summary>
         /// 获取或设置活动节点相关设置

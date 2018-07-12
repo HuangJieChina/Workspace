@@ -6,13 +6,13 @@ using System.IO;
 using DapperExtensions.Mapper;
 using Newtonsoft.Json;
 
-namespace HH.API.Entity.BizObject
+namespace HH.API.Entity.Instance
 {
     /// <summary>
     /// 流程实例表
     /// </summary>
     [Serializable]
-    public class BizToken : EntityBase
+    public class Token : EntityBase
     {
         /// <summary>
         /// 获取或设置流程实例Id

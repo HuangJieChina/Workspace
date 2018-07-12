@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HH.API.Entity;
-using HH.API.Entity.BizObject;
 using HH.API.IServices;
+using HH.API.Entity.BizData;
+using HH.API.Entity.BizModel;
 
 namespace HH.API.Controllers
 {

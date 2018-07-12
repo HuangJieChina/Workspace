@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using DapperExtensions.Mapper;
 
-namespace HH.API.Entity
+namespace HH.API.Entity.BizData
 {
     /// <summary>
     /// 审批记录表

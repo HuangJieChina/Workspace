@@ -11,8 +11,8 @@ using System.Security.Claims;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
-using HH.API.Entity.BizObject;
 using Newtonsoft.Json;
+using HH.API.Entity.BizModel;
 
 namespace HH.API.Controllers
 {

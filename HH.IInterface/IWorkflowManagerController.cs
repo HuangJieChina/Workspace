@@ -1,5 +1,5 @@
 ﻿using HH.API.Entity;
-using HH.API.Entity.BizObject;
+using HH.API.Entity.BizModel;
 using Microsoft.AspNetCore.Mvc;
 using System;
 

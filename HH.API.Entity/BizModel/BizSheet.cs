@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HH.API.Entity.BizObject
+namespace HH.API.Entity.BizModel
 {
     /// <summary>
     /// 业务表单

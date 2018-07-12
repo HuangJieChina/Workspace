@@ -1,5 +1,7 @@
 ﻿using HH.API.Entity;
-using HH.API.Entity.BizObject;
+using HH.API.Entity.BizData;
+using HH.API.Entity.Instance;
+using HH.API.Entity.Message;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -118,7 +120,7 @@ namespace HH.API.IController
         /// <param name="objectId">任务Id</param>
         /// <returns></returns>
         [HttpGet]
-        BizWorkItem GetWorkItem(string objectId);
+        WorkItem GetWorkItem(string objectId);
 
         /// <summary>
         /// 结束传阅任务
@@ -161,7 +163,7 @@ namespace HH.API.IController
         /// <param name="instanceId">流程实例数据</param>
         /// <returns></returns>
         [HttpPost]
-        BizInstanceContext GetInstanceContext(string instanceId);
+        InstanceContext GetInstanceContext(string instanceId);
 
         #endregion
     }

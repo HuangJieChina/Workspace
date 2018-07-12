@@ -5,8 +5,8 @@ using Dapper;
 using DapperExtensions;
 using System.Collections.Generic;
 using System.Linq;
-using HH.API.Entity.BizObject;
 using HH.API.IServices;
+using HH.API.Entity.BizModel;
 
 namespace HH.API.Services
 {

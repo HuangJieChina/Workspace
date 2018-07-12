@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using DapperExtensions.Mapper;
 
-namespace HH.API.Entity
+namespace HH.API.Entity.BizModel
 {
     /// <summary>
     /// 流程包

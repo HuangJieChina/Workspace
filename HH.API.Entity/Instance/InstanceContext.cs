@@ -4,15 +4,16 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using DapperExtensions.Mapper;
+using HH.API.Entity.BizData;
 using Newtonsoft.Json;
 
-namespace HH.API.Entity.BizObject
+namespace HH.API.Entity.Instance
 {
     /// <summary>
     /// 流程实例表
     /// </summary>
     [Serializable]
-    public class BizInstanceContext : EntityBase
+    public class InstanceContext : EntityBase
     {
         /// <summary>
         /// 获取或设置流程实例名称
@@ -76,7 +77,7 @@ namespace HH.API.Entity.BizObject
         /// 获取或设置活动集合
         /// </summary>
         [NotMapped]
-        public List<BizToken> Tokens { get; set; }
+        public List<Token> Tokens { get; set; }
 
         /// <summary>
         /// 获取数据库表名

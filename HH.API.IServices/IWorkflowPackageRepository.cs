@@ -1,4 +1,5 @@
 ﻿using HH.API.Entity;
+using HH.API.Entity.BizModel;
 using System;
 
 namespace HH.API.IServices

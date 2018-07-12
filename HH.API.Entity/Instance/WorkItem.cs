@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace HH.API.Entity.BizObject
+namespace HH.API.Entity.Instance
 {
     /// <summary>
     /// 任务数据
     /// </summary>
     [Serializable]
-    public class BizWorkItem : EntityBase
+    public class WorkItem : EntityBase
     {
         /// <summary>
         /// 获取或设置活动节点编码
@@ -93,7 +93,7 @@ namespace HH.API.Entity.BizObject
     /// 待办任务
     /// </summary>
     [Serializable]
-    public class BizWorkItemUnfinished : BizWorkItem
+    public class WorkItemUnfinished : WorkItem
     {
         /// <summary>
         /// 获取数据库表名
@@ -113,7 +113,7 @@ namespace HH.API.Entity.BizObject
     /// 已办任务
     /// </summary>
     [Serializable]
-    public class BizWorkItemFinished : BizWorkItem
+    public class WorkItemFinished : WorkItem
     {
         /// <summary>
         /// 获取数据库表名
@@ -133,7 +133,7 @@ namespace HH.API.Entity.BizObject
     /// 已阅任务
     /// </summary>
     [Serializable]
-    public class BizCirculateItemFinished : BizWorkItem
+    public class CirculateItemFinished : WorkItem
     {
         /// <summary>
         /// 获取数据库表名
@@ -153,7 +153,7 @@ namespace HH.API.Entity.BizObject
     /// 待阅任务
     /// </summary>
     [Serializable]
-    public class BizCirculateItemUnfinished : BizWorkItem
+    public class CirculateItemUnfinished : WorkItem
     {
         /// <summary>
         /// 获取数据库表名

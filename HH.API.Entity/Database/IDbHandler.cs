@@ -1,4 +1,4 @@
-﻿using HH.API.Entity.BizObject;
+﻿using HH.API.Entity.BizModel;
 using System;
 using System.Collections.Generic;
 using System.Text;

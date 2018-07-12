@@ -4,12 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HH.API.Entity;
-using HH.API.Entity.BizObject;
 using HH.API.Services;
 using HH.API.IController;
 using HH.API.IServices;
 using Microsoft.AspNetCore.Authorization;
-
+using HH.API.Entity.BizModel;
 
 namespace HH.API.Controllers
 {
@@ -71,7 +70,7 @@ namespace HH.API.Controllers
             return Json(result);
         }
 
-        public JsonResult AddBizSheet([FromBody] BizSheet bizSheet)
+        public JsonResult AddBizSheet([FromBody]BizSheet bizSheet)
         {
             throw new NotImplementedException();
         }

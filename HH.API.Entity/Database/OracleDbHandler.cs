@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using HH.API.Entity.BizObject;
+using HH.API.Entity.BizModel;
 
 namespace HH.API.Entity.Database
 {
