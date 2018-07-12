@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HH.API.Entity
+namespace HH.API.Entity.Orgainzation
 {
-
     /// <summary>
     /// 组织类型
     /// </summary>

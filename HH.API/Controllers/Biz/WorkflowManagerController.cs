@@ -82,7 +82,7 @@ namespace HH.API.Controllers
             bool isRoot)
         {
             FunctionNode functionNode = new FunctionNode(parentId, functionName,
-                this.Authorization.ObjectId,
+                this.Authorized.ObjectId,
                 sortOrder,
                 isRoot,
                 FunctionType.WorkflowPackage);
@@ -161,12 +161,12 @@ namespace HH.API.Controllers
             this.workflowPackageRepository.Insert(workflowPackage);
 
             // 新增 数据模型
-            BizSchema schema = new BizSchema(packageCode, packageName, this.Authorization.ObjectId);
+            BizSchema schema = new BizSchema(packageCode, packageName, this.Authorized.ObjectId);
             this.bizSchemaRepository.Insert(schema);
 
             // 新增 默认表单
             BizSheet sheet = new BizSheet();
-            sheet.Initial(packageCode, this.Authorization.ObjectId);
+            sheet.Initial(packageCode, this.Authorized.ObjectId);
             if (this.bizSheetRepository.GetBizSheetByCode(sheet.SheetCode) == null)
             {
                 this.bizSheetRepository.Insert(sheet);
@@ -181,7 +181,7 @@ namespace HH.API.Controllers
             WorkflowTemplate workflow = new WorkflowTemplate(packageCode,
                 packageCode,
                 packageName,
-                this.Authorization.ObjectId,
+                this.Authorized.ObjectId,
                 sortOrder);
             if (this.workflowTemplateRepository.GetDesignWorkflowTemplate(workflow.WorkflowCode) == null)
             {
@@ -211,7 +211,7 @@ namespace HH.API.Controllers
             WorkflowTemplate workflow = new WorkflowTemplate(schemaCode,
                 workflowCode,
                 displayName,
-                this.Authorization.ObjectId,
+                this.Authorized.ObjectId,
                 sortOrder);
             this.workflowTemplateRepository.Insert(workflow);
 

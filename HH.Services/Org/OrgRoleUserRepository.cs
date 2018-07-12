@@ -6,6 +6,7 @@ using DapperExtensions;
 using System.Collections.Generic;
 using System.Linq;
 using HH.API.IServices;
+using HH.API.Entity.Orgainzation;
 
 namespace HH.API.Services
 {

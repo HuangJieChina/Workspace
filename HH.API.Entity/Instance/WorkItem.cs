@@ -58,37 +58,7 @@ namespace HH.API.Entity.Instance
         [JsonIgnore]
         public override string TableName => throw new NotImplementedException();
     }
-
-    /// <summary>
-    /// 任务类型
-    /// </summary>
-    public enum ItemType
-    {
-        /// <summary>
-        /// 待办类型
-        /// </summary>
-        WorkItem = 0,
-        /// <summary>
-        /// 协办类型
-        /// </summary>
-        Assist = 1,
-        /// <summary>
-        /// 传阅类型
-        /// </summary>
-        CirculateItem = 2
-    }
-
-    /// <summary>
-    /// 任务状态
-    /// </summary>
-    public enum ItemState
-    {
-        Wating = 0,
-        Working = 1,
-        Finished = 2,
-        Cancel = 3
-    }
-
+    
     /// <summary>
     /// 待办任务
     /// </summary>

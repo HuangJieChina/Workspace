@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Common;
 using HH.API.IServices;
+using HH.API.Entity.Orgainzation;
 
 namespace HH.API.Services
 {

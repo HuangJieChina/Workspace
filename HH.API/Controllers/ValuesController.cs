@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using HH.API.Entity.BizModel;
+using HH.API.Entity.Orgainzation;
 
 namespace HH.API.Controllers
 {
@@ -130,7 +131,7 @@ namespace HH.API.Controllers
         [HttpGet("TestAuth")]
         public string TestAuth(string inputValue)
         {
-            return "Test auth->" + inputValue + "," + this.Authorization.ObjectId;
+            return "Test auth->" + inputValue + "," + this.Authorized.ObjectId;
         }
 
         // GET api/values/5

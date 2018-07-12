@@ -37,6 +37,8 @@ namespace HH.API.Aop
         public async Task Invoke(HttpContext context)
         {
             // TODO:发送开始请求调用的消息，用于记录每次的请求调用
+            // TODO:如果是API访问，则验证是否有接口权限
+            // TODO:如果是登录用户，那么默认是以H3的API接口访问，则给所有接口权限，只验证用户权限
 
             string remoteIp = context.Connection.RemoteIpAddress.ToString();
             if (remoteIp.EndsWith("100"))

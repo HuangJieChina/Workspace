@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace HH.API.Entity
+namespace HH.API.Entity.Orgainzation
 {
     /// <summary>
     /// 组织对象基类

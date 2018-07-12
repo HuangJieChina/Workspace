@@ -20,6 +20,11 @@ namespace HH.API
         Error = -1,
 
         /// <summary>
+        /// 权限不足
+        /// </summary>
+        PermissionDenied = 100000,
+
+        /// <summary>
         /// 实体数据格式校验错误
         /// </summary>
         DataFromatError = 100001,

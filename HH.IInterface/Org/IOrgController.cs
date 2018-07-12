@@ -1,4 +1,5 @@
 ﻿using HH.API.Entity;
+using HH.API.Entity.Orgainzation;
 using Microsoft.AspNetCore.Mvc;
 using System;
 

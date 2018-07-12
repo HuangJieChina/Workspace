@@ -106,7 +106,7 @@ namespace HH.API.Controllers
             {
                 AccessToken = tokenString,
                 TokenType = TokenType,
-                AuthorizationType = AuthorizationType.User,
+                AuthType = this.AuthorizationType,
                 profile = new
                 {
                     UserId = Guid.NewGuid().ToString(),
@@ -151,7 +151,7 @@ namespace HH.API.Controllers
             {
                 AccessToken = tokenString,
                 TokenType = TokenType,
-                AuthorizationType = AuthorizationType.System,
+                AuthType = this.AuthorizationType,
                 profile = new
                 {
                     UserId = Guid.NewGuid().ToString(),

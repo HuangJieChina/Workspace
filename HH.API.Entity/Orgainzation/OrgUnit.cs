@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DapperExtensions.Mapper;
 
-namespace HH.API.Entity
+namespace HH.API.Entity.Orgainzation
 {
     /// <summary>
     /// 组织机构类

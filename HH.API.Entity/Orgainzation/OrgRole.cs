@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HH.API.Entity
+namespace HH.API.Entity.Orgainzation
 {
     /// <summary>
     /// 角色类(角色表和组织无关)

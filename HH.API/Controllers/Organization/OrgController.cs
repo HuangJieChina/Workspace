@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using HH.API.Entity;
 using HH.API.IController;
 using HH.API.IServices;
+using HH.API.Entity.Orgainzation;
+using HH.API.Authorization;
 
 namespace HH.API.Controllers
 {
@@ -230,9 +232,12 @@ namespace HH.API.Controllers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("UpdateUser")]
         public JsonResult UpdateUser([FromBody]OrgUser user)
         {
+            // 管理权限、查看权限
+            if (!this.ValidationOrganization(AuthorizationMode.Admin, user.ObjectId)) return PermissionDenied;
+
             bool res = this.orgUserRepository.Update(user);
             return Json(res);
         }
