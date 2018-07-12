@@ -13,7 +13,7 @@ using HH.API.Entity.BizModel;
 namespace HH.API.Controllers
 {
     [Route("api/[controller]")]
-    public class WorkflowManagerController : APIController, IWorkflowManagerController
+    public class WorkflowController : APIController, IWorkflowController
     {
         #region 服务注入对象 --------------------
         /// <summary>
@@ -26,7 +26,7 @@ namespace HH.API.Controllers
         public IFunctionNodeRepository functionNodeRepository = null;
         #endregion
 
-        public WorkflowManagerController(IWorkflowPackageRepository workflowPackageRepository,
+        public WorkflowController(IWorkflowPackageRepository workflowPackageRepository,
             IBizSchemaRepository bizSchemaRepository,
             IBizSheetRepository bizSheetRepository,
             IWorkflowTemplateRepository workflowTemplateRepository,
@@ -42,6 +42,8 @@ namespace HH.API.Controllers
         [HttpPost("AddBizProperty")]
         public JsonResult AddBizProperty([FromBody] BizProperty property)
         {
+            // TODO:权限校验
+
             // 数据格式校验
             JsonResult validateResult = null;
             if (!this.DataValidator<BizProperty>(property, out validateResult)) return validateResult;
@@ -81,6 +83,8 @@ namespace HH.API.Controllers
             int sortOrder,
             bool isRoot)
         {
+            // TODO:权限校验
+
             FunctionNode functionNode = new FunctionNode(parentId, functionName,
                 this.Authorized.ObjectId,
                 sortOrder,
@@ -120,6 +124,7 @@ namespace HH.API.Controllers
         [HttpGet("GetRootFolders")]
         public JsonResult GetRootFolders()
         {
+            // TODO:权限校验
             List<FunctionNode> roots = this.functionNodeRepository.GetRootFunctionNodesByType(FunctionType.WorkflowPackage);
             return Json(roots);
         }
@@ -127,6 +132,7 @@ namespace HH.API.Controllers
         [HttpGet("GetSubFolders")]
         public JsonResult GetSubFolders(string parentId)
         {
+            // TODO:权限校验
             List<FunctionNode> functionNodes = this.functionNodeRepository.GetSubFunctionNodesByParent(parentId);
             return Json(functionNodes);
         }

@@ -148,21 +148,34 @@ namespace HH.API.Controllers
             return Json(new APIResult() { ResultCode = ResultCode.Success, Extend = user });
         }
 
+        /// <summary>
+        /// 根据角色查找用户
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <param name="roleCode"></param>
+        /// <returns></returns>
+        [HttpGet("FindRoleUsers")]
         public JsonResult FindRoleUsers(string objectId, string roleCode)
         {
+            if (!this.ValidationOrganization(AuthorizationMode.View, objectId)) return PermissionDenied;
+
             throw new NotImplementedException();
         }
 
-        [HttpGet]
+        [HttpGet("GetChildUnitsByParent")]
         public JsonResult GetChildUnitsByParent(string parentId)
         {
+            if (!this.ValidationOrganization(AuthorizationMode.View, parentId)) return PermissionDenied;
+
             List<OrgUnit> orgUnits = this.orgUnitRepository.GetChildUnitsByParent(parentId, false);
             return Json(orgUnits);
         }
 
-        [HttpGet]
+        [HttpGet("GetChildUsersByParent")]
         public JsonResult GetChildUsersByParent(string parentId)
         {
+            if (!this.ValidationOrganization(AuthorizationMode.View, parentId)) return PermissionDenied;
+
             List<OrgUser> orgUsers = this.orgUserRepository.GetChildUsersByParent(parentId, false);
             return Json(orgUsers);
         }
@@ -172,9 +185,11 @@ namespace HH.API.Controllers
         /// </summary>
         /// <param name="objectId"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("GetManager")]
         public JsonResult GetManager(string objectId)
         {
+            if (!this.ValidationOrganization(AuthorizationMode.View, parentId)) return PermissionDenied;
+
             OrganizationObject organizationObject = this.GetOrganizationObjectById(objectId);
             OrgUser user = this.orgUserRepository.GetObjectById(organizationObject.ManagerId);
             return Json(user);
@@ -189,6 +204,9 @@ namespace HH.API.Controllers
         [HttpGet("RemoveOrgRole")]
         public JsonResult RemoveOrgRole(string objectId)
         {
+            // 权限验证
+            if (!this.ValidationOrganization(AuthorizationMode.Admin, objectId)) return PermissionDenied;
+
             bool res = this.orgRoleRepository.RemoveObjectById(objectId);
             return Json(res);
         }
