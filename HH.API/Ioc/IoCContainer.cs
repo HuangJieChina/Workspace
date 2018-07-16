@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using HH.API.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HH.API

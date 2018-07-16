@@ -31,7 +31,7 @@ namespace HH.API.Services
         public SsoSystem GetSsoSystemByCorpId(string corpId)
         {
             SsoSystem ssoSystem = this.GetObjectByKey(SsoSystem.PropertyName_CorpId, corpId);
-            if (ssoSystem == null) throw new Exception(string.Format("CorpId [{0}] is not exists", corpId));
+            // if (ssoSystem == null) throw new Exception(string.Format("CorpId [{0}] is not exists", corpId));
             return ssoSystem;
         }
 
@@ -44,8 +44,8 @@ namespace HH.API.Services
         public SsoSystem GetSsoSystemByCorpId(string corpId, string secret)
         {
             SsoSystem ssoSystem = this.GetSsoSystemByCorpId(corpId);
-            if (!ssoSystem.ValidateSecret(secret)) throw new Exception(string.Format("corpId or secret is not correct.", corpId));
-            if (ssoSystem.IsEnabled) throw new Exception("This system is disenabled!");
+            // if (!ssoSystem.ValidateSecret(secret)) throw new Exception(string.Format("corpId or secret is not correct.", corpId));
+            // if (ssoSystem.IsEnabled) throw new Exception("This system is disenabled!");
             return ssoSystem;
         }
 
@@ -60,8 +60,7 @@ namespace HH.API.Services
         public string GetToken(string corpId, string secret, string targetCorpId, string inputValue)
         {
             SsoSystem ssoSystem = this.GetSsoSystemByCorpId(corpId, secret);
-            if (!ssoSystem.AllowGetToken) throw new Exception("This system is not allow get token.");
-
+            // if (!ssoSystem.AllowGetToken) throw new Exception("This system is not allow get token.");
             return this.GenerateToken(corpId, targetCorpId, inputValue);
         }
 

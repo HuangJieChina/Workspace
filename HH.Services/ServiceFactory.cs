@@ -1,7 +1,9 @@
-﻿using System;
+﻿using HH.API.IServices;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Linq;
 
 namespace HH.API.Services
 {
@@ -35,12 +37,29 @@ namespace HH.API.Services
 
         private Dictionary<string, object> services = new Dictionary<string, object>();
 
+        private IEnumerable<Type> _ImplementationTypes = null;
+        /// <summary>
+        /// 获取当前程序集的所有类
+        /// </summary>
+        public IEnumerable<Type> ImplementationTypes
+        {
+            get
+            {
+                if (this._ImplementationTypes == null)
+                {
+                    this._ImplementationTypes = this.GetType().Assembly.DefinedTypes.Where(type =>
+                    type.IsClass && !type.IsAbstract && !type.IsGenericType && !type.IsNested);
+                }
+                return this._ImplementationTypes;
+            }
+        }
+
         /// <summary>
         /// 获取单例对象实例
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T GetServices<T>() where T : class, new()
+        public T GetRepository<T>()
         {
             string fullName = typeof(T).FullName;
 
@@ -50,17 +69,28 @@ namespace HH.API.Services
 
                 if (services.ContainsKey(fullName))
                 {
-                    return services[fullName] as T;
+                    return (T)services[fullName];
                 }
-                
-                T t = new T();
-                services.Add(fullName, t);
-                return t;
+
+                T result = default(T);
+                foreach (var type in this.ImplementationTypes)
+                {
+                    if (typeof(T).IsAssignableFrom(type))
+                    {
+                        result = (T)type.Assembly.CreateInstance(type.FullName);
+                        services.Add(fullName, result);
+                        break;
+                    }
+                }
+
+                return result;
             }
             finally
             {
                 Monitor.Exit(lockObject);
             }
         }
+
+
     }
 }

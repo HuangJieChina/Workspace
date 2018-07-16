@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using HH.API.Entity.BizModel;
 using HH.API.Entity.Orgainzation;
+using HH.API.IServices;
 
 namespace HH.API.Controllers
 {

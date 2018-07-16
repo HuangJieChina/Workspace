@@ -8,6 +8,7 @@ using HH.API.IController;
 using HH.API.IServices;
 using HH.API.Entity.Orgainzation;
 using HH.API.Authorization;
+using HH.API.Services;
 
 namespace HH.API.Controllers
 {
@@ -17,6 +18,29 @@ namespace HH.API.Controllers
     [Route("api/[controller]")]
     public class OrgController : APIController, IOrgController
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="orgUnitRepository"></param>
+        /// <param name="orgUserRepository"></param>
+        /// <param name="orgRoleRepository"></param>
+        /// <param name="orgRoleUserRepository"></param>
+        /// <param name="orgGroupRepository"></param>
+        public OrgController(IOrgUnitRepository orgUnitRepository,
+            IOrgUserRepository orgUserRepository,
+            IOrgRoleRepository orgRoleRepository,
+            IOrgRoleUserRepository orgRoleUserRepository,
+            IOrgGroupRepository orgGroupRepository)
+        {
+            this.orgUnitRepository = this.GetRepository<IOrgUnitRepository>();
+            // this.orgUserRepository = this.GetRepository<IOrgUserRepository>();
+            this.orgUnitRepository = orgUnitRepository;
+            this.orgUserRepository = orgUserRepository;
+            this.orgRoleRepository = orgRoleRepository;
+            this.orgRoleUserRepository = orgRoleUserRepository;
+            this.orgGroupRepository = orgGroupRepository;
+        }
+
         #region 依赖注入的服务对象 ---------------
         public IOrgUnitRepository orgUnitRepository = null;
         public IOrgUserRepository orgUserRepository = null;
@@ -24,19 +48,6 @@ namespace HH.API.Controllers
         public IOrgGroupRepository orgGroupRepository = null;
         public IOrgRoleUserRepository orgRoleUserRepository = null;
         #endregion
-
-        public OrgController(IOrgUnitRepository orgUnitRepository,
-            IOrgUserRepository orgUserRepository,
-            IOrgRoleRepository orgRoleRepository,
-            IOrgRoleUserRepository orgRoleUserRepository,
-            IOrgGroupRepository orgGroupRepository)
-        {
-            this.orgUnitRepository = orgUnitRepository;
-            this.orgUserRepository = orgUserRepository;
-            this.orgRoleRepository = orgRoleRepository;
-            this.orgRoleUserRepository = orgRoleUserRepository;
-            this.orgGroupRepository = orgGroupRepository;
-        }
 
         public JsonResult AddOrgRole([FromBody] OrgRole orgRole)
         {

@@ -24,7 +24,6 @@ namespace HH.API.Services
         /// </summary>
         public BizSchemaRepository()
         {
-
         }
 
         /// <summary>
@@ -72,7 +71,7 @@ namespace HH.API.Services
             }
         }
 
-        
+
         public BizProperty GetBizProperty(string objectId)
         {
             using (var conn = ConnectionFactory.DefaultConnection())

@@ -37,7 +37,7 @@ namespace HH.API.Services
             this.CheckTableSchema();
 
             // 注册码校验
-            ServiceRegister.Instance.Initial();
+            ServiceInit.Instance.Initial();
         }
 
         private ISqlDialect sqlDialect = null;

@@ -168,6 +168,16 @@ namespace HH.API.Controllers
             }
         }
         #endregion
+
+        /// <summary>
+        /// 获取服务访问对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T GetRepository<T>()
+        {
+            return ServiceFactory.Instance.GetRepository<T>();
+        }
     }
 
 

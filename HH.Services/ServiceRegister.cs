@@ -11,21 +11,21 @@ namespace HH.API.Services
     /// <summary>
     /// 服务初始化
     /// </summary>
-    public class ServiceRegister
+    public class ServiceInit
     {
         /// <summary>
         /// 私有化构造函数
         /// </summary>
-        private ServiceRegister()
+        private ServiceInit()
         {
 
         }
 
-        private static ServiceRegister _Instance = null;
+        private static ServiceInit _Instance = null;
         /// <summary>
         /// 获取对象实例
         /// </summary>
-        public static ServiceRegister Instance
+        public static ServiceInit Instance
         {
             get
             {
@@ -35,7 +35,7 @@ namespace HH.API.Services
 
                     if (_Instance == null)
                     {
-                        _Instance = new ServiceRegister();
+                        _Instance = new ServiceInit();
                     }
                 }
                 finally
