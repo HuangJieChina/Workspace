@@ -52,6 +52,11 @@ namespace HH.API.Entity.Orgainzation
         public string Mobile { get; set; }
 
         /// <summary>
+        /// 获取或设置用户手机号2(仅做记录)
+        /// </summary>
+        public string Mobile2 { get; set; }
+
+        /// <summary>
         /// 获取或设置用户邮箱
         /// </summary>
         public string Email { get; set; }
@@ -75,7 +80,9 @@ namespace HH.API.Entity.Orgainzation
         /// <summary>
         /// 获取或设置虚拟用户关联的真实用户Id
         /// </summary>
-        public bool RelationUserId { get; set; }
+        [StringLength(36)]
+        [Column(TypeName = "char")]
+        public string RelationUserId { get; set; }
 
         private DateTime _BirthDay = new DateTime(1980, 1, 1);
         /// <summary>

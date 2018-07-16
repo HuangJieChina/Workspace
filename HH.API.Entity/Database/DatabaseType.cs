@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HH.API.Entity
+namespace HH.API.Entity.Database
 {
     /// <summary>
     /// 数据库类型

@@ -23,9 +23,19 @@ namespace HH.API.Entity.Instance
         public string Transfer { get; set; }
 
         /// <summary>
+        /// 获取或设置转交人姓名
+        /// </summary>
+        public string TransferName { get; set; }
+
+        /// <summary>
         /// 获取或设置接收人
         /// </summary>
         public string Recipientor { get; set; }
+
+        /// <summary>
+        /// 获取或设置接收人姓名
+        /// </summary>
+        public string RecipientorName { get; set; }
 
         /// <summary>
         /// 获取或设置转交意见

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Globalization;
 using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
+using HH.API.Entity.Database;
 
 namespace HH.API.Entity
 {

@@ -12,6 +12,7 @@ using System.Threading;
 using HH.API.Entity.EntityCache;
 using HH.API.Entity.KeyCollectionCache;
 using HH.API.Common;
+using HH.API.Entity.Database;
 
 namespace HH.API.Services
 {

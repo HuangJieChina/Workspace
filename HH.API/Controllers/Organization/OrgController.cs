@@ -188,7 +188,7 @@ namespace HH.API.Controllers
         [HttpGet("GetManager")]
         public JsonResult GetManager(string objectId)
         {
-            if (!this.ValidationOrganization(AuthorizationMode.View, parentId)) return PermissionDenied;
+            if (!this.ValidationOrganization(AuthorizationMode.View, objectId)) return PermissionDenied;
 
             OrganizationObject organizationObject = this.GetOrganizationObjectById(objectId);
             OrgUser user = this.orgUserRepository.GetObjectById(organizationObject.ManagerId);

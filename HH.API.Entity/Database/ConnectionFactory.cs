@@ -8,7 +8,7 @@ using DapperExtensions;
 using System.Data.Common;
 using HH.API.Entity;
 
-namespace HH.API.Entity
+namespace HH.API.Entity.Database
 {
     /// <summary>
     /// 数据库连接工程类

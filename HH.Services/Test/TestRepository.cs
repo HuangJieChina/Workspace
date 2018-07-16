@@ -5,6 +5,7 @@ using Dapper;
 using DapperExtensions;
 using System.Collections.Generic;
 using System.Linq;
+using HH.API.Entity.Database;
 
 namespace HH.API.Services
 {

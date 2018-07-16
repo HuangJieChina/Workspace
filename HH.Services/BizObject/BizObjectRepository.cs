@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HH.API.Entity.BizData;
 using HH.API.Entity.BizModel;
+using HH.API.Entity.Database;
 
 namespace HH.API.Services
 {

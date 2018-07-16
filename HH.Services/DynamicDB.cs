@@ -11,6 +11,7 @@ using HH.API.IServices;
 using System.Threading;
 using HH.API.Entity.EntityCache;
 using HH.API.Entity.KeyCollectionCache;
+using HH.API.Entity.Database;
 
 namespace HH.API.Services
 {
