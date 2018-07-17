@@ -33,7 +33,7 @@ namespace HH.API.Entity.App
         /// <summary>
         /// 获取或设置绑定的微信应用Id
         /// </summary>
-        public string WeChatId { get; set; }
+        public string WeChatAppId { get; set; }
 
         /// <summary>
         /// 获取或设置应用包排序号

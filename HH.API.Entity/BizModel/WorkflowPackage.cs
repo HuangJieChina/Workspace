@@ -15,12 +15,12 @@ namespace HH.API.Entity.BizModel
     {
         public WorkflowPackage() { }
 
-        public WorkflowPackage(string folderId,
+        public WorkflowPackage(string catalogId,
             string packageCode,
             string packageName,
             int sortOrder)
         {
-            this.FolderId = folderId;
+            this.CatalogId = catalogId;
             this.PackageCode = packageCode;
             this.PackageName = packageName;
             this.SortOrder = sortOrder;
@@ -44,7 +44,7 @@ namespace HH.API.Entity.BizModel
         /// <summary>
         /// 获取或设置对应所属目录Id
         /// </summary>
-        public string FolderId { get; set; }
+        public string CatalogId { get; set; }
 
         /// <summary>
         /// 获取或设置应用包排序号
