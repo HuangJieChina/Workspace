@@ -6,10 +6,11 @@ using DapperExtensions;
 using System.Collections.Generic;
 using System.Linq;
 using HH.API.IServices;
+using HH.API.Entity.App;
 
 namespace HH.API.Services
 {
-    public class FunctionNodeRepository : RepositoryBase<FunctionNode>, IFunctionNodeRepository
+    public class FunctionNodeRepository : RepositoryBase<AppCatalog>, IAppCatalogRepository
     {
         /// <summary>
         /// 构造函数
@@ -18,22 +19,20 @@ namespace HH.API.Services
         {
 
         }
-
-        public FunctionNode GetFunctionNodeByName(FunctionType functionType, string parentId, string functionName)
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parentId"></param>
+        /// <param name="functionName"></param>
+        /// <returns></returns>
+        public AppCatalog GetFunctionNodeByName(string parentId, string functionName)
         {
             // 查询条件
             IList<IPredicate> predList = new List<IPredicate>();
 
-            predList.Add(Predicates.Field<FunctionNode>(p => p.FunctionType, Operator.Eq, (int)functionType));
-            if (string.IsNullOrEmpty(parentId))
-            {
-                predList.Add(Predicates.Field<FunctionNode>(p => p.IsRoot, Operator.Eq, "1"));
-            }
-            else
-            {
-                predList.Add(Predicates.Field<FunctionNode>(p => p.ParentId, Operator.Eq, parentId));
-            }
-            predList.Add(Predicates.Field<FunctionNode>(p => p.FunctionName, Operator.Eq, functionName));
+            predList.Add(Predicates.Field<AppCatalog>(p => p.ParentId, Operator.Eq, parentId));
+            predList.Add(Predicates.Field<AppCatalog>(p => p.FunctionName, Operator.Eq, functionName));
 
             IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
 
@@ -41,35 +40,13 @@ namespace HH.API.Services
         }
 
         /// <summary>
-        /// 根据业务类型获取根节点集合
-        /// </summary>
-        /// <param name="functionType">业务类型</param>
-        /// <returns></returns>
-        public List<FunctionNode> GetRootFunctionNodesByType(FunctionType functionType)
-        {
-            // 查询条件
-            IList<IPredicate> predList = new List<IPredicate>();
-            // 类型
-            predList.Add(Predicates.Field<FunctionNode>(p => p.FunctionType, Operator.Eq, (int)functionType));
-            // 根节点
-            predList.Add(Predicates.Field<FunctionNode>(p => p.IsRoot, Operator.Eq, true));
-            IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
-
-            // 排序字段
-            List<ISort> sort = new List<ISort>();
-            sort.Add(new Sort() { Ascending = true, PropertyName = FunctionNode.PropertyName_SortOrder });
-
-            return this.GetList(predGroup, sort);
-        }
-
-        /// <summary>
         /// 获取子节点集合
         /// </summary>
         /// <param name="parentId"></param>
         /// <returns></returns>
-        public List<FunctionNode> GetSubFunctionNodesByParent(string parentId)
+        public List<AppCatalog> GetSubFunctionNodesByParent(string parentId)
         {
-            return this.GetListByKey(FunctionNode.PropertyName_ParentId, parentId);
+            return this.GetListByKey(AppCatalog.PropertyName_ParentId, parentId);
         }
     }
 }

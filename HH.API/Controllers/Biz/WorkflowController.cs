@@ -23,14 +23,14 @@ namespace HH.API.Controllers
         private IBizSchemaRepository bizSchemaRepository = null;
         private IBizSheetRepository bizSheetRepository = null;
         private IWorkflowTemplateRepository workflowTemplateRepository = null;
-        public IFunctionNodeRepository functionNodeRepository = null;
+        public IAppCatalogRepository functionNodeRepository = null;
         #endregion
 
         public WorkflowController(IWorkflowPackageRepository workflowPackageRepository,
             IBizSchemaRepository bizSchemaRepository,
             IBizSheetRepository bizSheetRepository,
             IWorkflowTemplateRepository workflowTemplateRepository,
-            IFunctionNodeRepository functionNodeRepository)
+            IAppCatalogRepository functionNodeRepository)
         {
             this.workflowPackageRepository = workflowPackageRepository;
             this.bizSchemaRepository = bizSchemaRepository;
@@ -77,65 +77,65 @@ namespace HH.API.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpGet("AddWorkflowFolder")]
-        public JsonResult AddWorkflowFolder(string parentId,
-            string functionName,
-            int sortOrder,
-            bool isRoot)
-        {
-            // TODO:权限校验
+        //[HttpGet("AddWorkflowFolder")]
+        //public JsonResult AddWorkflowFolder(string parentId,
+        //    string functionName,
+        //    int sortOrder,
+        //    bool isRoot)
+        //{
+        //    // TODO:权限校验
 
-            FunctionNode functionNode = new FunctionNode(parentId, functionName,
-                this.Authorized.ObjectId,
-                sortOrder,
-                isRoot,
-                FunctionType.WorkflowPackage);
-            // 根节点设置 ParentId 为null
-            if (isRoot) parentId = null;
+        //    AppCatalog functionNode = new AppCatalog(parentId, functionName,
+        //        this.Authorized.ObjectId,
+        //        sortOrder,
+        //        isRoot,
+        //        FunctionType.WorkflowPackage);
+        //    // 根节点设置 ParentId 为null
+        //    if (isRoot) parentId = null;
 
-            #region 数据格式校验 ---------
-            if (this.functionNodeRepository.GetFunctionNodeByName(FunctionType.WorkflowPackage, parentId, functionName) != null)
-            {
-                return Json(new APIResult()
-                {
-                    ResultCode = ResultCode.NameDuplicate,
-                    Message = "This name is already exists."
-                });
-            }
-            if (!isRoot)
-            {// TODO:判断ParentId是否存在
-                FunctionNode parentNode = this.functionNodeRepository.GetObjectById(parentId);
-                if (functionNode == null)
-                {
-                    return Json(new APIResult()
-                    {
-                        ResultCode = ResultCode.ParentNotExists,
-                        Message = "Parent is not exists."
-                    });
-                }
-            }
-            #endregion
+        //    #region 数据格式校验 ---------
+        //    if (this.functionNodeRepository.GetFunctionNodeByName(FunctionType.WorkflowPackage, parentId, functionName) != null)
+        //    {
+        //        return Json(new APIResult()
+        //        {
+        //            ResultCode = ResultCode.NameDuplicate,
+        //            Message = "This name is already exists."
+        //        });
+        //    }
+        //    if (!isRoot)
+        //    {// TODO:判断ParentId是否存在
+        //        FunctionNode parentNode = this.functionNodeRepository.GetObjectById(parentId);
+        //        if (functionNode == null)
+        //        {
+        //            return Json(new APIResult()
+        //            {
+        //                ResultCode = ResultCode.ParentNotExists,
+        //                Message = "Parent is not exists."
+        //            });
+        //        }
+        //    }
+        //    #endregion
 
-            dynamic res = this.functionNodeRepository.Insert(functionNode);
+        //    dynamic res = this.functionNodeRepository.Insert(functionNode);
 
-            return Json(res);
-        }
+        //    return Json(res);
+        //}
 
-        [HttpGet("GetRootFolders")]
-        public JsonResult GetRootFolders()
-        {
-            // TODO:权限校验
-            List<FunctionNode> roots = this.functionNodeRepository.GetRootFunctionNodesByType(FunctionType.WorkflowPackage);
-            return Json(roots);
-        }
+        //[HttpGet("GetRootFolders")]
+        //public JsonResult GetRootFolders()
+        //{
+        //    // TODO:权限校验
+        //    List<Appc> roots = this.functionNodeRepository.GetRootFunctionNodesByType(FunctionType.WorkflowPackage);
+        //    return Json(roots);
+        //}
 
-        [HttpGet("GetSubFolders")]
-        public JsonResult GetSubFolders(string parentId)
-        {
-            // TODO:权限校验
-            List<FunctionNode> functionNodes = this.functionNodeRepository.GetSubFunctionNodesByParent(parentId);
-            return Json(functionNodes);
-        }
+        //[HttpGet("GetSubFolders")]
+        //public JsonResult GetSubFolders(string parentId)
+        //{
+        //    // TODO:权限校验
+        //    List<FunctionNode> functionNodes = this.functionNodeRepository.GetSubFunctionNodesByParent(parentId);
+        //    return Json(functionNodes);
+        //}
 
         /// <summary>
         /// 添加流程包

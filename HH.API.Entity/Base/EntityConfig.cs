@@ -29,6 +29,7 @@ namespace HH.API.Entity
         /// </summary>
         public struct Table
         {
+            #region 组织机构 ------------------
             /// <summary>
             /// 组织架构表名称
             /// </summary>
@@ -51,17 +52,36 @@ namespace HH.API.Entity
             /// 角色/用户表
             /// </summary>
             public const string OrgRoleUser = "sys_OrgRoleUser";
+            #endregion
 
+            #region 应用包  -------------------
+            /// <summary>
+            /// 应用包
+            /// </summary>
+            public const string AppPackage = "sys_AppPackage";
+            /// <summary>
+            /// 应用程序目录表
+            /// </summary>
+            public const string AppCatalog = "sys_AppCatalog";
+            /// <summary>
+            /// 流程包
+            /// </summary>
+            public const string WorkflowPackage = "sys_WorkflowPackage";
+            /// <summary>
+            /// 流程模板表
+            /// </summary>
+            public const string WorkflowTemplate = "sys_WorkflowTemplate";
+            #endregion
+
+            #region 业务数据 ------------------
             /// <summary>
             /// 业务对象结构表
             /// </summary>
             public const string BizSchema = "sys_BizSchema";
-
             /// <summary>
             /// 业务表单表
             /// </summary>
             public const string BizSheet = "sys_BizSheet";
-
             /// <summary>
             /// 业务对象属性
             /// </summary>
@@ -74,28 +94,17 @@ namespace HH.API.Entity
             /// 业务数据审批意见表
             /// </summary>
             public const string BizComment = "sys_BizComment";
+            #endregion
 
-            /// <summary>
-            /// 应用包
-            /// </summary>
-            public const string AppPackage = "sys_AppPackage";
-
-            /// <summary>
-            /// 流程包
-            /// </summary>
-            public const string WorkflowPackage = "sys_WorkflowPackage";
-
-            /// <summary>
-            /// 流程模板表
-            /// </summary>
-            public const string WorkflowTemplate = "sys_WorkflowTemplate";
-
+            #region 流程实例 ------------------
             public const string InstanceContext = "sys_InstanceContext";
-
             /// <summary>
             /// 活动表名称
             /// </summary>
             public const string Token = "sys_InsToken";
+            /// <summary>
+            /// 工作任务交接记录表
+            /// </summary>
             public const string WorkItemTrack = "sys_InsWorkItemTrack";
             /// <summary>
             /// 未完成任务表
@@ -105,11 +114,15 @@ namespace HH.API.Entity
             /// 已完成任务表
             /// </summary>
             public const string WorkItemFinished = "sys_InsWorkItemFinished";
-
             /// <summary>
-            /// 目录表
+            /// 待阅表
             /// </summary>
-            public const string SysFunctionNode = "sys_FunctionNode";
+            public const string CirculateItem = "sys_InsCirculateItem";
+            /// <summary>
+            /// 已阅表
+            /// </summary>
+            public const string CirculateItemFinished = "sys_InsCirculateItemFinished";
+            #endregion
 
             /// <summary>
             /// Vessel表
@@ -121,7 +134,4 @@ namespace HH.API.Entity
             public const string Table_EngineConfig = "sys_EngineConfig";
         }
     }
-
-
-
 }

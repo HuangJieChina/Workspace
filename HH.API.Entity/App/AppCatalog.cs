@@ -5,15 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using DapperExtensions.Mapper;
 
-namespace HH.API.Entity
+namespace HH.API.Entity.App
 {
     /// <summary>
-    /// 目录定义
+    /// 应用包程序目录
     /// </summary>
     [Serializable]
-    public class FunctionNode : EntityBase
+    public class AppCatalog : EntityBase
     {
-        public FunctionNode() { }
+        public AppCatalog() { }
 
         /// <summary>
         /// 用于新建的构造函数
@@ -23,20 +23,15 @@ namespace HH.API.Entity
         /// <param name="createdBy"></param>
         /// <param name="sortOrder"></param>
         /// <param name="isRoot"></param>
-        /// <param name="functionType"></param>
-        public FunctionNode(string parentId,
+        public AppCatalog(string parentId,
             string functionName,
             string createdBy,
-            int sortOrder,
-            bool isRoot,
-            FunctionType functionType)
+            int sortOrder)
         {
             this.ParentId = parentId;
             this.FunctionName = functionName;
             this.CreatedBy = createdBy;
             this.SortOrder = sortOrder;
-            this.IsRoot = isRoot;
-            this.FunctionType = functionType;
         }
 
         /// <summary>
@@ -59,14 +54,9 @@ namespace HH.API.Entity
         public string ParentId { get; set; }
 
         /// <summary>
-        /// 获取或设置是否根节点
+        /// 获取或设置是否在应用中显示当前目录
         /// </summary>
-        public bool IsRoot { get; set; }
-
-        /// <summary>
-        /// 获取或设置功能目录类型
-        /// </summary>
-        public FunctionType FunctionType { get; set; }
+        public bool IsDisplay { get; set; }
 
         /// <summary>
         /// 获取数据库表名
@@ -76,7 +66,7 @@ namespace HH.API.Entity
         {
             get
             {
-                return EntityConfig.Table.SysFunctionNode;
+                return EntityConfig.Table.AppCatalog;
             }
         }
 

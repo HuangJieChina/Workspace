@@ -31,6 +31,11 @@ namespace HH.API.Entity.BizData
         public long ContentLength { get; set; }
 
         /// <summary>
+        /// 获取或设置附件类型
+        /// </summary>
+        public string ContentType { get; set; }
+
+        /// <summary>
         /// 获取或设置附件文件存储内容
         /// </summary>
         public byte[] Content { get; set; }
@@ -59,7 +64,7 @@ namespace HH.API.Entity.BizData
         {
             get
             {
-                return EntityConfig.Table.OrgUnit;
+                return EntityConfig.Table.BizAttachment;
             }
         }
     }

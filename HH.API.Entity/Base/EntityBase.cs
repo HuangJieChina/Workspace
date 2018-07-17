@@ -187,9 +187,10 @@ namespace HH.API.Entity
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("Type={0},ObjectID={1},CreatedTime={2}",
+            return string.Format("Type={0},ObjectID={1},CreatedBy={2},CreatedTime={3}",
                 this.GetType().FullName,
                 this.ObjectId,
+                this.CreatedBy,
                 this.CreatedTime.ToLongTimeString());
         }
         #endregion

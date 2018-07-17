@@ -7,7 +7,7 @@ using System.Text;
 namespace HH.API.Entity.Instance
 {
     /// <summary>
-    /// 任务数据
+    /// 任务基类
     /// </summary>
     [Serializable]
     public class WorkItem : EntityBase
@@ -58,7 +58,7 @@ namespace HH.API.Entity.Instance
         [JsonIgnore]
         public override string TableName => throw new NotImplementedException();
     }
-    
+
     /// <summary>
     /// 待办任务
     /// </summary>
@@ -114,7 +114,7 @@ namespace HH.API.Entity.Instance
         {
             get
             {
-                return EntityConfig.Table.WorkItemFinished;
+                return EntityConfig.Table.CirculateItemFinished;
             }
         }
     }
@@ -134,7 +134,7 @@ namespace HH.API.Entity.Instance
         {
             get
             {
-                return EntityConfig.Table.WorkItemFinished;
+                return EntityConfig.Table.CirculateItem;
             }
         }
     }
