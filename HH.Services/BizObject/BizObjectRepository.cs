@@ -20,12 +20,8 @@ namespace HH.API.Services
     /// </summary>
     public class BizObjectRepository : BizSchemaRepository, IBizObjectRepository
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public BizObjectRepository()
+        public BizObjectRepository(string corpId) : base(corpId)
         {
-
         }
 
         /// <summary>

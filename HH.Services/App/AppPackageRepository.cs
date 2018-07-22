@@ -12,13 +12,18 @@ namespace HH.API.Services
 {
     public class AppPackageRepository : RepositoryBase<AppPackage>, IAppPackageRepository
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public AppPackageRepository()
+        public AppPackageRepository(string corpId) : base(corpId)
         {
-
         }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appCode"></param>
+        /// <returns></returns>
+        public AppPackage GetAppPackageByCode(string appCode)
+        {
+            return this.GetObjectByKey(AppPackage.PropertyName_ObjectId, appCode);
+        }
     }
 }

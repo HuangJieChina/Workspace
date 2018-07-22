@@ -78,7 +78,7 @@ namespace HH.API.Controllers
         [HttpGet("QueryUser")]
         public JsonResult QueryUser(string inputValue)
         {
-            OrgUserRepository userRepository = new OrgUserRepository();
+            OrgUserRepository userRepository = new OrgUserRepository(string.Empty);
             long userCount = 0;
 
             List<dynamic> users1 = userRepository.QueryOrgUser1(1, 10, out userCount, "zhangs");
@@ -91,7 +91,7 @@ namespace HH.API.Controllers
         [HttpGet("QueryUser1")]
         public APIResult QueryUser1(string inputValue)
         {
-            OrgUserRepository userRepository = new OrgUserRepository();
+            OrgUserRepository userRepository = new OrgUserRepository(string.Empty);
             long userCount = 0;
 
             List<dynamic> users1 = userRepository.QueryOrgUser1(1, 10, out userCount, "zhangs");
@@ -139,7 +139,7 @@ namespace HH.API.Controllers
         [HttpGet("AddUnit")]
         public APIResult AddUnit(OrgUnit unit)
         {
-            TestRepository test = new TestRepository();
+            TestRepository test = new TestRepository(string.Empty);
             TestParentEntity parent = new TestParentEntity()
             {
                 ObjectId = Guid.NewGuid().ToString(),
@@ -171,7 +171,7 @@ namespace HH.API.Controllers
                 ObjectId = Guid.NewGuid().ToString(),
                 UnitName = "Test"
             };
-            OrgUnitRepository d = new OrgUnitRepository();
+            OrgUnitRepository d = new OrgUnitRepository(string.Empty);
             dynamic result = d.Insert(u);
 
             List<OrgUnit> units = d.GetAll();
@@ -186,7 +186,7 @@ namespace HH.API.Controllers
             d.RemoveObjectById("350f2620-171e-444f-8d19-d01e1853e2e0");
 
 
-            OrgUserRepository userRepository = new OrgUserRepository();
+            OrgUserRepository userRepository = new OrgUserRepository(string.Empty);
             long userCount = 0;
             List<dynamic> users = userRepository.QueryOrgUser(1, 10, out userCount, string.Empty);
 

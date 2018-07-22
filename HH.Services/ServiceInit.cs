@@ -51,9 +51,10 @@ namespace HH.API.Services
         private readonly static object lockObject = new object();
 
         /// <summary>
-        /// 服务初始化
+        /// 服务启动并初始化
         /// </summary>
-        public void Initial()
+        /// <param name="corpId"></param>
+        public void Initial(string corpId)
         {
             try
             {
@@ -63,7 +64,7 @@ namespace HH.API.Services
                 initialized = true;
 
                 // 主体操作开始 -------
-                this.InitialData();
+                this.InitialData(corpId);
                 // End
             }
             finally
@@ -75,14 +76,14 @@ namespace HH.API.Services
         /// <summary>
         /// 初始化数据
         /// </summary>
-        private void InitialData()
+        private void InitialData(string corpId)
         {
             // 校验注册码
             VerifyLicense();
             // TODO:服务数据初始化过程
             InitialFunctionNode();
             // 初始化组织
-            InitialOrg();
+            InitialOrg(corpId);
         }
 
         /// <summary>
@@ -106,10 +107,11 @@ namespace HH.API.Services
         /// <summary>
         /// 组织对象初始化
         /// </summary>
-        private void InitialOrg()
+        /// <param name="corpId"></param>
+        private void InitialOrg(string corpId)
         {
-            OrgUnitRepository orgUnitRepository = new OrgUnitRepository();
-            OrgUserRepository orgUserRepository = new OrgUserRepository();
+            OrgUnitRepository orgUnitRepository = new OrgUnitRepository(corpId);
+            OrgUserRepository orgUserRepository = new OrgUserRepository(corpId);
 
             if (orgUnitRepository.Count() == 0)
             {

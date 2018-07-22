@@ -12,12 +12,8 @@ namespace HH.API.Services
 {
     public class OrgRoleUserRepository : RepositoryBase<OrgRoleUser>, IOrgRoleUserRepository
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public OrgRoleUserRepository()
+        public OrgRoleUserRepository(string corpId) : base(corpId)
         {
-
         }
     }
 }

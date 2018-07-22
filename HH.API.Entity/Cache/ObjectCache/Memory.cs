@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HH.API.Entity.Cache.KeyCollectionCache
+namespace HH.API.Entity.Cache.ObjectCache
 {
     /// <summary>
     /// 内存缓存
     /// </summary>
-    public class Memory<T> : IKeyCache<T>
+    public class Memory<T> : IListCache<T>
     {
         /// <summary>
         /// 设置默认缓存数据量大小
@@ -26,7 +26,7 @@ namespace HH.API.Entity.Cache.KeyCollectionCache
             this._MaxCacheSize = maxCacheSize;
         }
 
-        private Dictionary<string, T> memoryCache = new Dictionary<string, T>();
+        private List<T> memoryCache = new List<T>();
 
         private ReaderWriterLock _rwLock = null;
         /// <summary>
@@ -62,19 +62,6 @@ namespace HH.API.Entity.Cache.KeyCollectionCache
                 }
             }
         }
-        public T Get(string key)
-        {
-            try
-            {
-                this.RWLock.AcquireReaderLock(-1);
-                if (!this.memoryCache.ContainsKey(key)) return default(T);
-                return this.memoryCache[key];
-            }
-            finally
-            {
-                this.RWLock.ReleaseReaderLock();
-            }
-        }
 
         private int _MaxCacheSize = 0;
         public int MaxCacheSize
@@ -95,42 +82,59 @@ namespace HH.API.Entity.Cache.KeyCollectionCache
             finally { this.RWLock.ReleaseWriterLock(); }
         }
 
-        public bool ContainsKey(string key)
-        {
-            try
-            {
-                this.RWLock.AcquireReaderLock(-1);
-                return this.memoryCache.ContainsKey(key);
-            }
-            finally { this.RWLock.ReleaseReaderLock(); }
-        }
 
-        public void Remove(string key)
+        public void Add(T t)
         {
             try
             {
                 this.RWLock.AcquireWriterLock(-1);
-                if (this.memoryCache.ContainsKey(key))
-                {
-                    this.memoryCache.Remove(key);
-                }
+                this.memoryCache.Add(t);
             }
             finally { this.RWLock.ReleaseWriterLock(); }
         }
 
-        public void Save(string key, T t)
+        public void Add(List<T> values)
         {
             try
             {
                 this.RWLock.AcquireWriterLock(-1);
-                if (!this.memoryCache.ContainsKey(key))
-                {// 不存在则新增
-                    this.memoryCache.Add(key, t);
-                }
-                else
-                {
-                    this.memoryCache[key] = t;
-                }
+                this.memoryCache.AddRange(values);
+            }
+            finally { this.RWLock.ReleaseWriterLock(); }
+        }
+
+        public void RemoveAt(int index)
+        {
+            try
+            {
+                this.RWLock.AcquireWriterLock(-1);
+                this.memoryCache.RemoveAt(index);
+            }
+            finally { this.RWLock.ReleaseWriterLock(); }
+        }
+
+
+
+        public bool Contains(T t)
+        {
+            try
+            {
+                this.RWLock.AcquireReaderLock(-1);
+                return this.memoryCache.Contains(t);
+            }
+            finally { this.RWLock.ReleaseReaderLock(); }
+        }
+
+        /// <summary>
+        /// 移除
+        /// </summary>
+        /// <param name="t"></param>
+        public void Remove(T t)
+        {
+            try
+            {
+                this.RWLock.AcquireWriterLock(-1);
+                this.memoryCache.Remove(t);
             }
             finally { this.RWLock.ReleaseWriterLock(); }
         }

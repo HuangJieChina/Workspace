@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HH.API.Entity.EntityCache
+namespace HH.API.Entity.Cache.EntityCache
 {
     /// <summary>
     /// Redis 缓存(未完成)

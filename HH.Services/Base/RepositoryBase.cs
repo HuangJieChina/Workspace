@@ -9,10 +9,10 @@ using DapperExtensions.Sql;
 using System.Data.Common;
 using HH.API.IServices;
 using System.Threading;
-using HH.API.Entity.EntityCache;
-using HH.API.Entity.KeyCollectionCache;
 using HH.API.Common;
 using HH.API.Entity.Database;
+using HH.API.Entity.Cache.KeyCollectionCache;
+using HH.API.Entity.Cache.EntityCache;
 
 namespace HH.API.Services
 {
@@ -27,17 +27,32 @@ namespace HH.API.Services
         /// <summary>
         /// 基类构造函数
         /// </summary>
-        public RepositoryBase()
+        /// <param name="corpId"></param>
+        public RepositoryBase(string corpId)
         {
             DapperExtensions.DapperExtensions.Configure(typeof(ClassMapperBase<>),
                 new List<Assembly>(),
                 SqlDialect);
 
+            this._CorpId = corpId;
+
             // 表结构验证
             this.CheckTableSchema();
 
             // 注册码校验
-            ServiceInit.Instance.Initial();
+            ServiceInit.Instance.Initial(corpId);
+        }
+
+        private string _CorpId = null;
+        /// <summary>
+        /// 获取企业Id
+        /// </summary>
+        public string CorpId
+        {
+            get
+            {
+                return this._CorpId;
+            }
         }
 
         private ISqlDialect sqlDialect = null;
@@ -94,7 +109,7 @@ namespace HH.API.Services
             {
                 if (this._EventBus == null)
                 {
-                    this._EventBus = ServiceFactory.Instance.GetRepository<IEntityEventBus>();
+                    this._EventBus = ServiceFactory.Instance.GetRepository<IEntityEventBus>(this.CorpId);
                 }
                 return this._EventBus;
             }
@@ -267,7 +282,7 @@ namespace HH.API.Services
         public virtual T GetObjectByKeyFromCache(string key, string value)
         {
             IKeyCache<T> currentCache = this.GetKeyCache(key);
-            return currentCache.Exists(value) ? currentCache.Get(value) : null;
+            return currentCache.ContainsKey(value) ? currentCache.Get(value) : null;
         }
 
         /// <summary>

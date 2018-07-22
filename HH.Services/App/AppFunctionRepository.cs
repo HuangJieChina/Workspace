@@ -12,12 +12,8 @@ namespace HH.API.Services
 {
     public class AppFunctionRepository : RepositoryBase<AppFunction>, IAppFunctionRepository
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public AppFunctionRepository()
+        public AppFunctionRepository(string corpId) : base(corpId)
         {
-
         }
 
         public AppFunction GetFunctionByCode(string functionCode)

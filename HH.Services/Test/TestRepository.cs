@@ -11,12 +11,8 @@ namespace HH.API.Services
 {
     public class TestRepository : RepositoryBase<TestParentEntity>
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public TestRepository()
+        public TestRepository(string corpId) : base(corpId)
         {
-
         }
 
         public override dynamic Insert(TestParentEntity t)

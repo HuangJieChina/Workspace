@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HH.API.Entity
+namespace HH.API.Entity.Cache.EntityCache
 {
     /// <summary>
     /// 实体对象缓存接口

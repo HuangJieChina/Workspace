@@ -13,22 +13,18 @@ namespace HH.API
         /// 返回成功
         /// </summary>
         Success = 0,
-
         /// <summary>
         /// 返回未知错误
         /// </summary>
         Error = -1,
-
         /// <summary>
         /// 权限不足
         /// </summary>
         PermissionDenied = 100000,
-
         /// <summary>
         /// 实体数据格式校验错误
         /// </summary>
         DataFromatError = 100001,
-
         /// <summary>
         /// 名称重复
         /// </summary>
@@ -37,6 +33,10 @@ namespace HH.API
         /// 编码重复
         /// </summary>
         CodeDuplicate = 100003,
+        /// <summary>
+        /// 不合法的请求
+        /// </summary>
+        BadRequest = 100009,
 
         #region 业务模型服务以30开头 -----------
         /// <summary>

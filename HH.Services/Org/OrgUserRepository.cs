@@ -13,12 +13,8 @@ namespace HH.API.Services
 {
     public class OrgUserRepository : RepositoryBase<OrgUser>, IOrgUserRepository
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public OrgUserRepository()
+        public OrgUserRepository(string corpId) : base(corpId)
         {
-
         }
 
         public List<OrgUser> GetChildUsersByParent(string parentId, bool recursive)

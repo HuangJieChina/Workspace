@@ -77,6 +77,15 @@ namespace HH.API.Controllers
         }
 
         /// <summary>
+        /// 获取 CorpId
+        /// </summary>
+        /// <returns></returns>
+        public string GetCorpId()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
+        /// <summary>
         /// 获取当前认证的系统
         /// </summary>
         public SsoSystem CurrentSystem
@@ -151,6 +160,20 @@ namespace HH.API.Controllers
         }
 
         /// <summary>
+        /// 返回结果
+        /// </summary>
+        /// <param name="resultCode"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public virtual JsonResult BadRequestJson
+        {
+            get
+            {
+                return Json(ResultCode.BadRequest, "Bad request.");
+            }
+        }
+
+        /// <summary>
         /// 返回true/false
         /// </summary>
         /// <param name="result"></param>
@@ -210,6 +233,35 @@ namespace HH.API.Controllers
         }
 
         /// <summary>
+        /// 新增锁控制
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="lockKey"></param>
+        /// <param name="t"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public JsonResult MonitorInsert<T>(string lockKey, T t, Func<JsonResult> func) where T : EntityBase
+        {
+            if (string.IsNullOrWhiteSpace(lockKey)) throw new Exception("Lock key can not be empty value.");
+
+            object lockObject = this.GetLockObject(lockKey);
+
+            try
+            {
+                Monitor.Enter(lockObject);
+                // 数据有效性校验
+                JsonResult validateResult = null;
+                if (this.DataValidator<T>(t, out validateResult)) return validateResult;
+
+                return func();
+            }
+            finally
+            {
+                Monitor.Exit(lockObject);
+            }
+        }
+
+        /// <summary>
         /// 执行锁的请求方法(防止并发造成判断错误)
         /// </summary>
         /// <param name="lockKey"></param>
@@ -240,7 +292,7 @@ namespace HH.API.Controllers
         /// <returns></returns>
         public T GetRepository<T>()
         {
-            return ServiceFactory.Instance.GetRepository<T>();
+            return ServiceFactory.Instance.GetRepository<T>("");
         }
     }
 

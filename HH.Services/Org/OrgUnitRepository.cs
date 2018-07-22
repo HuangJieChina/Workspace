@@ -12,12 +12,8 @@ namespace HH.API.Services
 {
     public class OrgUnitRepository : RepositoryBase<OrgUnit>, IOrgUnitRepository
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public OrgUnitRepository()
+        public OrgUnitRepository(string corpId) : base(corpId)
         {
-
         }
 
         /// <summary>

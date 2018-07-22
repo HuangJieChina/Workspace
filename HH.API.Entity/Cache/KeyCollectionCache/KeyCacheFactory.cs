@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HH.API.Entity.KeyCollectionCache
+namespace HH.API.Entity.Cache.KeyCollectionCache
 {
     /// <summary>
     /// KeyValue 缓存工厂类
     /// </summary>
-    public class KeyCacheFactory<T> where T : EntityBase
+    public class KeyCacheFactory<T> 
     {
         private KeyCacheFactory() { }
 

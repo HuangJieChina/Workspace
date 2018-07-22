@@ -31,16 +31,37 @@ namespace HH.API.Controllers
         public const string Method_RemoveFolder = "RemoveFolder";
         #endregion
 
+        /// <summary>
+        /// 新增应用包
+        /// </summary>
+        /// <param name="appPackage"></param>
+        /// <returns></returns>
         [HttpPost(Method_AddAppPackage)]
-        public JsonResult AddAppPackage([FromBody] AppPackage appPackage)
+        public JsonResult AddAppPackage([FromBody]AppPackage appPackage)
         {
-            dynamic result = this.appPackageRepository.Insert(appPackage);
-            return Json(result);
+            string corpId = this.GetCorpId();
+            if (string.IsNullOrWhiteSpace(corpId)) return this.BadRequestJson;
+
+            return this.MonitorInsert<AppPackage>(corpId + Method_AddAppPackage, appPackage,
+                () =>
+                {
+                    // 验证编码是否重复
+                    if (this.appPackageRepository.GetAppPackageByCode(appPackage.AppCode) != null)
+                    {
+                        return Json(ResultCode.CodeDuplicate, "This app code is already exists.");
+                    }
+
+                    dynamic result = this.appPackageRepository.Insert(appPackage);
+                    return Json(result);
+                });
         }
 
         [HttpGet(Method_RemoveAppPackage)]
         public JsonResult RemoveAppPackage(string objectId)
         {
+            string corpId = this.GetCorpId();
+            if (string.IsNullOrWhiteSpace(corpId)) return this.BadRequestJson;
+
             // TODO:验证是否有节点或者数据
             dynamic result = this.appPackageRepository.RemoveObjectById(objectId);
             return Json(result);
@@ -54,41 +75,45 @@ namespace HH.API.Controllers
         [HttpPost(Method_AddFolder)]
         public JsonResult AddFolder([FromBody]AppFunction appFunction)
         {
-            return this.MonitorFunction(Method_AddFolder, () =>
-            {
-                // 做数据有效性检查
-                JsonResult validateResult = null;
-                if (this.DataValidator<AppFunction>(appFunction, out validateResult)) return validateResult;
+            string corpId = this.GetCorpId();
+            if (string.IsNullOrWhiteSpace(corpId)) return this.BadRequestJson;
 
-                if (appFunction.ParentId.Equals(appFunction.AppPackageId))
-                {// 根目录，校验应用是否存在 
-                    if (this.appPackageRepository.GetObjectById(appFunction.AppPackageId) == null)
-                    {
-                        return Json(ResultCode.AppPackageNotExists,
-                            string.Format("App package is not exists which package id equals {0}",
-                            appFunction.AppPackageId));
-                    }
-                }
-                else if (this.appFunctionRepository.GetObjectById(appFunction.ParentId) == null)
-                {
-                    // 父级元素不存在
-                    return Json(ResultCode.ParentNotExists, string.Format("Parent is not exists which parent id equals {0}", appFunction.AppPackageId));
-                }
-                // 检查编码是否重复(应用内唯一)
-                if (this.appFunctionRepository.GetFunctionByCode(appFunction.FunctionCode) != null)
-                {
-                    return Json(ResultCode.CodeDuplicate, string.Format("This function code is alerady exists,code={0}", appFunction.FunctionCode));
-                }
-                // 检查名称是否重复
-                if (this.appFunctionRepository.GetFunctionByName(appFunction.ObjectId, appFunction.FunctionName) != null)
-                {
-                    return Json(ResultCode.NameDuplicate, string.Format("The same name exists in the same parent,name={0}", appFunction.FunctionName));
-                }
+            // 从 Header 中获取 CorpId
+            return this.MonitorFunction(corpId + Method_AddFolder, () =>
+              {
+                  // 做数据有效性检查
+                  JsonResult validateResult = null;
+                  if (this.DataValidator<AppFunction>(appFunction, out validateResult)) return validateResult;
 
-                // 新增
-                dynamic res = this.appFunctionRepository.Insert(appFunction);
-                return Json(res);
-            });
+                  if (appFunction.ParentId.Equals(appFunction.AppPackageId))
+                  {// 根目录，校验应用是否存在 
+                      if (this.appPackageRepository.GetObjectById(appFunction.AppPackageId) == null)
+                      {
+                          return Json(ResultCode.AppPackageNotExists,
+                              string.Format("App package is not exists which package id equals {0}",
+                              appFunction.AppPackageId));
+                      }
+                  }
+                  else if (this.appFunctionRepository.GetObjectById(appFunction.ParentId) == null)
+                  {
+                      // 父级元素不存在
+                      return Json(ResultCode.ParentNotExists, string.Format("Parent is not exists which parent id equals {0}", appFunction.AppPackageId));
+                  }
+                  // 检查编码是否重复(应用内唯一)
+                  if (this.appFunctionRepository.GetFunctionByCode(appFunction.FunctionCode) != null)
+                  {
+                      return Json(ResultCode.CodeDuplicate, string.Format("This function code is alerady exists,code={0}", appFunction.FunctionCode));
+                  }
+                  // 检查名称是否重复
+                  if (this.appFunctionRepository.GetFunctionByName(appFunction.ObjectId, appFunction.FunctionName) != null)
+                  {
+                      return Json(ResultCode.NameDuplicate, string.Format("The same name exists in the same parent,name={0}", appFunction.FunctionName));
+                  }
+
+                  // 新增
+                  dynamic res = this.appFunctionRepository.Insert(appFunction);
+                  return Json(res);
+              });
         }
 
         [HttpGet(Method_RemoveFolder)]

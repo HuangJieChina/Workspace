@@ -143,7 +143,7 @@ namespace HH.API
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             // NLog Start
-            loggerFactory.AddNLog();// 添加NLog 
+            loggerFactory.AddNLog(); // 添加NLog 
             LogManager.LoadConfiguration("nlog.config");
             // End
 
@@ -158,9 +158,8 @@ namespace HH.API
             // JWT认证
             app.UseAuthentication();
 
-            // 服务的依赖注入 Start
-            RegisterEntityEvent registerEntityEvent = new RegisterEntityEvent();
-            registerEntityEvent.RegisterUserEnvent();
+            // 事件注册
+            app.UseRegisterEvent();
 
             // End
             app.UseMvc();
@@ -173,7 +172,7 @@ namespace HH.API
         /// <returns></returns>
         private IServiceProvider InitIoC(IServiceCollection services)
         {
-            IoCContainer.Register("HH.API.Services", "HH.API.IServices");//注册service
+            IoCContainer.Register("HH.API.Services", "HH.API.IServices");// 注册service
             return IoCContainer.Build(services);
         }
     }

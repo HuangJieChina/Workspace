@@ -1,43 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace HH.API.Entity.Cache.KeyCollectionCache
+namespace HH.API.Entity.Cache.ObjectCache
 {
-    /// <summary>
-    /// KeyValue缓存接口
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IKeyCache<T>
+    public interface IListCache<T>
     {
         /// <summary>
         /// 新增缓存对象
         /// </summary>
-        /// <param name="key"></param>
         /// <param name="t"></param>
-        void Save(string key, T t);
+        void Add(T t);
+
+        /// <summary>
+        /// 批量添加对象
+        /// </summary>
+        /// <param name="values"></param>
+        void Add(List<T> values);
 
         /// <summary>
         /// 移除缓存对象
         /// </summary>
         /// <param name="key"></param>
-        void Remove(string key);
+        void Remove(T t);
 
         /// <summary>
-        /// 根据Key值获取一个对象
+        /// 从指定索引位置移除
         /// </summary>
-        /// <param name="key">Key值</param>
-        /// <returns></returns>
-        T Get(string key);
+        /// <param name="index"></param>
+        void RemoveAt(int index);
 
         /// <summary>
-        /// 检查是否存在
+        /// 是否存在值
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="t"></param>
         /// <returns></returns>
-        bool ContainsKey(string key);
+        bool Contains(T t);
 
         /// <summary>
         /// 清空所有缓存数据
@@ -53,6 +51,5 @@ namespace HH.API.Entity.Cache.KeyCollectionCache
         /// 获取允许最大缓存数
         /// </summary>
         int MaxCacheSize { get; }
-
     }
 }

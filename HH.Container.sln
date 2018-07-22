@@ -24,6 +24,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{0D725E75-169F-49C8-9ACF-B72EAFA0A8A4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Z_Test", "Z_Test", "{192C0212-2491-4679-B925-2A923057873C}"
+	ProjectSection(SolutionItems) = preProject
+		ReadMe.txt = ReadMe.txt
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{7D72961C-3410-48A4-BE18-5CF0B51194F4}"
 EndProject

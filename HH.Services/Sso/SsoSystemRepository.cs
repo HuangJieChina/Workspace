@@ -8,20 +8,26 @@ using System.Linq;
 using System.Data.Common;
 using HH.API.IServices;
 using HH.API.Common;
+using HH.API.Entity.Cache.ObjectCache;
 
 namespace HH.API.Services
 {
     public class SsoSystemRepository : RepositoryBase<SsoSystem>, ISsoSystemRepository
     {
         /// <summary>
-        /// 构造函数
+        /// 
         /// </summary>
-        public SsoSystemRepository()
+        /// <param name="corpId"></param>
+        public SsoSystemRepository(string corpId) : base(corpId)
         {
 
         }
 
-        private List<string> Tokens = new List<string>();
+        private IListCache<string> Tokens = ListCacheFactory<string>.Instance.GetCache();
+        /// <summary>
+        /// Token最大存储数量
+        /// </summary>
+        private const int tokenMaxSize = 10 * 1000;
 
         /// <summary>
         /// 获取系统
@@ -120,9 +126,9 @@ namespace HH.API.Services
         /// </summary>
         private void CleanTokens()
         {// 非绝对安全
-            if (this.Tokens.Count > 50000)
+            if (this.Tokens.Count > tokenMaxSize)
             {
-                this.Tokens.RemoveAt(10000);
+                this.Tokens.RemoveAt(tokenMaxSize / 2);
             }
         }
 

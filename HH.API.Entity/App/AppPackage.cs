@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using DapperExtensions.Mapper;
+using HH.API.Entity.Database;
 
 namespace HH.API.Entity.App
 {
@@ -13,6 +14,7 @@ namespace HH.API.Entity.App
     [Serializable]
     public class AppPackage : EntityBase
     {
+        public const string PropertyName_AppCode = "AppCode";
         /// <summary>
         /// 获取或设置应用包编码
         /// </summary>

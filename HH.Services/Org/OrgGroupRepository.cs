@@ -12,10 +12,7 @@ namespace HH.API.Services
 {
     public class OrgGroupRepository : RepositoryBase<OrgGroup>, IOrgGroupRepository
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public OrgGroupRepository()
+        public OrgGroupRepository(string corpId) : base(corpId)
         {
 
         }

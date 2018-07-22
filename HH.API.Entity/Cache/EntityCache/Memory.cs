@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HH.API.Entity.EntityCache
+namespace HH.API.Entity.Cache.EntityCache
 {
     /// <summary>
     /// 内存缓存
