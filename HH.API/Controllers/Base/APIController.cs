@@ -82,6 +82,7 @@ namespace HH.API.Controllers
         /// <returns></returns>
         public string GetCorpId()
         {
+            // TODO：判断 CorpId 如果不在 CurrentUser 中，则抛出异常
             return Guid.NewGuid().ToString();
         }
 
