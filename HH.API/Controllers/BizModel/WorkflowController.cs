@@ -23,14 +23,14 @@ namespace HH.API.Controllers
         private IBizSchemaRepository bizSchemaRepository = null;
         private IBizSheetRepository bizSheetRepository = null;
         private IWorkflowTemplateRepository workflowTemplateRepository = null;
-        public IAppCatalogRepository functionNodeRepository = null;
+        public IAppFunctionRepository functionNodeRepository = null;
         #endregion
 
         public WorkflowController(IWorkflowPackageRepository workflowPackageRepository,
             IBizSchemaRepository bizSchemaRepository,
             IBizSheetRepository bizSheetRepository,
             IWorkflowTemplateRepository workflowTemplateRepository,
-            IAppCatalogRepository functionNodeRepository)
+            IAppFunctionRepository functionNodeRepository)
         {
             this.workflowPackageRepository = workflowPackageRepository;
             this.bizSchemaRepository = bizSchemaRepository;
@@ -77,66 +77,6 @@ namespace HH.API.Controllers
             throw new NotImplementedException();
         }
 
-        //[HttpGet("AddWorkflowFolder")]
-        //public JsonResult AddWorkflowFolder(string parentId,
-        //    string functionName,
-        //    int sortOrder,
-        //    bool isRoot)
-        //{
-        //    // TODO:权限校验
-
-        //    AppCatalog functionNode = new AppCatalog(parentId, functionName,
-        //        this.Authorized.ObjectId,
-        //        sortOrder,
-        //        isRoot,
-        //        FunctionType.WorkflowPackage);
-        //    // 根节点设置 ParentId 为null
-        //    if (isRoot) parentId = null;
-
-        //    #region 数据格式校验 ---------
-        //    if (this.functionNodeRepository.GetFunctionNodeByName(FunctionType.WorkflowPackage, parentId, functionName) != null)
-        //    {
-        //        return Json(new APIResult()
-        //        {
-        //            ResultCode = ResultCode.NameDuplicate,
-        //            Message = "This name is already exists."
-        //        });
-        //    }
-        //    if (!isRoot)
-        //    {// TODO:判断ParentId是否存在
-        //        FunctionNode parentNode = this.functionNodeRepository.GetObjectById(parentId);
-        //        if (functionNode == null)
-        //        {
-        //            return Json(new APIResult()
-        //            {
-        //                ResultCode = ResultCode.ParentNotExists,
-        //                Message = "Parent is not exists."
-        //            });
-        //        }
-        //    }
-        //    #endregion
-
-        //    dynamic res = this.functionNodeRepository.Insert(functionNode);
-
-        //    return Json(res);
-        //}
-
-        //[HttpGet("GetRootFolders")]
-        //public JsonResult GetRootFolders()
-        //{
-        //    // TODO:权限校验
-        //    List<Appc> roots = this.functionNodeRepository.GetRootFunctionNodesByType(FunctionType.WorkflowPackage);
-        //    return Json(roots);
-        //}
-
-        //[HttpGet("GetSubFolders")]
-        //public JsonResult GetSubFolders(string parentId)
-        //{
-        //    // TODO:权限校验
-        //    List<FunctionNode> functionNodes = this.functionNodeRepository.GetSubFunctionNodesByParent(parentId);
-        //    return Json(functionNodes);
-        //}
-
         /// <summary>
         /// 添加流程包
         /// </summary>
@@ -151,55 +91,58 @@ namespace HH.API.Controllers
             string packageName,
             int sortOrder)
         {
-            #region 数据格式校验 -----------------------
-            if (this.workflowPackageRepository.GetWorkflowPackageByCode(packageCode) != null)
-            {// 编码已经存在
-                return Json(new APIResult()
+            return MonitorFunction("AddWorkflowPackage", () =>
+            {
+                #region 数据格式校验 -----------------------
+                if (this.workflowPackageRepository.GetWorkflowPackageByCode(packageCode) != null)
+                {// 编码已经存在
+                    return Json(new APIResult()
+                    {
+                        ResultCode = ResultCode.CodeDuplicate,
+                        Message = "Workflow package code is already exists."
+                    });
+                }
+                #endregion
+
+                // 新增 WorkflowPackage
+                WorkflowPackage workflowPackage = new WorkflowPackage(folderId, packageCode, packageName, sortOrder);
+                this.workflowPackageRepository.Insert(workflowPackage);
+
+                // 新增 数据模型
+                BizSchema schema = new BizSchema(packageCode, packageName, this.Authorized.ObjectId);
+                this.bizSchemaRepository.Insert(schema);
+
+                // 新增 默认表单
+                BizSheet sheet = new BizSheet();
+                sheet.Initial(packageCode, this.Authorized.ObjectId);
+                if (this.bizSheetRepository.GetBizSheetByCode(sheet.SheetCode) == null)
                 {
-                    ResultCode = ResultCode.CodeDuplicate,
-                    Message = "Workflow package code is already exists."
-                });
-            }
-            #endregion
+                    this.bizSheetRepository.Insert(sheet);
+                }
+                else
+                {
+                    this.LogWriter.Warn(string.Format("系统表单未自动创建，因为已经存在相同的表单编号：{0}",
+                        sheet.SheetCode));
+                }
 
-            // 新增 WorkflowPackage
-            WorkflowPackage workflowPackage = new WorkflowPackage(folderId, packageCode, packageName, sortOrder);
-            this.workflowPackageRepository.Insert(workflowPackage);
+                // 新增 默认流程
+                WorkflowTemplate workflow = new WorkflowTemplate(packageCode,
+                    packageCode,
+                    packageName,
+                    this.Authorized.ObjectId,
+                    sortOrder);
+                if (this.workflowTemplateRepository.GetDesignWorkflowTemplate(workflow.WorkflowCode) == null)
+                {
+                    this.workflowTemplateRepository.Insert(workflow);
+                }
+                else
+                {
+                    this.LogWriter.Warn(string.Format("流程模板未自动创建，因为已经存在相同的流程模板编号：{0}",
+                        workflow.WorkflowCode));
+                }
 
-            // 新增 数据模型
-            BizSchema schema = new BizSchema(packageCode, packageName, this.Authorized.ObjectId);
-            this.bizSchemaRepository.Insert(schema);
-
-            // 新增 默认表单
-            BizSheet sheet = new BizSheet();
-            sheet.Initial(packageCode, this.Authorized.ObjectId);
-            if (this.bizSheetRepository.GetBizSheetByCode(sheet.SheetCode) == null)
-            {
-                this.bizSheetRepository.Insert(sheet);
-            }
-            else
-            {
-                this.LogWriter.Warn(string.Format("系统表单未自动创建，因为已经存在相同的表单编号：{0}",
-                    sheet.SheetCode));
-            }
-
-            // 新增 默认流程
-            WorkflowTemplate workflow = new WorkflowTemplate(packageCode,
-                packageCode,
-                packageName,
-                this.Authorized.ObjectId,
-                sortOrder);
-            if (this.workflowTemplateRepository.GetDesignWorkflowTemplate(workflow.WorkflowCode) == null)
-            {
-                this.workflowTemplateRepository.Insert(workflow);
-            }
-            else
-            {
-                this.LogWriter.Warn(string.Format("流程模板未自动创建，因为已经存在相同的流程模板编号：{0}",
-                    workflow.WorkflowCode));
-            }
-
-            return Json(new APIResult() { Message = "OK", ResultCode = ResultCode.Success });
+                return Json(new APIResult() { Message = "OK", ResultCode = ResultCode.Success });
+            });
         }
 
         /// <summary>
@@ -213,15 +156,22 @@ namespace HH.API.Controllers
             string displayName,
             int sortOrder)
         {
-            // TODO:校验流程模板编码是否已经存在
-            WorkflowTemplate workflow = new WorkflowTemplate(schemaCode,
+            return MonitorFunction("AddWorkflowTemplate", () => {
+                // 校验流程模板编码是否已经存在
+                if (this.workflowTemplateRepository.GetDesignWorkflowTemplate(workflowCode) != null)
+                {
+                    return Json(ResultCode.CodeDuplicate, "Workflow code is already exists!");
+                }
+
+                WorkflowTemplate workflow = new WorkflowTemplate(schemaCode,
                 workflowCode,
                 displayName,
                 this.Authorized.ObjectId,
                 sortOrder);
-            this.workflowTemplateRepository.Insert(workflow);
+                this.workflowTemplateRepository.Insert(workflow);
 
-            return Json(new APIResult() { Message = "OK", ResultCode = ResultCode.Success });
+                return Json(new APIResult() { Message = "OK", ResultCode = ResultCode.Success });
+            });
         }
 
         public JsonResult GetWorkflowTemplate(string workflowCode, int workflowVersion)

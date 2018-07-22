@@ -19,11 +19,6 @@ namespace HH.API.Entity
             public const string SystemAdministratorName = "系统管理员";
         }
 
-        public struct FunctionNode
-        {
-            public const string WorkflowPackageRootName = "WorkflowPackage";
-        }
-
         /// <summary>
         /// 数据库表名称配置
         /// </summary>
@@ -60,9 +55,9 @@ namespace HH.API.Entity
             /// </summary>
             public const string AppPackage = "sys_AppPackage";
             /// <summary>
-            /// 应用程序目录表
+            /// 应用程序菜单表(包含：目录、应用包、自定义URL、报表)
             /// </summary>
-            public const string AppCatalog = "sys_AppCatalog";
+            public const string AppFunction = "sys_AppFunction";
             /// <summary>
             /// 流程包
             /// </summary>

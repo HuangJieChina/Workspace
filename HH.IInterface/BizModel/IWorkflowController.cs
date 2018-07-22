@@ -10,37 +10,6 @@ namespace HH.API.IController
     /// </summary>
     public interface IWorkflowController : IBaseController
     {
-        #region 流程目录接口 ------------------
-        ///// <summary>
-        ///// 增加流程目录
-        ///// </summary>
-        ///// <param name="parentId"></param>
-        ///// <param name="functionName"></param>
-        ///// <param name="sortOrder"></param>
-        ///// <param name="isRoot"></param>
-        ///// <returns></returns>
-        //[HttpGet("AddWorkflowFolder")]
-        //JsonResult AddWorkflowFolder(string parentId,
-        //    string functionName,
-        //    int sortOrder,
-        //    bool isRoot);
-
-        ///// <summary>
-        ///// 获取根目录节点集合
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpGet]
-        //JsonResult GetRootFolders();
-
-        ///// <summary>
-        ///// 根据上级Id获取直接子目录节点集合
-        ///// </summary>
-        ///// <param name="parentId"></param>
-        ///// <returns></returns>
-        //[HttpGet]
-        //JsonResult GetSubFolders(string parentId);
-        #endregion
-
         #region 流程包接口 --------------------
         /// <summary>
         /// 增加流程包

@@ -43,6 +43,10 @@ namespace HH.API
         /// 业务模型不存在
         /// </summary>
         SchemaNotExists = 300001,
+        /// <summary>
+        /// 应用包不存在
+        /// </summary>
+        AppPackageNotExists = 300002,
         #endregion
 
         #region 组织机构服务以20开头 -----------

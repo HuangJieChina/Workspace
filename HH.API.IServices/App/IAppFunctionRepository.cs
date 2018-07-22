@@ -9,14 +9,14 @@ namespace HH.API.IServices
     /// <summary>
     /// 
     /// </summary>
-    public interface IAppCatalogRepository : IRepositoryBase<AppCatalog>
+    public interface IAppFunctionRepository : IRepositoryBase<AppFunction>
     {
         /// <summary>
         /// 根据上级节点获取直属子节点
         /// </summary>
         /// <param name="parentId">父节点Id</param>
         /// <returns>子节点集合</returns>
-        List<AppCatalog> GetSubFunctionNodesByParent(string parentId);
+        List<AppFunction> GetSubFunctionByParent(string parentId);
 
         /// <summary>
         /// 根据名称获取节点
@@ -24,6 +24,13 @@ namespace HH.API.IServices
         /// <param name="parentId"></param>
         /// <param name="functionName"></param>
         /// <returns></returns>
-        AppCatalog GetFunctionNodeByName(string parentId, string functionName);
+        AppFunction GetFunctionByName(string parentId, string functionName);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="functionCode"></param>
+        /// <returns></returns>
+        AppFunction GetFunctionByCode(string functionCode);
     }
 }

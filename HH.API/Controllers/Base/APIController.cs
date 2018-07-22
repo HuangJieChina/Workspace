@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Cors;
 using HH.API.Entity.Orgainzation;
 using HH.API.Authorization;
+using System.Threading;
 
 namespace HH.API.Controllers
 {
@@ -135,6 +136,21 @@ namespace HH.API.Controllers
         }
 
         /// <summary>
+        /// 返回结果
+        /// </summary>
+        /// <param name="resultCode"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public virtual JsonResult Json(ResultCode resultCode, string message)
+        {
+            return Json(new APIResult()
+            {
+                ResultCode = resultCode,
+                Message = message
+            });
+        }
+
+        /// <summary>
         /// 返回true/false
         /// </summary>
         /// <param name="result"></param>
@@ -165,6 +181,54 @@ namespace HH.API.Controllers
                     ResultCode = ResultCode.PermissionDenied,
                     Message = "Current request is rejected because of lack of authority."
                 });
+            }
+        }
+        #endregion
+
+        #region 锁策略 ---------------------------
+        protected static Dictionary<string, object> lockObject = new Dictionary<string, object>();
+
+        /// <summary>
+        /// 获取当前锁定的对象
+        /// </summary>
+        /// <param name="key"></param>
+        public object GetLockObject(string key)
+        {
+            if (lockObject.ContainsKey(key)) return lockObject[key];
+            try
+            {
+                Monitor.Enter(lockObject);
+                if (lockObject.ContainsKey(key)) return lockObject[key];
+
+                lockObject.Add(key, new object());
+                return lockObject[key];
+            }
+            finally
+            {
+                Monitor.Exit(lockObject);
+            }
+        }
+
+        /// <summary>
+        /// 执行锁的请求方法(防止并发造成判断错误)
+        /// </summary>
+        /// <param name="lockKey"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public JsonResult MonitorFunction(string lockKey, Func<JsonResult> func)
+        {
+            if (string.IsNullOrWhiteSpace(lockKey)) throw new Exception("Lock key can not be empty value.");
+
+            object lockObject = this.GetLockObject(lockKey);
+
+            try
+            {
+                Monitor.Enter(lockObject);
+                return func();
+            }
+            finally
+            {
+                Monitor.Exit(lockObject);
             }
         }
         #endregion

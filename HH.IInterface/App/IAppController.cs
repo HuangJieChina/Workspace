@@ -31,26 +31,43 @@ namespace HH.API.IController
         /// <summary>
         /// 增加应用目录
         /// </summary>
-        /// <param name="appCatalog"></param>
-        /// <returns></returns>
+        /// <param name="appFunction">目录对象</param>
+        /// <returns>返回添加结果</returns>
         [HttpPost]
-        JsonResult AddAppCatalog([FromBody] AppCatalog appCatalog);
+        JsonResult AddFolder([FromBody]AppFunction appFunction);
 
         /// <summary>
         /// 删除App应用目录
         /// </summary>
-        /// <param name="objectId"></param>
-        /// <returns></returns>
+        /// <param name="objectId">目录Id</param>
+        /// <returns>返回删除结果</returns>
         [HttpGet]
-        JsonResult RemoveAppCatalog(string objectId);
+        JsonResult RemoveFolder(string objectId);
 
         /// <summary>
         /// 更新应用目录
         /// </summary>
-        /// <param name="appCatalog"></param>
+        /// <param name="appFunction"></param>
         /// <returns></returns>
         [HttpPost]
-        JsonResult UpdateAppCatalog([FromBody] AppCatalog appCatalog);
+        JsonResult UpdateFolder([FromBody]AppFunction appFunction);
+
+        /// <summary>
+        /// 新增自定义URL链接
+        /// </summary>
+        /// <param name="appFunction"></param>
+        /// <returns></returns>
+        [HttpPost]
+        JsonResult AddCustomUrl([FromBody]AppFunction appFunction);
+
+        /// <summary>
+        /// 设置应用菜单或目录的排序位置
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <param name="sortOrder"></param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult SetFunctionPosition(string objectId, int sortOrder);
 
     }
 }

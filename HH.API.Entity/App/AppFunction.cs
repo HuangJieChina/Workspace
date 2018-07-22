@@ -11,9 +11,12 @@ namespace HH.API.Entity.App
     /// 应用包程序目录
     /// </summary>
     [Serializable]
-    public class AppCatalog : EntityBase
+    public class AppFunction : EntityBase
     {
-        public AppCatalog() { }
+        /// <summary>
+        /// 
+        /// </summary>
+        public AppFunction() { }
 
         /// <summary>
         /// 用于新建的构造函数
@@ -23,7 +26,7 @@ namespace HH.API.Entity.App
         /// <param name="createdBy"></param>
         /// <param name="sortOrder"></param>
         /// <param name="isRoot"></param>
-        public AppCatalog(string parentId,
+        public AppFunction(string parentId,
             string functionName,
             string createdBy,
             int sortOrder)
@@ -35,13 +38,25 @@ namespace HH.API.Entity.App
         }
 
         /// <summary>
+        /// 获取或设置所属的应用Id(冗余字段)
+        /// </summary>
+        [Required]
+        public string AppPackageId { get; set; }
+
+        public const string PropertyName_FunctionCode = "FunctionCode";
+        /// <summary>
+        /// 获取或设置应用菜单编码(必须唯一)
+        /// </summary>
+        public string FunctionCode { get; set; }
+
+        /// <summary>
         /// 获取或设置目录显示名称
         /// </summary>
         public string FunctionName { get; set; }
 
         public const string PropertyName_SortOrder = "SortOrder";
         /// <summary>
-        /// 获取或设置应用包排序号
+        /// 获取或设置应用菜单排序号
         /// </summary>
         public int SortOrder { get; set; }
 
@@ -59,6 +74,37 @@ namespace HH.API.Entity.App
         public bool IsDisplay { get; set; }
 
         /// <summary>
+        /// 获取或设置打开的URL链接
+        /// </summary>
+        [StringLength(256)]
+        public string Url { get; set; }
+
+        /// <summary>
+        /// 获取或设置图标URL地址
+        /// </summary>
+        public string IconUrl { get; set; }
+
+        /// <summary>
+        /// 获取或设置图标显示样式
+        /// </summary>
+        public string IconCss { get; set; }
+
+        /// <summary>
+        /// 获取或设置图标显示类型
+        /// </summary>
+        public IconType IconType { get; set; }
+
+        /// <summary>
+        /// 获取或设置链接打开方式
+        /// </summary>
+        public LinkTarget LinkTarget { get; set; }
+
+        /// <summary>
+        /// 获取或设置功能菜单类型
+        /// </summary>
+        public FunctionType FunctionType { get; set; }
+
+        /// <summary>
         /// 获取数据库表名
         /// </summary>
         [NotMapped]
@@ -66,9 +112,8 @@ namespace HH.API.Entity.App
         {
             get
             {
-                return EntityConfig.Table.AppCatalog;
+                return EntityConfig.Table.AppFunction;
             }
         }
-
     }
 }

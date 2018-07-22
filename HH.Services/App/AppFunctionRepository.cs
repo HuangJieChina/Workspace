@@ -10,29 +10,34 @@ using HH.API.Entity.App;
 
 namespace HH.API.Services
 {
-    public class FunctionNodeRepository : RepositoryBase<AppCatalog>, IAppCatalogRepository
+    public class AppFunctionRepository : RepositoryBase<AppFunction>, IAppFunctionRepository
     {
         /// <summary>
         /// 构造函数
         /// </summary>
-        public FunctionNodeRepository()
+        public AppFunctionRepository()
         {
 
         }
-        
+
+        public AppFunction GetFunctionByCode(string functionCode)
+        {
+            return this.GetObjectByKey(AppFunction.PropertyName_FunctionCode, functionCode);
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="parentId"></param>
         /// <param name="functionName"></param>
         /// <returns></returns>
-        public AppCatalog GetFunctionNodeByName(string parentId, string functionName)
+        public AppFunction GetFunctionByName(string parentId, string functionName)
         {
             // 查询条件
             IList<IPredicate> predList = new List<IPredicate>();
 
-            predList.Add(Predicates.Field<AppCatalog>(p => p.ParentId, Operator.Eq, parentId));
-            predList.Add(Predicates.Field<AppCatalog>(p => p.FunctionName, Operator.Eq, functionName));
+            predList.Add(Predicates.Field<AppFunction>(p => p.ParentId, Operator.Eq, parentId));
+            predList.Add(Predicates.Field<AppFunction>(p => p.FunctionName, Operator.Eq, functionName));
 
             IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
 
@@ -44,9 +49,9 @@ namespace HH.API.Services
         /// </summary>
         /// <param name="parentId"></param>
         /// <returns></returns>
-        public List<AppCatalog> GetSubFunctionNodesByParent(string parentId)
+        public List<AppFunction> GetSubFunctionByParent(string parentId)
         {
-            return this.GetListByKey(AppCatalog.PropertyName_ParentId, parentId);
+            return this.GetListByKey(AppFunction.PropertyName_ParentId, parentId);
         }
     }
 }
