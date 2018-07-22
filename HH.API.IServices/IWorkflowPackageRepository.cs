@@ -4,7 +4,7 @@ using System;
 
 namespace HH.API.IServices
 {
-    public interface IWorkflowPackageRepository : IRepositoryBase<WorkflowPackage>
+    public interface IBizPackageRepository : IRepositoryBase<BizPackage>
     {
         string SayHello(string inputValue);
 
@@ -15,6 +15,6 @@ namespace HH.API.IServices
         /// </summary>
         /// <param name="packageCode">Code</param>
         /// <returns>实体对象</returns>
-        WorkflowPackage GetWorkflowPackageByCode(string packageCode);
+        BizPackage GetBizPackageByCode(string packageCode);
     }
 }

@@ -9,6 +9,5 @@ namespace HH.API.Services
     /// </summary>
     public class ServiceBase
     {
-        protected static object lockObject = new object();
     }
 }

@@ -21,7 +21,7 @@ namespace HH.API.Services
     /// TODO:待增加缓存机制
     /// TODO:待增加异步函数
     /// </summary>
-    public class RepositoryBase<T> : IRepositoryBase<T>
+    public partial class RepositoryBase<T> : IRepositoryBase<T>
         where T : EntityBase, new()
     {
         /// <summary>
@@ -79,6 +79,24 @@ namespace HH.API.Services
                     this._EntityCache = EntityCacheFactory<T>.Instance.GetCache();
                 }
                 return this._EntityCache;
+            }
+        }
+
+
+        private IEntityEventBus _EventBus = null;
+
+        /// <summary>
+        /// 获取事件注册对象
+        /// </summary>
+        public IEntityEventBus EventBus
+        {
+            get
+            {
+                if (this._EventBus == null)
+                {
+                    this._EventBus = ServiceFactory.Instance.GetRepository<IEntityEventBus>();
+                }
+                return this._EventBus;
             }
         }
 
@@ -195,12 +213,15 @@ namespace HH.API.Services
         /// <returns></returns>
         public virtual dynamic Insert(T t)
         {
+            this.EventBus.TriggerBeforeInsertEvent<T>(t);
+            dynamic res = null;
             using (var conn = ConnectionFactory.DefaultConnection())
             {
-                dynamic res = conn.Insert<T>(t);
+                res = conn.Insert<T>(t);
                 this.EntityCache.Save(t);
-                return res;
             }
+            this.EventBus.TriggerAfterInsertEvent<T>(t, res);
+            return res;
         }
 
         /// <summary>

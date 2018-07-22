@@ -10,13 +10,13 @@ using HH.API.Entity.BizModel;
 
 namespace HH.API.Services
 {
-    public class WorkflowPackageRepository : RepositoryBase<WorkflowPackage>,
-        IWorkflowPackageRepository
+    public class BizPackageRepository : RepositoryBase<BizPackage>,
+        IBizPackageRepository
     {
         /// <summary>
         /// 构造函数
         /// </summary>
-        public WorkflowPackageRepository()
+        public BizPackageRepository()
         {
 
         }
@@ -34,9 +34,9 @@ namespace HH.API.Services
         /// </summary>
         /// <param name="packageCode"></param>
         /// <returns></returns>
-        public WorkflowPackage GetWorkflowPackageByCode(string packageCode)
+        public BizPackage GetBizPackageByCode(string packageCode)
         {
-            return this.GetObjectByKey(WorkflowPackage.PropertyName_PackageCode, packageCode);
+            return this.GetObjectByKey(BizPackage.PropertyName_PackageCode, packageCode);
         }
     }
 }

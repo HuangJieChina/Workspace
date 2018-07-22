@@ -13,20 +13,20 @@ using HH.API.Entity.BizModel;
 namespace HH.API.Controllers
 {
     [Route("api/[controller]")]
-    public class WorkflowController : APIController, IWorkflowController
+    public class WorkflowController : APIController, IBizModelController
     {
         #region 服务注入对象 --------------------
         /// <summary>
         /// 流程包
         /// </summary>
-        private IWorkflowPackageRepository workflowPackageRepository = null;
+        private IBizPackageRepository workflowPackageRepository = null;
         private IBizSchemaRepository bizSchemaRepository = null;
         private IBizSheetRepository bizSheetRepository = null;
         private IWorkflowTemplateRepository workflowTemplateRepository = null;
         public IAppFunctionRepository functionNodeRepository = null;
         #endregion
 
-        public WorkflowController(IWorkflowPackageRepository workflowPackageRepository,
+        public WorkflowController(IBizPackageRepository workflowPackageRepository,
             IBizSchemaRepository bizSchemaRepository,
             IBizSheetRepository bizSheetRepository,
             IWorkflowTemplateRepository workflowTemplateRepository,
@@ -85,8 +85,8 @@ namespace HH.API.Controllers
         /// <param name="packageName"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        [HttpGet("AddWorkflowPackage")]
-        public JsonResult AddWorkflowPackage(string folderId,
+        [HttpGet("AddBizPackage")]
+        public JsonResult AddBizPackage(string folderId,
             string packageCode,
             string packageName,
             int sortOrder)
@@ -94,7 +94,7 @@ namespace HH.API.Controllers
             return MonitorFunction("AddWorkflowPackage", () =>
             {
                 #region 数据格式校验 -----------------------
-                if (this.workflowPackageRepository.GetWorkflowPackageByCode(packageCode) != null)
+                if (this.workflowPackageRepository.GetBizPackageByCode(packageCode) != null)
                 {// 编码已经存在
                     return Json(new APIResult()
                     {
@@ -104,8 +104,8 @@ namespace HH.API.Controllers
                 }
                 #endregion
 
-                // 新增 WorkflowPackage
-                WorkflowPackage workflowPackage = new WorkflowPackage(folderId, packageCode, packageName, sortOrder);
+                // 新增 业务模型
+                BizPackage workflowPackage = new BizPackage(folderId, packageCode, packageName, sortOrder);
                 this.workflowPackageRepository.Insert(workflowPackage);
 
                 // 新增 数据模型
@@ -226,10 +226,9 @@ namespace HH.API.Controllers
             throw new NotImplementedException();
         }
 
-        public JsonResult RemoveWorkflowPackage(string schemaCode)
+        public JsonResult RemoveBizPackage(string schemaCode)
         {
             throw new NotImplementedException();
         }
-
     }
 }

@@ -8,6 +8,14 @@ namespace HH.Container
     {
         static void Main(string[] args)
         {
+            ActionTest actionTest = new ActionTest();
+            actionTest.Test();
+
+            TaskAwait taskAwait = new TaskAwait();
+            taskAwait.TestAsync();
+
+            Console.ReadLine();
+
             dynamic cusDynamic = new CusDynamicObject();
             cusDynamic.Name = "HuangJie";
             cusDynamic.Code = "zhangs";

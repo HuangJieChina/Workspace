@@ -11,6 +11,8 @@ namespace HH.API.Services
     {
         private ServiceFactory() { }
 
+        public static object lockObject = new object();
+
         private static ServiceFactory _Instance = null;
         /// <summary>
         /// 获取单例对象实例

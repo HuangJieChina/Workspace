@@ -16,11 +16,12 @@ namespace Test
             //orgTest.Test_AddUnit();
 
             WorkflowManagerTest workflowManagerTest = new WorkflowManagerTest();
-            workflowManagerTest.Test_AddFolder();
-            workflowManagerTest.Test_AddWorkflowPackage();
-            workflowManagerTest.Test_AddBizProperty();
-            workflowManagerTest.Test_PublishSchema();
-            workflowManagerTest.Test_AddBizObject();
+            workflowManagerTest.Test_AddAppPackage();
+
+            //workflowManagerTest.Test_AddWorkflowPackage();
+            //workflowManagerTest.Test_AddBizProperty();
+            //workflowManagerTest.Test_PublishSchema();
+            //workflowManagerTest.Test_AddBizObject();
 
 
             //ValuesTest valuesTest = new ValuesTest();

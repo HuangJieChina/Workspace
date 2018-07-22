@@ -15,7 +15,7 @@ namespace HH.API.Controllers
     [Route("api/[controller]")]
     public class BizModelController : WorkflowController
     {
-        public BizModelController(IWorkflowPackageRepository workflowPackageRepository,
+        public BizModelController(IBizPackageRepository workflowPackageRepository,
             IBizSchemaRepository bizSchemaRepository, IBizSheetRepository bizSheetRepository,
             IWorkflowTemplateRepository workflowTemplateRepository,
             IAppFunctionRepository functionNodeRepository)

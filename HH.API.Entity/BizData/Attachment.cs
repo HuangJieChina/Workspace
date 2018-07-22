@@ -11,7 +11,7 @@ namespace HH.API.Entity.BizData
     /// 附件表
     /// </summary>
     [Serializable]
-    public class BizAttachment : EntityBase
+    public class Attachment : EntityBase
     {
         /// <summary>
         /// 获取或设置文件名称
@@ -64,7 +64,7 @@ namespace HH.API.Entity.BizData
         {
             get
             {
-                return EntityConfig.Table.BizAttachment;
+                return EntityConfig.Table.Attachment;
             }
         }
     }

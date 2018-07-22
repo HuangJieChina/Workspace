@@ -8,14 +8,14 @@ using DapperExtensions.Mapper;
 namespace HH.API.Entity.BizModel
 {
     /// <summary>
-    /// 流程包
+    /// 业务模型
     /// </summary>
     [Serializable]
-    public class WorkflowPackage : EntityBase
+    public class BizPackage : EntityBase
     {
-        public WorkflowPackage() { }
+        public BizPackage() { }
 
-        public WorkflowPackage(string catalogId,
+        public BizPackage(string catalogId,
             string packageCode,
             string packageName,
             int sortOrder)

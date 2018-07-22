@@ -1,4 +1,5 @@
 ﻿using HH.API.Entity;
+using HH.API.Entity.App;
 using HH.API.Entity.BizData;
 using HH.API.Entity.BizModel;
 using Newtonsoft.Json;
@@ -13,21 +14,21 @@ namespace Test.Test
     {
         public WorkflowManagerTest() { }
 
-        public void Test_AddFolder()
+        public void Test_AddAppPackage()
         {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-            parameters.Add("ParentID", null);
-            parameters.Add("functionName", "测试目录");
-            parameters.Add("sortOrder", "1");
-            parameters.Add("isRoot", "true");
+            AppPackage appPackage = new AppPackage()
+            {
+                AppCode = "Test1",
+                AppName = "abc"
+            };
 
-            string result = this.HttpGet(ServerUri + "/WorkflowManager/AddWorkflowFolder", parameters);
-            Console.WriteLine("WorkflowManager.AddWorkflowFolder->" + result);
+            string result = this.HttpPost(ServerUri + "/App/AddAppPackage", JsonConvert.SerializeObject(appPackage));
+            Console.WriteLine("Test_AddAppPackage->" + result);
         }
 
         public void Test_AddWorkflowPackage()
         {
-            List<FunctionNode> functionNodes = Newtonsoft.Json.JsonConvert.DeserializeObject<List<FunctionNode>>(this.HttpGet(ServerUri + "/WorkflowManager/GetRootFolders", null));
+            List<AppFunction> functionNodes = Newtonsoft.Json.JsonConvert.DeserializeObject<List<AppFunction>>(this.HttpGet(ServerUri + "/WorkflowManager/GetRootFolders", null));
 
             if (functionNodes != null && functionNodes.Count > 0)
             {

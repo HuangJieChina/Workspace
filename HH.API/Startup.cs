@@ -24,6 +24,7 @@ using Autofac.Extensions.DependencyInjection;
 using HH.API.IServices;
 using HH.API.Entity;
 using HH.API.Aop;
+using HH.API.Events;
 
 namespace HH.API
 {
@@ -158,9 +159,10 @@ namespace HH.API
             app.UseAuthentication();
 
             // 服务的依赖注入 Start
+            RegisterEntityEvent registerEntityEvent = new RegisterEntityEvent();
+            registerEntityEvent.RegisterUserEnvent();
 
             // End
-
             app.UseMvc();
         }
 

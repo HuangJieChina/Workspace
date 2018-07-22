@@ -96,7 +96,7 @@ namespace HH.API.Entity.BizModel
         {
             get
             {
-                return EntityConfig.Table.WorkflowTemplate;
+                return EntityConfig.Table.BizWorkflowTemplate;
             }
         }
 
@@ -111,25 +111,6 @@ namespace HH.API.Entity.BizModel
         }
 
         // End Class
-    }
-
-    /// <summary>
-    /// 流程模板状态
-    /// </summary>
-    public enum WorkflowState
-    {
-        /// <summary>
-        /// 设计版本
-        /// </summary>
-        Design = 0,
-        /// <summary>
-        /// 已发布的
-        /// </summary>
-        Published = 1,
-        /// <summary>
-        /// 已作废的
-        /// </summary>
-        Discarded = 2
     }
 
     public class WorkflowTemplateDefine
@@ -187,30 +168,5 @@ namespace HH.API.Entity.BizModel
         public decimal Height { get; set; }
     }
 
-    /// <summary>
-    /// 活动节点类型
-    /// </summary>
-    public enum ActivityType
-    {
-        /// <summary>
-        /// 用户活动
-        /// </summary>
-        User = 0,
-        /// <summary>
-        /// 系统活动
-        /// </summary>
-        System = 1,
-        /// <summary>
-        /// 连接点
-        /// </summary>
-        Connect = 2,
-        /// <summary>
-        /// 传阅活动
-        /// </summary>
-        Circulate = 3,
-        /// <summary>
-        /// 子流程
-        /// </summary>
-        SubWorkflow = 4
-    }
+   
 }

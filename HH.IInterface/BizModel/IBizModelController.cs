@@ -8,11 +8,11 @@ namespace HH.API.IController
     /// <summary>
     /// 组织机构服务接口类
     /// </summary>
-    public interface IWorkflowController : IBaseController
+    public interface IBizModelController : IBaseController
     {
         #region 流程包接口 --------------------
         /// <summary>
-        /// 增加流程包
+        /// 新增业务模型
         /// </summary>
         /// <param name="folderId"></param>
         /// <param name="packageCode"></param>
@@ -20,18 +20,18 @@ namespace HH.API.IController
         /// <param name="sortOrder"></param>
         /// <returns></returns>
         [HttpPost]
-        JsonResult AddWorkflowPackage(string folderId,
+        JsonResult AddBizPackage(string folderId,
             string packageCode,
             string packageName,
             int sortOrder);
 
         /// <summary>
-        /// 移除流程包
+        /// 移除业务模型
         /// </summary>
         /// <param name="schemaCode">业务模型编码</param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult RemoveWorkflowPackage(string schemaCode);
+        JsonResult RemoveBizPackage(string schemaCode);
         #endregion
 
         #region 业务流程接口 ------------------

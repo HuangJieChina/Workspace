@@ -11,7 +11,7 @@ namespace HH.API.Entity.BizData
     /// 审批记录表
     /// </summary>
     [Serializable]
-    public class BizComment : EntityBase
+    public class Comment : EntityBase
     {
         /// <summary>
         /// 获取或设置创建者姓名
@@ -79,7 +79,7 @@ namespace HH.API.Entity.BizData
         {
             get
             {
-                return EntityConfig.Table.BizComment;
+                return EntityConfig.Table.Comment;
             }
         }
 

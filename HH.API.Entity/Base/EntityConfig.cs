@@ -20,7 +20,7 @@ namespace HH.API.Entity
         }
 
         /// <summary>
-        /// 数据库表名称配置
+        /// 数据库表名称配置(注：表名称长度不允许超过28个字符)
         /// </summary>
         public struct Table
         {
@@ -58,41 +58,45 @@ namespace HH.API.Entity
             /// 应用程序菜单表(包含：目录、应用包、自定义URL、报表)
             /// </summary>
             public const string AppFunction = "sys_AppFunction";
+
+            #endregion
+
+            #region 业务模型 ------------------
             /// <summary>
             /// 流程包
             /// </summary>
-            public const string WorkflowPackage = "sys_WorkflowPackage";
+            public const string WorkflowPackage = "sys_BizPackage";
             /// <summary>
             /// 流程模板表
             /// </summary>
-            public const string WorkflowTemplate = "sys_WorkflowTemplate";
-            #endregion
-
-            #region 业务数据 ------------------
+            public const string BizWorkflowTemplate = "sys_BizWorkflowTemplate";
             /// <summary>
             /// 业务对象结构表
             /// </summary>
             public const string BizSchema = "sys_BizSchema";
             /// <summary>
-            /// 业务表单表
-            /// </summary>
-            public const string BizSheet = "sys_BizSheet";
-            /// <summary>
             /// 业务对象属性
             /// </summary>
             public const string BizProperty = "sys_BizProperty";
             /// <summary>
+            /// 业务表单表
+            /// </summary>
+            public const string BizSheet = "sys_BizSheet";
+            #endregion
+
+            #region 业务数据 ------------------
+            /// <summary>
+            /// 流程实例表
+            /// </summary>
+            public const string InstanceContext = "sys_InstanceContext";
+            /// <summary>
             /// 业务数据附件表
             /// </summary>
-            public const string BizAttachment = "sys_BizAttachment";
+            public const string Attachment = "sys_InsAttachment";
             /// <summary>
             /// 业务数据审批意见表
             /// </summary>
-            public const string BizComment = "sys_BizComment";
-            #endregion
-
-            #region 流程实例 ------------------
-            public const string InstanceContext = "sys_InstanceContext";
+            public const string Comment = "sys_InsComment";
             /// <summary>
             /// 活动表名称
             /// </summary>
