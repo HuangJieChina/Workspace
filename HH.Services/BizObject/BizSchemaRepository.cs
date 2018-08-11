@@ -19,7 +19,7 @@ namespace HH.API.Services
     /// </summary>
     public class BizSchemaRepository : RepositoryBase<BizSchema>, IBizSchemaRepository
     {
-        public BizSchemaRepository(string corpId) : base(corpId)
+        public BizSchemaRepository() : base()
         {
         }
 

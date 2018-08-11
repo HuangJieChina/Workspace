@@ -13,7 +13,7 @@ namespace HH.API.Services
     public class BizPackageRepository : RepositoryBase<BizPackage>,
         IBizPackageRepository
     {
-        public BizPackageRepository(string corpId) : base(corpId)
+        public BizPackageRepository() : base()
         {
         }
 

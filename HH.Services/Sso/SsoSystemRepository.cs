@@ -17,8 +17,7 @@ namespace HH.API.Services
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="corpId"></param>
-        public SsoSystemRepository(string corpId) : base(corpId)
+        public SsoSystemRepository() : base()
         {
 
         }

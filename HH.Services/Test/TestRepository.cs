@@ -6,25 +6,25 @@ using DapperExtensions;
 using System.Collections.Generic;
 using System.Linq;
 using HH.API.Entity.Database;
+using System.Data.Common;
 
 namespace HH.API.Services
 {
     public class TestRepository : RepositoryBase<TestParentEntity>
     {
-        public TestRepository(string corpId) : base(corpId)
+        public TestRepository() : base()
         {
         }
 
         public override dynamic Insert(TestParentEntity t)
         {
-            dynamic result;
-            using (var conn = ConnectionFactory.DefaultConnection())
+            return TransactionFunc<dynamic>((conn) =>
             {
-                result = conn.Insert<TestParentEntity>(t);
+                dynamic result = conn.Insert<TestParentEntity>(t);
                 conn.Insert<TestChildEntity>(t.TestChild);
                 conn.Insert<TestUserEntity>(t.TestUser);
-            }
-            return result;
+                return result;
+            });
         }
 
         public override TestParentEntity GetObjectById(string objectId)

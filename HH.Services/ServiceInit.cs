@@ -53,8 +53,7 @@ namespace HH.API.Services
         /// <summary>
         /// 服务启动并初始化
         /// </summary>
-        /// <param name="corpId"></param>
-        public void Initial(string corpId)
+        public void Initial()
         {
             try
             {
@@ -64,7 +63,7 @@ namespace HH.API.Services
                 initialized = true;
 
                 // 主体操作开始 -------
-                this.InitialData(corpId);
+                this.InitialData();
                 // End
             }
             finally
@@ -76,14 +75,14 @@ namespace HH.API.Services
         /// <summary>
         /// 初始化数据
         /// </summary>
-        private void InitialData(string corpId)
+        private void InitialData()
         {
             // 校验注册码
             VerifyLicense();
             // TODO:服务数据初始化过程
             InitialFunctionNode();
             // 初始化组织
-            InitialOrg(corpId);
+            InitialOrg();
         }
 
         /// <summary>
@@ -108,10 +107,10 @@ namespace HH.API.Services
         /// 组织对象初始化
         /// </summary>
         /// <param name="corpId"></param>
-        private void InitialOrg(string corpId)
+        private void InitialOrg()
         {
-            OrgUnitRepository orgUnitRepository = new OrgUnitRepository(corpId);
-            OrgUserRepository orgUserRepository = new OrgUserRepository(corpId);
+            OrgUnitRepository orgUnitRepository = new OrgUnitRepository();
+            OrgUserRepository orgUserRepository = new OrgUserRepository();
 
             if (orgUnitRepository.Count() == 0)
             {

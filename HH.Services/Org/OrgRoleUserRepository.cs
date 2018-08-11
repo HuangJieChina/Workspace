@@ -12,7 +12,7 @@ namespace HH.API.Services
 {
     public class OrgPostUserRepository : RepositoryBase<OrgPostUser>, IOrgPostUserRepository
     {
-        public OrgPostUserRepository(string corpId) : base(corpId)
+        public OrgPostUserRepository() : base()
         {
         }
     }

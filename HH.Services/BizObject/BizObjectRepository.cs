@@ -20,7 +20,7 @@ namespace HH.API.Services
     /// </summary>
     public class BizObjectRepository : BizSchemaRepository, IBizObjectRepository
     {
-        public BizObjectRepository(string corpId) : base(corpId)
+        public BizObjectRepository() : base()
         {
         }
 

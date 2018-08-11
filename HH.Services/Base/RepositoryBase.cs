@@ -27,32 +27,17 @@ namespace HH.API.Services
         /// <summary>
         /// 基类构造函数
         /// </summary>
-        /// <param name="corpId"></param>
-        public RepositoryBase(string corpId)
+        public RepositoryBase()
         {
             DapperExtensions.DapperExtensions.Configure(typeof(ClassMapperBase<>),
                 new List<Assembly>(),
                 SqlDialect);
 
-            this._CorpId = corpId;
-
             // 表结构验证
             this.CheckTableSchema();
 
             // 注册码校验
-            ServiceInit.Instance.Initial(corpId);
-        }
-
-        private string _CorpId = null;
-        /// <summary>
-        /// 获取企业Id
-        /// </summary>
-        public string CorpId
-        {
-            get
-            {
-                return this._CorpId;
-            }
+            ServiceInit.Instance.Initial();
         }
 
         private ISqlDialect sqlDialect = null;
@@ -202,24 +187,19 @@ namespace HH.API.Services
         /// <param name="commandContexts"></param>
         public virtual int ExecuteSql(List<CommandDefinition> commandDefinitions)
         {
-            int count = 0;
-            using (var conn = ConnectionFactory.DefaultConnection())
-            {
-                // 事务
-                IDbTransaction transaction = conn.BeginTransaction();
-
-                foreach (CommandDefinition commandDefinition in commandDefinitions)
-                {
-                    count += conn.Execute(commandDefinition.CommandText,
-                        commandDefinition.Parameters,
-                        transaction,
-                        commandDefinition.CommandTimeout,
-                        commandDefinition.CommandType);
-                }
-
-                transaction.Commit();
-            }
-            return count;
+            return TransactionFunc<int>((conn, transaction) =>
+             {
+                 int count = 0;
+                 foreach (CommandDefinition commandDefinition in commandDefinitions)
+                 {
+                     count += conn.Execute(commandDefinition.CommandText,
+                         commandDefinition.Parameters,
+                         transaction,
+                         commandDefinition.CommandTimeout,
+                         commandDefinition.CommandType);
+                 }
+                 return count;
+             });
         }
 
         /// <summary>
@@ -230,16 +210,71 @@ namespace HH.API.Services
         public virtual dynamic Insert(T t)
         {
             this.EventBus.TriggerBeforeInsertEvent<T>(t);
-            dynamic res = null;
+
+            dynamic result = TransactionFunc<dynamic>(conn =>
+            {
+                dynamic res = conn.Insert<T>(t);
+                this.EntityCache.Save(t);
+                return res;
+            });
+
+            this.EventBus.TriggerAfterInsertEvent<T>(t, result);
+            return result;
+        }
+
+        #region 带事务的方式执行SQL ----------------------
+        /// <summary>
+        /// 执行带事务的操作
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public virtual dynamic TransactionFunc<TResult>(Func<DbConnection, TResult> func)
+        {
+            TResult result = default(TResult);
+
             using (var conn = ConnectionFactory.DefaultConnection())
             {
-                // 先数据库，再缓存
-                res = conn.Insert<T>(t);
-                this.EntityCache.Save(t);
+                DbTransaction transaction = null;
+                try
+                {
+                    transaction = conn.BeginTransaction();
+
+                    result = func(conn);
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine(ex.ToString());
+                }
             }
-            this.EventBus.TriggerAfterInsertEvent<T>(t, res);
-            return res;
+            return result;
         }
+
+        public virtual dynamic TransactionFunc<TResult>(Func<DbConnection, DbTransaction, TResult> func)
+        {
+            TResult result = default(TResult);
+
+            using (var conn = ConnectionFactory.DefaultConnection())
+            {
+                DbTransaction transaction = null;
+                try
+                {
+                    transaction = conn.BeginTransaction();
+
+                    result = func(conn, transaction);
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+            return result;
+        }
+        #endregion
 
         /// <summary>
         /// 更新实体数据
@@ -248,28 +283,13 @@ namespace HH.API.Services
         /// <returns></returns>
         public virtual bool Update(T t)
         {
-            using (var conn = ConnectionFactory.DefaultConnection())
+            return TransactionFunc<bool>(conn =>
             {
-                DbTransaction transaction = null;
-                bool res = false;
-                try
-                {
-                    transaction = conn.BeginTransaction();
-                    res = conn.Update<T>(t, transaction);
-                    if (res) this.EntityCache.Save(t);
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    if (transaction != null)
-                    {
-                        transaction.Rollback();
-                    }
-                    // TODO:异常日志输出
-                    Console.WriteLine(ex.ToString());
-                }
+                // 先更新数据库，再更新缓存
+                bool res = conn.Update<T>(t);
+                if (res) this.EntityCache.Save(t);
                 return res;
-            }
+            });
         }
 
         /// <summary>
@@ -372,6 +392,7 @@ namespace HH.API.Services
                 result = conn.QueryFirstOrDefault<T>(sql, parameters);
                 if (action != null && result != null) action(conn, result);
             }
+
             // 获取到的是空值
             if (result != null)
             {
@@ -451,9 +472,7 @@ namespace HH.API.Services
         /// <returns></returns>
         public virtual bool RemoveObjectById(string objectId)
         {
-            bool res = this.RemoveObject(new T() { ObjectId = objectId });
-            if (res) this.EntityCache.Remove(objectId);
-            return res;
+            return this.RemoveObject(new T() { ObjectId = objectId });
         }
 
         /// <summary>
@@ -463,12 +482,12 @@ namespace HH.API.Services
         /// <returns></returns>
         public virtual bool RemoveObject(T t)
         {
-            using (var conn = ConnectionFactory.DefaultConnection())
+            return TransactionFunc<bool>((conn) =>
             {
                 bool res = conn.Delete<T>(t);
                 if (res) this.EntityCache.Remove(t.ObjectId);
                 return res;
-            }
+            });
         }
 
         /// <summary>
