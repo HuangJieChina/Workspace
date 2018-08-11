@@ -10,7 +10,16 @@ namespace HH.API.Services.Base
 {
     public class EntityEventBus : IEntityEventBus
     {
-        public EntityEventBus() { }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="corpId"></param>
+        public EntityEventBus(string corpId)
+        {
+            this.CorpId = corpId;
+        }
+
+        public string CorpId { get; }
 
         public Dictionary<Type, List<object>> AfterInsertEvents { get; } = new Dictionary<Type, List<object>>();
         public Dictionary<Type, List<object>> BeforeInsertEvents { get; } = new Dictionary<Type, List<object>>();

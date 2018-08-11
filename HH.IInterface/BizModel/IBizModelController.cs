@@ -20,7 +20,8 @@ namespace HH.API.IController
         /// <param name="sortOrder"></param>
         /// <returns></returns>
         [HttpPost]
-        JsonResult AddBizPackage(string folderId,
+        JsonResult AddBizPackage(
+            string folderId,
             string packageCode,
             string packageName,
             int sortOrder);
@@ -28,6 +29,7 @@ namespace HH.API.IController
         /// <summary>
         /// 移除业务模型
         /// </summary>
+        /// <param name="userId">操作用户</param>
         /// <param name="schemaCode">业务模型编码</param>
         /// <returns></returns>
         [HttpGet]

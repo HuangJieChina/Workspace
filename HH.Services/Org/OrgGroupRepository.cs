@@ -10,11 +10,12 @@ using HH.API.Entity.Orgainzation;
 
 namespace HH.API.Services
 {
-    public class OrgGroupRepository : RepositoryBase<OrgGroup>, IOrgGroupRepository
+    public class OrgPostRepository : RepositoryBase<OrgPost>, IOrgPostRepository
     {
-        public OrgGroupRepository(string corpId) : base(corpId)
+        public OrgPostRepository(string corpId) : base(corpId)
         {
-
+          
         }
+
     }
 }

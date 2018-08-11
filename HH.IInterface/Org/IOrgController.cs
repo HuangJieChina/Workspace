@@ -6,7 +6,7 @@ using System;
 namespace HH.API.IController
 {
     /// <summary>
-    /// 组织机构服务接口类
+    /// 组织机构服务接口类(基础属性：组织、用户，业务属性：角色/岗位)
     /// </summary>
     public interface IOrgController : IBaseController
     {
@@ -132,7 +132,16 @@ namespace HH.API.IController
         /// <param name="roleCode">角色编码</param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult FindRoleUsers(string objectId, string roleCode);
+        JsonResult FindRoleUsersByCode(string objectId, string roleCode);
+
+        /// <summary>
+        /// 查找指定组织下的所有角色人员
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <param name="roleCode"></param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult FindRoleUsersByOrg(string objectId, string roleCode);
 
         /// <summary>
         /// 获取组织对象的管理者
@@ -142,5 +151,16 @@ namespace HH.API.IController
         [HttpGet]
         JsonResult GetManager(string objectId);
         #endregion
+
+        /*
+         找人函数：
+         1.查找上级经理
+         2.查找组织经理
+         3.递归上级到组织经理
+         4.以组织为起始点查找指定角色
+         5.查找指定组织下的某个角色的所有成员
+         6.查找上级角色
+         7.绑定指定岗位
+         */
     }
 }

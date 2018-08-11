@@ -81,6 +81,7 @@ namespace HH.API.Services
             }
         }
 
+        #region 缓存对象 --------------------------
         private IEntityCache<T> _EntityCache = null;
         /// <summary>
         /// 获取实体缓存类
@@ -97,24 +98,6 @@ namespace HH.API.Services
             }
         }
 
-
-        private IEntityEventBus _EventBus = null;
-
-        /// <summary>
-        /// 获取事件注册对象
-        /// </summary>
-        public IEntityEventBus EventBus
-        {
-            get
-            {
-                if (this._EventBus == null)
-                {
-                    this._EventBus = ServiceFactory.Instance.GetRepository<IEntityEventBus>(this.CorpId);
-                }
-                return this._EventBus;
-            }
-        }
-
         private Dictionary<string, IKeyCache<T>> _KeyCache = null;
         /// <summary>
         /// 获取实体(Key)缓存类
@@ -128,6 +111,24 @@ namespace HH.API.Services
                     this._KeyCache = new Dictionary<string, IKeyCache<T>>();
                 }
                 return this._KeyCache;
+            }
+        }
+        #endregion
+
+        private IEntityEventBus _EventBus = null;
+
+        /// <summary>
+        /// 获取事件注册对象
+        /// </summary>
+        public IEntityEventBus EventBus
+        {
+            get
+            {
+                if (this._EventBus == null)
+                {
+                    this._EventBus = ServiceFactory.Instance.GetRepository<IEntityEventBus>();
+                }
+                return this._EventBus;
             }
         }
 
@@ -192,9 +193,9 @@ namespace HH.API.Services
                 return this.keyLock;
             }
         }
-
         #endregion
 
+        #region 数据库读写操作  ---------------------------
         /// <summary>
         /// 批量执行SQL语句
         /// </summary>
@@ -232,6 +233,7 @@ namespace HH.API.Services
             dynamic res = null;
             using (var conn = ConnectionFactory.DefaultConnection())
             {
+                // 先数据库，再缓存
                 res = conn.Insert<T>(t);
                 this.EntityCache.Save(t);
             }
@@ -248,10 +250,38 @@ namespace HH.API.Services
         {
             using (var conn = ConnectionFactory.DefaultConnection())
             {
-                bool res = conn.Update<T>(t);
-                if (res) this.EntityCache.Save(t);
+                DbTransaction transaction = null;
+                bool res = false;
+                try
+                {
+                    transaction = conn.BeginTransaction();
+                    res = conn.Update<T>(t, transaction);
+                    if (res) this.EntityCache.Save(t);
+                    transaction.Commit();
+                }
+                catch
+                {
+                    if (transaction != null)
+                    {
+                        transaction.Rollback();
+                    }
+                }
                 return res;
             }
+        }
+
+        /// <summary>
+        /// 更新实体数据
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="dbConnection"></param>
+        /// <param name="dbTransaction"></param>
+        /// <returns></returns>
+        public virtual bool Update(T t, DbConnection dbConnection, DbTransaction dbTransaction)
+        {
+            bool res = dbConnection.Update<T>(t, dbTransaction);
+            if (res) this.EntityCache.Save(t);
+            return res;
         }
 
         /// <summary>
@@ -529,6 +559,26 @@ namespace HH.API.Services
             }
 
             return res;
+        }
+        #endregion
+
+        /// <summary>
+        /// 清除当前缓存对象所有数据
+        /// </summary>
+        public virtual void ClearCache()
+        {
+            this.EntityCache.Clear();
+            this.KeyCache.Clear();
+        }
+
+        public virtual void ElapsedHighThread()
+        {
+
+        }
+
+        public virtual void ElapsedLowerThread()
+        {
+
         }
 
         /// <summary>

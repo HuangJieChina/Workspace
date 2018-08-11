@@ -25,7 +25,7 @@ namespace HH.API.Events
         }
 
         public static IEntityEventBus entityEventBus { get; }
-            = ServiceFactory.Instance.GetRepository<IEntityEventBus>("默认的企业编码");
+            = ServiceFactory.Instance.GetRepository<IEntityEventBus>();
 
         /// <summary>
         /// 事件注册

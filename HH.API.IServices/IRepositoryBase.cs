@@ -2,9 +2,14 @@
 using HH.API.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 
 namespace HH.API.IServices
 {
+    /// <summary>
+    /// 服务的基类
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IRepositoryBase<T> where T : EntityBase, new()
     {
 
@@ -21,6 +26,15 @@ namespace HH.API.IServices
         /// <param name="t">实体对象</param>
         /// <returns></returns>
         bool Update(T t);
+
+        /// <summary>
+        /// 更新实体数据
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="dbConnection"></param>
+        /// <param name="dbTransaction"></param>
+        /// <returns></returns>
+        bool Update(T t, DbConnection dbConnection, DbTransaction dbTransaction);
 
         /// <summary>
         /// 获取单个实体对象
@@ -47,7 +61,7 @@ namespace HH.API.IServices
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-       bool RemoveObject(T t);
+        bool RemoveObject(T t);
 
         /// <summary>
         /// 获取全部数据
@@ -81,5 +95,20 @@ namespace HH.API.IServices
         List<dynamic> GetPageList(string sqlCount, string sqlQuery, int pageIndex,
             int pageSize, out long recordCount,
             object predicate = null, IList<ISort> sort = null);
+
+        /// <summary>
+        /// 清除缓存操作
+        /// </summary>
+        void ClearCache();
+
+        /// <summary>
+        /// 启动优先级比较高的进程
+        /// </summary>
+        void ElapsedHighThread();
+
+        /// <summary>
+        /// 启动优先级比较低的线程
+        /// </summary>
+        void ElapsedLowerThread();
     }
 }

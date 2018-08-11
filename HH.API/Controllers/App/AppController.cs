@@ -39,10 +39,9 @@ namespace HH.API.Controllers
         [HttpPost(Method_AddAppPackage)]
         public JsonResult AddAppPackage([FromBody]AppPackage appPackage)
         {
-            string corpId = this.GetCorpId();
-            if (string.IsNullOrWhiteSpace(corpId)) return this.BadRequestJson;
+            // if (string.IsNullOrWhiteSpace(this.SystemCode)) return this.BadRequestJson;
 
-            return this.MonitorInsert<AppPackage>(corpId + Method_AddAppPackage, appPackage,
+            return this.MonitorInsert<AppPackage>(Method_AddAppPackage, appPackage,
                 () =>
                 {
                     // 验证编码是否重复
@@ -59,8 +58,7 @@ namespace HH.API.Controllers
         [HttpGet(Method_RemoveAppPackage)]
         public JsonResult RemoveAppPackage(string objectId)
         {
-            string corpId = this.GetCorpId();
-            if (string.IsNullOrWhiteSpace(corpId)) return this.BadRequestJson;
+            // if (string.IsNullOrWhiteSpace(this.CorpId)) return this.BadRequestJson;
 
             // TODO:验证是否有节点或者数据
             dynamic result = this.appPackageRepository.RemoveObjectById(objectId);
@@ -75,11 +73,8 @@ namespace HH.API.Controllers
         [HttpPost(Method_AddFolder)]
         public JsonResult AddFolder([FromBody]AppFunction appFunction)
         {
-            string corpId = this.GetCorpId();
-            if (string.IsNullOrWhiteSpace(corpId)) return this.BadRequestJson;
-
             // 从 Header 中获取 CorpId
-            return this.MonitorFunction(corpId + Method_AddFolder, () =>
+            return this.MonitorFunction(Method_AddFolder, () =>
               {
                   // 做数据有效性检查
                   JsonResult validateResult = null;

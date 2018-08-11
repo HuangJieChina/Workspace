@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace HH.API.IServices
 {
-    public interface IOrgRoleUserRepository : IRepositoryBase<OrgRoleUser>
+    public interface IOrgPostUserRepository : IRepositoryBase<OrgPostUser>
     {
 
     }

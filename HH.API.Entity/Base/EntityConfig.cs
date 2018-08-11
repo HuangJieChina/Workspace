@@ -39,14 +39,14 @@ namespace HH.API.Entity
             public const string OrgRole = "sys_OrgRole";
 
             /// <summary>
-            /// 用户组
+            /// 岗位表
             /// </summary>
-            public const string OrgGroup = "sys_OrgGroup";
+            public const string OrgPost = "sys_OrgPost";
 
             /// <summary>
-            /// 角色/用户表
+            /// 岗位用户表
             /// </summary>
-            public const string OrgRoleUser = "sys_OrgRoleUser";
+            public const string OrgPostUser = "sys_OrgPostUser";
             #endregion
 
             #region 应用包  -------------------

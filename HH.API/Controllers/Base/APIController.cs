@@ -36,73 +36,51 @@ namespace HH.API.Controllers
             }
         }
 
-        /// <summary>
-        /// 获取当前已认证的对象
-        /// </summary>
-        public EntityBase Authorized
-        {
-            get
-            {
-                switch (this.AuthorizationType)
-                {
-                    case AuthorizationType.User:
-                        return this.CurrentUser as EntityBase;
-                    case AuthorizationType.System:
-                        return this.CurrentSystem as EntityBase;
-                    default:
-                        throw new Exception("没有认证!");
-                }
-            }
-        }
+        ///// <summary>
+        ///// 获取当前登录系统的用户
+        ///// </summary>
+        //public OrgUser CurrentUser
+        //{
+        //    get
+        //    {
+        //        #region 正式用 -------------
+        //        //ClaimsIdentity identity = User.Identity as ClaimsIdentity;
+        //        //if (identity == null || identity.Claims.Count() == 0) throw new Exception("禁止在匿名方法获取当前用户信息");
+        //        //string id = identity.Claims.FirstOrDefault(u => u.Type == JwtClaimTypes.Id).Value;
+        //        //OrgUser user = new OrgUser()
+        //        //{
+        //        //    ObjectId = id
+        //        //};
+        //        //return user;
+        //        #endregion
+        //        return new OrgUser();
+        //    }
+        //}
 
         /// <summary>
-        /// 获取当前登录系统的用户
+        /// 获取当前系统用户Id
         /// </summary>
-        public OrgUser CurrentUser
-        {
-            get
-            {
-                #region 正式用 -------------
-                //ClaimsIdentity identity = User.Identity as ClaimsIdentity;
-                //if (identity == null || identity.Claims.Count() == 0) throw new Exception("禁止在匿名方法获取当前用户信息");
-                //string id = identity.Claims.FirstOrDefault(u => u.Type == JwtClaimTypes.Id).Value;
-                //OrgUser user = new OrgUser()
-                //{
-                //    ObjectId = id
-                //};
-                //return user;
-                #endregion
-                return new OrgUser();
-            }
-        }
+        public string CurrentUserId { get; }
 
         /// <summary>
-        /// 获取 CorpId
+        /// 获取当前调用接口的SystemCode
         /// </summary>
         /// <returns></returns>
-        public string GetCorpId()
-        {
-            // TODO：判断 CorpId 如果不在 CurrentUser 中，则抛出异常
-            return Guid.NewGuid().ToString();
-        }
-
-        /// <summary>
-        /// 获取当前认证的系统
-        /// </summary>
-        public SsoSystem CurrentSystem
+        public string SystemCode
         {
             get
             {
-                return new SsoSystem() { };
-            }
-        }
+                /*
+                ClaimsIdentity identity = User.Identity as ClaimsIdentity;
+                if (identity == null || identity.Claims.Count() == 0)
+                {
+                    throw new Exception("无效的请求认证，请先认证再访问");
+                }
+                return identity.Claims.FirstOrDefault(u => u.Type == JwtClaimTypes.Id).Value;
+                */
 
-        /// <summary>
-        /// 获取当前系统认证类型
-        /// </summary>
-        public AuthorizationType AuthorizationType
-        {
-            get { return AuthorizationType.User; }
+                return Guid.NewGuid().ToString();
+            }
         }
         #endregion
 
@@ -293,7 +271,7 @@ namespace HH.API.Controllers
         /// <returns></returns>
         public T GetRepository<T>()
         {
-            return ServiceFactory.Instance.GetRepository<T>("");
+            return ServiceFactory.Instance.GetRepository<T>();
         }
     }
 

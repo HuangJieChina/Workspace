@@ -83,7 +83,7 @@ namespace HH.API.Entity
         {
             get
             {
-                return EntityConfig.Table.OrgRoleUser;
+                return EntityConfig.Table.OrgPostUser;
             }
         }
 

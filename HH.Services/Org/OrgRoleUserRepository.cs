@@ -10,9 +10,9 @@ using HH.API.Entity.Orgainzation;
 
 namespace HH.API.Services
 {
-    public class OrgRoleUserRepository : RepositoryBase<OrgRoleUser>, IOrgRoleUserRepository
+    public class OrgPostUserRepository : RepositoryBase<OrgPostUser>, IOrgPostUserRepository
     {
-        public OrgRoleUserRepository(string corpId) : base(corpId)
+        public OrgPostUserRepository(string corpId) : base(corpId)
         {
         }
     }

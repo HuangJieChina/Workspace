@@ -86,7 +86,8 @@ namespace HH.API.Controllers
         /// <param name="sortOrder"></param>
         /// <returns></returns>
         [HttpGet("AddBizPackage")]
-        public JsonResult AddBizPackage(string folderId,
+        public JsonResult AddBizPackage(
+            string folderId,
             string packageCode,
             string packageName,
             int sortOrder)
@@ -109,12 +110,12 @@ namespace HH.API.Controllers
                 this.workflowPackageRepository.Insert(workflowPackage);
 
                 // 新增 数据模型
-                BizSchema schema = new BizSchema(packageCode, packageName, this.Authorized.ObjectId);
+                BizSchema schema = new BizSchema(packageCode, packageName, this.CurrentUserId);
                 this.bizSchemaRepository.Insert(schema);
 
                 // 新增 默认表单
                 BizSheet sheet = new BizSheet();
-                sheet.Initial(packageCode, this.Authorized.ObjectId);
+                sheet.Initial(packageCode, this.CurrentUserId);
                 if (this.bizSheetRepository.GetBizSheetByCode(sheet.SheetCode) == null)
                 {
                     this.bizSheetRepository.Insert(sheet);
@@ -129,7 +130,7 @@ namespace HH.API.Controllers
                 WorkflowTemplate workflow = new WorkflowTemplate(packageCode,
                     packageCode,
                     packageName,
-                    this.Authorized.ObjectId,
+                    this.CurrentUserId,
                     sortOrder);
                 if (this.workflowTemplateRepository.GetDesignWorkflowTemplate(workflow.WorkflowCode) == null)
                 {
@@ -156,7 +157,8 @@ namespace HH.API.Controllers
             string displayName,
             int sortOrder)
         {
-            return MonitorFunction("AddWorkflowTemplate", () => {
+            return MonitorFunction("AddWorkflowTemplate", () =>
+            {
                 // 校验流程模板编码是否已经存在
                 if (this.workflowTemplateRepository.GetDesignWorkflowTemplate(workflowCode) != null)
                 {
@@ -166,7 +168,7 @@ namespace HH.API.Controllers
                 WorkflowTemplate workflow = new WorkflowTemplate(schemaCode,
                 workflowCode,
                 displayName,
-                this.Authorized.ObjectId,
+                "UserID", // TODO:待替换
                 sortOrder);
                 this.workflowTemplateRepository.Insert(workflow);
 

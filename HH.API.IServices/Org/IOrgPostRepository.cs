@@ -7,9 +7,9 @@ using System.Collections.Generic;
 namespace HH.API.IServices
 {
     /// <summary>
-    /// 用户组
+    /// 岗位
     /// </summary>
-    public interface IOrgGroupRepository : IRepositoryBase<OrgGroup>
+    public interface IOrgPostRepository : IRepositoryBase<OrgPost>
     {
 
     }

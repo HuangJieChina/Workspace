@@ -29,27 +29,29 @@ namespace HH.API.Controllers
         public OrgController(IOrgUnitRepository orgUnitRepository,
             IOrgUserRepository orgUserRepository,
             IOrgRoleRepository orgRoleRepository,
-            IOrgRoleUserRepository orgRoleUserRepository,
-            IOrgGroupRepository orgGroupRepository)
+            IOrgPostUserRepository orgPostUserRepository,
+            IOrgPostRepository orgPostRepository)
         {
             this.orgUnitRepository = this.GetRepository<IOrgUnitRepository>();
             // this.orgUserRepository = this.GetRepository<IOrgUserRepository>();
-            this.orgUnitRepository = orgUnitRepository;
             this.orgUserRepository = orgUserRepository;
             this.orgRoleRepository = orgRoleRepository;
-            this.orgRoleUserRepository = orgRoleUserRepository;
-            this.orgGroupRepository = orgGroupRepository;
+            // this.orgGroupRepository = orgGroupRepository;
         }
 
         #region 依赖注入的服务对象 ---------------
         public IOrgUnitRepository orgUnitRepository = null;
         public IOrgUserRepository orgUserRepository = null;
         public IOrgRoleRepository orgRoleRepository = null;
-        public IOrgGroupRepository orgGroupRepository = null;
-        public IOrgRoleUserRepository orgRoleUserRepository = null;
+        public IOrgPostUserRepository orgPostUserRepository = null;
         #endregion
 
-        public JsonResult AddOrgRole([FromBody] OrgRole orgRole)
+        /// <summary>
+        /// 新增角色信息
+        /// </summary>
+        /// <param name="orgRole"></param>
+        /// <returns></returns>
+        public JsonResult AddOrgRole([FromBody]OrgRole orgRole)
         {
             this.orgRoleRepository.Insert(orgRole);
             JsonResult validateResult = null;
@@ -84,7 +86,7 @@ namespace HH.API.Controllers
         /// <param name="orgUnit"></param>
         /// <returns></returns>
         [HttpPost("AddOrgUnit")]
-        public JsonResult AddOrgUnit([FromBody] OrgUnit orgUnit)
+        public JsonResult AddOrgUnit([FromBody]OrgUnit orgUnit)
         {
             #region 数据格式校验 -----------------
             // 数据格式校验
@@ -286,8 +288,17 @@ namespace HH.API.Controllers
             organizationObject = this.orgUserRepository.GetObjectById(objectId) as OrganizationObject;
             if (organizationObject != null) return organizationObject;
 
-            organizationObject = this.orgGroupRepository.GetObjectById(objectId) as OrganizationObject;
             return organizationObject;
+        }
+
+        public JsonResult FindRoleUsersByCode(string objectId, string roleCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public JsonResult FindRoleUsersByOrg(string objectId, string roleCode)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
