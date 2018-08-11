@@ -259,12 +259,14 @@ namespace HH.API.Services
                     if (res) this.EntityCache.Save(t);
                     transaction.Commit();
                 }
-                catch
+                catch (Exception ex)
                 {
                     if (transaction != null)
                     {
                         transaction.Rollback();
                     }
+                    // TODO:异常日志输出
+                    Console.WriteLine(ex.ToString());
                 }
                 return res;
             }

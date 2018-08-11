@@ -82,10 +82,10 @@ namespace HH.API.IController
         /// <summary>
         /// 删除用户
         /// </summary>
-        /// <param name="objectId">用户Id</param>
+        /// <param name="obj">传递的参数</param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult RemoveUser(string objectId);
+        JsonResult RemoveUser(dynamic obj);
 
         /// <summary>
         /// 根据上级组织ID获取用户

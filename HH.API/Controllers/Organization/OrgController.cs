@@ -235,9 +235,13 @@ namespace HH.API.Controllers
         }
 
         [HttpGet("RemoveUser")]
-        public JsonResult RemoveUser(string objectId)
+        public JsonResult RemoveUser(dynamic obj)
         {
+            string objectId = obj.objectId;
+            string userId = obj.userId;
+
             bool res = this.orgUserRepository.RemoveObjectById(objectId);
+            // 记录日志，谁删除了用户
             return Json(res);
         }
 
