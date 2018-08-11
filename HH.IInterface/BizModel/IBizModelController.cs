@@ -14,17 +14,10 @@ namespace HH.API.IController
         /// <summary>
         /// 新增业务模型
         /// </summary>
-        /// <param name="folderId"></param>
-        /// <param name="packageCode"></param>
-        /// <param name="packageName"></param>
-        /// <param name="sortOrder"></param>
+        /// <param name="bizPackage"></param>
         /// <returns></returns>
         [HttpPost]
-        JsonResult AddBizPackage(
-            string folderId,
-            string packageCode,
-            string packageName,
-            int sortOrder);
+        JsonResult AddBizPackage(dynamic bizPackage);
 
         /// <summary>
         /// 移除业务模型
@@ -46,10 +39,7 @@ namespace HH.API.IController
         /// <param name="sortOrder"></param>
         /// <returns></returns>
         [HttpPost]
-        JsonResult AddWorkflowTemplate(string schemaCode,
-            string workflowCode,
-            string displayName,
-            int sortOrder);
+        JsonResult AddWorkflowTemplate(dynamic workflowTemplate);
 
         /// <summary>
         /// 获取流程模板

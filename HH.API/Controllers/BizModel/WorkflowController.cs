@@ -86,12 +86,14 @@ namespace HH.API.Controllers
         /// <param name="sortOrder"></param>
         /// <returns></returns>
         [HttpGet("AddBizPackage")]
-        public JsonResult AddBizPackage(
-            string folderId,
-            string packageCode,
-            string packageName,
-            int sortOrder)
+        public JsonResult AddBizPackage(dynamic bizPackage)
         {
+            string userId = bizPackage.userId;
+            string folderId = bizPackage.folderId;
+            string packageCode = bizPackage.packageCode;
+            string packageName = bizPackage.packageName;
+            int sortOrder = bizPackage.sortOrder;
+
             return MonitorFunction("AddWorkflowPackage", () =>
             {
                 #region 数据格式校验 -----------------------
@@ -110,12 +112,12 @@ namespace HH.API.Controllers
                 this.workflowPackageRepository.Insert(workflowPackage);
 
                 // 新增 数据模型
-                BizSchema schema = new BizSchema(packageCode, packageName, this.CurrentUserId);
+                BizSchema schema = new BizSchema(packageCode, packageName, userId);
                 this.bizSchemaRepository.Insert(schema);
 
                 // 新增 默认表单
                 BizSheet sheet = new BizSheet();
-                sheet.Initial(packageCode, this.CurrentUserId);
+                sheet.Initial(packageCode, userId);
                 if (this.bizSheetRepository.GetBizSheetByCode(sheet.SheetCode) == null)
                 {
                     this.bizSheetRepository.Insert(sheet);
@@ -130,7 +132,7 @@ namespace HH.API.Controllers
                 WorkflowTemplate workflow = new WorkflowTemplate(packageCode,
                     packageCode,
                     packageName,
-                    this.CurrentUserId,
+                    userId,
                     sortOrder);
                 if (this.workflowTemplateRepository.GetDesignWorkflowTemplate(workflow.WorkflowCode) == null)
                 {
@@ -152,11 +154,14 @@ namespace HH.API.Controllers
         /// <param name="workflowTemplate"></param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult AddWorkflowTemplate(string schemaCode,
-            string workflowCode,
-            string displayName,
-            int sortOrder)
+        public JsonResult AddWorkflowTemplate(dynamic workflowTemplate)
         {
+            string schemaCode = workflowTemplate.schemaCode;
+            string userId = workflowTemplate.userId;
+            string workflowCode = workflowTemplate.workflowCode;
+            string displayName = workflowTemplate.displayName;
+            int sortOrder = workflowTemplate.sortOrder;
+
             return MonitorFunction("AddWorkflowTemplate", () =>
             {
                 // 校验流程模板编码是否已经存在
@@ -166,10 +171,10 @@ namespace HH.API.Controllers
                 }
 
                 WorkflowTemplate workflow = new WorkflowTemplate(schemaCode,
-                workflowCode,
-                displayName,
-                "UserID", // TODO:待替换
-                sortOrder);
+                    workflowCode,
+                    displayName,
+                    userId,
+                    sortOrder);
                 this.workflowTemplateRepository.Insert(workflow);
 
                 return Json(new APIResult() { Message = "OK", ResultCode = ResultCode.Success });

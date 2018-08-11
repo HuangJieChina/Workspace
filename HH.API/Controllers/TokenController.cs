@@ -33,7 +33,7 @@ namespace HH.API.Controllers
         [HttpPost("Authenticate")]
         public IActionResult Authenticate([FromBody]dynamic authorization)
         {
-            string corpId = authorization.corpId;
+            string systemCode = authorization.systemCode;
             string secret = authorization.secret;
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -46,7 +46,7 @@ namespace HH.API.Controllers
                 {
                      new Claim(JwtClaimTypes.Audience,Config.API_Audience),
                      new Claim(JwtClaimTypes.Issuer,Config.API_Issuer),     // 接口
-                     new Claim(JwtClaimTypes.Id, corpId)                    // 用户的ID
+                     new Claim(JwtClaimTypes.Id, systemCode)                    // 用户的ID
                 }),
                 Expires = expiresAt,
                 SigningCredentials = new SigningCredentials(Config.SymmetricKey,

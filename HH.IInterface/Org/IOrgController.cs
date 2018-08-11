@@ -24,10 +24,10 @@ namespace HH.API.IController
         /// <summary>
         /// 删除组织信息
         /// </summary>
-        /// <param name="objectId">组织Id</param>
+        /// <param name="orgUnit">组织信息</param>
         /// <returns>返回结果</returns>
         [HttpGet]
-        JsonResult RemoveOrgUnit(string objectId);
+        JsonResult RemoveOrgUnit(dynamic orgUnit);
 
         /// <summary>
         /// 更新组织信息
@@ -58,12 +58,10 @@ namespace HH.API.IController
         /// <summary>
         /// 用户密码重置
         /// </summary>
-        /// <param name="userCode"></param>
-        /// <param name="oldPassword"></param>
-        /// <param name="newPassword"></param>
+        /// <param name="obj"></param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult ResetPassword(string userCode, string oldPassword, string newPassword);
+        JsonResult ResetPassword(dynamic obj);
 
         /// <summary>
         /// 新增用户

@@ -225,33 +225,40 @@ namespace HH.API.Controllers
         }
 
         [HttpGet]
-        public JsonResult RemoveOrgUnit(string objectId)
+        public JsonResult RemoveOrgUnit(dynamic orgUnit)
         {
+            string objectId = orgUnit.objectId; // 被删除的组织机构 Id
+            string userId = orgUnit.userId;     // 当前操作的用户 Id
+
             bool res = this.orgUnitRepository.RemoveObjectById(objectId);
             return Json(res);
         }
 
-        [HttpGet]
+        [HttpGet("RemoveUser")]
         public JsonResult RemoveUser(string objectId)
         {
             bool res = this.orgUserRepository.RemoveObjectById(objectId);
             return Json(res);
         }
 
-        [HttpGet]
-        public JsonResult ResetPassword(string userCode, string oldPassword, string newPassword)
+        [HttpGet("ResetPassword")]
+        public JsonResult ResetPassword(dynamic obj)
         {
+            string userCode = obj.userCode;
+            string oldPassword = obj.oldPassword;
+            string newPassword = obj.newPassword;
+
             throw new NotImplementedException();
         }
 
-        [HttpPost]
+        [HttpPost("UpdateOrgRole")]
         public JsonResult UpdateOrgRole([FromBody]OrgRole orgRole)
         {
             bool res = this.orgRoleRepository.Update(orgRole);
             return Json(res);
         }
 
-        [HttpPost]
+        [HttpPost("UpdateOrgUnit")]
         public JsonResult UpdateOrgUnit([FromBody]OrgUnit orgUnit)
         {
             bool res = this.orgUnitRepository.Update(orgUnit);

@@ -58,11 +58,6 @@ namespace HH.API.Controllers
         //}
 
         /// <summary>
-        /// 获取当前系统用户Id
-        /// </summary>
-        public string CurrentUserId { get; }
-
-        /// <summary>
         /// 获取当前调用接口的SystemCode
         /// </summary>
         /// <returns></returns>
