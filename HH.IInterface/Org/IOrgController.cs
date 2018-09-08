@@ -18,7 +18,7 @@ namespace HH.API.IController
         /// 添加组织信息
         /// </summary>
         /// <param name="orgUnit">组织对象</param>
-        [HttpPost]
+        [HttpPost("AddOrgUnit")]
         JsonResult AddOrgUnit([FromBody]OrgUnit orgUnit);
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace HH.API.IController
         /// </summary>
         /// <param name="orgUnit">组织信息</param>
         /// <returns>返回结果</returns>
-        [HttpGet]
+        [HttpGet("orgUnit")]
         JsonResult RemoveOrgUnit(dynamic orgUnit);
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace HH.API.IController
         /// </summary>
         /// <param name="orgUnit">组织对象</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("orgUnit")]
         JsonResult UpdateOrgUnit([FromBody]OrgUnit orgUnit);
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace HH.API.IController
         /// <param name="parentId"></param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult GetChildUnitsByParent(string parentId);
+        JsonResult GetChildUnits(string parentId);
 
         /// <summary>
         /// 获取组织单元信息
@@ -93,7 +93,7 @@ namespace HH.API.IController
         /// <param name="parentId"></param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult GetChildUsersByParent(string parentId);
+        JsonResult GetChildUsers(string parentId);
         #endregion
 
         #region  角色信息 -----------------
@@ -126,20 +126,20 @@ namespace HH.API.IController
         /// <summary>
         /// 根据角色找人
         /// </summary>
-        /// <param name="objectId">组织Id</param>
+        /// <param name="startUnitId">组织Id</param>
         /// <param name="roleCode">角色编码</param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult FindRoleUsersByCode(string objectId, string roleCode);
+        JsonResult FindUsersByRoleCode(string startUnitId, string roleCode);
 
         /// <summary>
         /// 查找指定组织下的所有角色人员
         /// </summary>
-        /// <param name="objectId"></param>
+        /// <param name="orgUnitId"></param>
         /// <param name="roleCode"></param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult FindRoleUsersByOrg(string objectId, string roleCode);
+        JsonResult FindRoleUsersByOrg(string orgUnitId, string roleCode);
 
         /// <summary>
         /// 获取组织对象的管理者

@@ -175,8 +175,8 @@ namespace HH.API.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpGet("GetChildUnitsByParent")]
-        public JsonResult GetChildUnitsByParent(string parentId)
+        [HttpGet("GetChildUnits")]
+        public JsonResult GetChildUnits(string parentId)
         {
             if (!this.ValidationOrganization(AuthorizationMode.View, parentId)) return PermissionDenied;
 
@@ -184,8 +184,8 @@ namespace HH.API.Controllers
             return Json(orgUnits);
         }
 
-        [HttpGet("GetChildUsersByParent")]
-        public JsonResult GetChildUsersByParent(string parentId)
+        [HttpGet("GetChildUsers")]
+        public JsonResult GetChildUsers(string parentId)
         {
             if (!this.ValidationOrganization(AuthorizationMode.View, parentId)) return PermissionDenied;
 
@@ -302,12 +302,12 @@ namespace HH.API.Controllers
             return organizationObject;
         }
 
-        public JsonResult FindRoleUsersByCode(string objectId, string roleCode)
+        public JsonResult FindUsersByRoleCode(string startUnitId, string roleCode)
         {
             throw new NotImplementedException();
         }
 
-        public JsonResult FindRoleUsersByOrg(string objectId, string roleCode)
+        public JsonResult FindRoleUsersByOrg(string orgUnitId, string roleCode)
         {
             throw new NotImplementedException();
         }

@@ -18,6 +18,10 @@ namespace HH.API.Entity.Orgainzation
         /// </summary>
         public string PostName { get; set; }
 
+        /// <summary>
+        /// 获取或设置角色编码
+        /// </summary>
+        public string RoleCode { get; set; }
 
         /// <summary>
         /// 获取或设置当前用户管理范围的存储对象

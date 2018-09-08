@@ -12,6 +12,9 @@ using HH.API.Entity.App;
 
 namespace HH.API.Controllers
 {
+    /// <summary>
+    /// 应用中心
+    /// </summary>
     [Route("api/[controller]")]
     public class AppController : APIController, IAppController
     {
@@ -74,7 +77,8 @@ namespace HH.API.Controllers
         public JsonResult AddFolder([FromBody]AppFunction appFunction)
         {
             // 从 Header 中获取 CorpId
-            return this.MonitorFunction(Method_AddFolder, () =>
+            return this.MonitorFunction(Method_AddFolder,
+              () =>
               {
                   // 做数据有效性检查
                   JsonResult validateResult = null;

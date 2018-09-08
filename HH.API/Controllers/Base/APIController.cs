@@ -235,6 +235,8 @@ namespace HH.API.Controllers
         {
             if (string.IsNullOrWhiteSpace(lockKey)) throw new Exception("Lock key can not be empty value.");
 
+            lockKey = string.Format("{0}.{1}", this.CorpId, lockKey);
+
             object lockObject = this.GetLockObject(lockKey);
 
             try
