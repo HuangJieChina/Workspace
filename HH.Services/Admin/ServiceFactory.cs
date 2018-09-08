@@ -61,8 +61,9 @@ namespace HH.API.Services
         /// 获取单例对象实例
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="corpId">企业Id</param>
         /// <returns></returns>
-        public T GetRepository<T>()
+        public T GetRepository<T>(string corpId)
         {
             string key = string.Format("{0}", typeof(T).FullName);
 
@@ -80,9 +81,9 @@ namespace HH.API.Services
                 {
                     if (typeof(T).IsAssignableFrom(type))
                     {
-                        // object[] parameters = new object[1] { corpId };
-                        result = (T)type.Assembly.CreateInstance(type.FullName);
-                        // result = (T)type.Assembly.CreateInstance(type.FullName, true, BindingFlags.Default, null, parameters, null, null);
+                        object[] parameters = new object[1] { corpId };
+                        // result = (T)type.Assembly.CreateInstance(type.FullName);
+                        result = (T)type.Assembly.CreateInstance(type.FullName, true, BindingFlags.Default, null, parameters, null, null);
                         services.Add(key, result);
                         break;
                     }

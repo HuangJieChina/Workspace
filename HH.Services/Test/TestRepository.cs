@@ -12,7 +12,7 @@ namespace HH.API.Services
 {
     public class TestRepository : RepositoryBase<TestParentEntity>
     {
-        public TestRepository() : base()
+        public TestRepository(string corpId) : base(corpId)
         {
         }
 

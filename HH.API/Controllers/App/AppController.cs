@@ -17,8 +17,8 @@ namespace HH.API.Controllers
     {
         public AppController()
         {
-            this.appFunctionRepository = this.GetRepository<IAppFunctionRepository>();
-            this.appPackageRepository = this.GetRepository<IAppPackageRepository>();
+            this.appFunctionRepository = this.GetRepository<IAppFunctionRepository>(this.CorpId);
+            this.appPackageRepository = this.GetRepository<IAppPackageRepository>(this.CorpId);
         }
 
         private IAppPackageRepository appPackageRepository = null;

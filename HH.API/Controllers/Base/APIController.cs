@@ -58,23 +58,13 @@ namespace HH.API.Controllers
         //}
 
         /// <summary>
-        /// 获取当前调用接口的SystemCode
+        /// 获取当前连接的CorpId
         /// </summary>
-        /// <returns></returns>
-        public string SystemCode
+        public string CorpId
         {
             get
             {
-                /*
-                ClaimsIdentity identity = User.Identity as ClaimsIdentity;
-                if (identity == null || identity.Claims.Count() == 0)
-                {
-                    throw new Exception("无效的请求认证，请先认证再访问");
-                }
-                return identity.Claims.FirstOrDefault(u => u.Type == JwtClaimTypes.Id).Value;
-                */
-
-                return Guid.NewGuid().ToString();
+                return "Default";
             }
         }
         #endregion
@@ -263,12 +253,13 @@ namespace HH.API.Controllers
         /// 获取服务访问对象
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="corpId"></param>
         /// <returns></returns>
-        public T GetRepository<T>()
+        public T GetRepository<T>(string corpId)
         {
-            return ServiceFactory.Instance.GetRepository<T>();
+            return ServiceFactory.Instance.GetRepository<T>(corpId);
         }
+
+        // End
     }
-
-
 }

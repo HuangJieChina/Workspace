@@ -12,7 +12,7 @@ namespace HH.API.Services
 {
     public class AppPackageRepository : RepositoryBase<AppPackage>, IAppPackageRepository
     {
-        public AppPackageRepository() : base()
+        public AppPackageRepository(string corpId) : base(corpId)
         {
         }
 

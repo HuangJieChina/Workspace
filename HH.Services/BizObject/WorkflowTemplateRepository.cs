@@ -13,7 +13,7 @@ namespace HH.API.Services
     public class WorkflowTemplateRepository : RepositoryBase<WorkflowTemplate>,
         IWorkflowTemplateRepository
     {
-        public WorkflowTemplateRepository() : base()
+        public WorkflowTemplateRepository(string corpId) : base(corpId)
         {
         }
 

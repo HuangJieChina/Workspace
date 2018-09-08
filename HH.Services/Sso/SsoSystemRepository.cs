@@ -17,12 +17,35 @@ namespace HH.API.Services
         /// <summary>
         /// 
         /// </summary>
-        public SsoSystemRepository() : base()
+        public SsoSystemRepository(string corpId) : base(corpId)
         {
 
         }
 
-        private IListCache<string> Tokens = ListCacheFactory<string>.Instance.GetCache();
+        /// <summary>
+        /// Token缓存Key值
+        /// </summary>
+        private const string TokenCacheName = "Tokens";
+        /// <summary>
+        /// Token最大缓存存储量设置
+        /// </summary>
+        private const int MaxTokenCacheLength = 100000;
+
+        private IListCache<string> _Tokens = null;
+        private IListCache<string> Tokens
+        {
+            get
+            {
+                if (this._Tokens == null)
+                {
+                    this._Tokens = ListCacheFactory<string>.Instance.GetCache(this.CorpId,
+                        string.Format("{0}.{1}", this.GetType().FullName, TokenCacheName),
+                        MaxTokenCacheLength);
+                }
+                return this._Tokens;
+            }
+        }
+
         /// <summary>
         /// Token最大存储数量
         /// </summary>

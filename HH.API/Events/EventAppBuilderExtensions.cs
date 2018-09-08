@@ -25,7 +25,7 @@ namespace HH.API.Events
         }
 
         public static IEntityEventBus entityEventBus { get; }
-            = ServiceFactory.Instance.GetRepository<IEntityEventBus>();
+            = ServiceFactory.Instance.GetRepository<IEntityEventBus>("");
 
         /// <summary>
         /// 事件注册

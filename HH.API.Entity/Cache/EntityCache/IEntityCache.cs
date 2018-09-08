@@ -10,7 +10,7 @@ namespace HH.API.Entity.Cache.EntityCache
     /// 实体对象缓存接口
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IEntityCache<T> where T : EntityBase
+    public interface IEntityCache<T> : ICache where T : EntityBase
     {
         /// <summary>
         /// 新增缓存对象
@@ -43,21 +43,6 @@ namespace HH.API.Entity.Cache.EntityCache
         /// <param name="key">Key值</param>
         /// <returns>检查结果</returns>
         bool Exists(string key);
-
-        /// <summary>
-        /// 清空所有缓存数据
-        /// </summary>
-        void Clear();
-
-        /// <summary>
-        /// 获取缓存数据量
-        /// </summary>
-        int Count { get; }
-
-        /// <summary>
-        /// 获取允许最大缓存数
-        /// </summary>
-        int MaxCacheSize { get; }
 
     }
 }

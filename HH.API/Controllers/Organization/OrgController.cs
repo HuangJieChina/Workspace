@@ -32,7 +32,7 @@ namespace HH.API.Controllers
             IOrgPostUserRepository orgPostUserRepository,
             IOrgPostRepository orgPostRepository)
         {
-            this.orgUnitRepository = this.GetRepository<IOrgUnitRepository>();
+            this.orgUnitRepository = this.GetRepository<IOrgUnitRepository>(this.CorpId);
             // this.orgUserRepository = this.GetRepository<IOrgUserRepository>();
             this.orgUserRepository = orgUserRepository;
             this.orgRoleRepository = orgRoleRepository;

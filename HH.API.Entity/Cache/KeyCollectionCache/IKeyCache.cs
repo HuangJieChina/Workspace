@@ -10,7 +10,7 @@ namespace HH.API.Entity.Cache.KeyCollectionCache
     /// KeyValue缓存接口
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IKeyCache<T>
+    public interface IKeyCache<T> : ICache
     {
         /// <summary>
         /// 新增缓存对象
@@ -39,20 +39,6 @@ namespace HH.API.Entity.Cache.KeyCollectionCache
         /// <returns></returns>
         bool ContainsKey(string key);
 
-        /// <summary>
-        /// 清空所有缓存数据
-        /// </summary>
-        void Clear();
-
-        /// <summary>
-        /// 获取缓存数据量
-        /// </summary>
-        int Count { get; }
-
-        /// <summary>
-        /// 获取允许最大缓存数
-        /// </summary>
-        int MaxCacheSize { get; }
 
     }
 }

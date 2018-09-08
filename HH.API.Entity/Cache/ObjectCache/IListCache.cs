@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HH.API.Entity.Cache.ObjectCache
 {
-    public interface IListCache<T>
+    public interface IListCache<T> : ICache
     {
         /// <summary>
         /// 新增缓存对象
@@ -36,16 +36,6 @@ namespace HH.API.Entity.Cache.ObjectCache
         /// <param name="t"></param>
         /// <returns></returns>
         bool Contains(T t);
-
-        /// <summary>
-        /// 清空所有缓存数据
-        /// </summary>
-        void Clear();
-
-        /// <summary>
-        /// 获取缓存数据量
-        /// </summary>
-        int Count { get; }
 
         /// <summary>
         /// 获取允许最大缓存数

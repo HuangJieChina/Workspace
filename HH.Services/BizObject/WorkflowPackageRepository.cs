@@ -13,10 +13,13 @@ namespace HH.API.Services
     public class BizPackageRepository : RepositoryBase<BizPackage>,
         IBizPackageRepository
     {
-        public BizPackageRepository() : base()
+        public BizPackageRepository(string corpId) : base(corpId)
         {
         }
 
+        /// <summary>
+        /// 获取总数
+        /// </summary>
         public int Count { get; set; }
 
 
