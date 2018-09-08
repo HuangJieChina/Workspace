@@ -12,7 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HH.API.Entity\HH.API.Entity.csproj" />
+    <ProjectReference Include="..\..\0.Modules\HH.API.Common\HH.API.Common.csproj" />
+    <ProjectReference Include="..\..\0.Modules\HH.API.Entity\HH.API.Entity.csproj" />
+    <ProjectReference Include="..\..\2.Server\HH.API.IServices\HH.API.IServices.csproj" />
   </ItemGroup>
 
 </Project>

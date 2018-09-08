@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
@@ -9,8 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HH.API.Common\HH.API.Common.csproj" />
-    <ProjectReference Include="..\Modules\DapperExtensionsDNXCore\DapperExtensionsDNXCore.csproj" />
+    <ProjectReference Include="..\..\0.Modules\HH.API.Entity\HH.API.Entity.csproj" />
   </ItemGroup>
 
 </Project>
