@@ -18,6 +18,7 @@ namespace HH.API.Entity.Orgainzation
         public const string EveryOne = "EveryOne";
 
         public const string PropertyName_Code = "Code";
+
         /// <summary>
         /// 获取或设置用户登录帐号
         /// </summary>
@@ -63,6 +64,6 @@ namespace HH.API.Entity.Orgainzation
                 return EntityConfig.Table.OrgRole;
             }
         }
-    }
 
+    }
 }

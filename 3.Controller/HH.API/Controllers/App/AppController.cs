@@ -20,8 +20,8 @@ namespace HH.API.Controllers
     {
         public AppController()
         {
-            this.appFunctionRepository = this.GetRepository<IAppFunctionRepository>(this.CorpId);
-            this.appPackageRepository = this.GetRepository<IAppPackageRepository>(this.CorpId);
+            this.appFunctionRepository = this.GetRepository<IAppFunctionRepository>();
+            this.appPackageRepository = this.GetRepository<IAppPackageRepository>();
         }
 
         private IAppPackageRepository appPackageRepository = null;
@@ -43,7 +43,6 @@ namespace HH.API.Controllers
         public JsonResult AddAppPackage([FromBody]AppPackage appPackage)
         {
             // if (string.IsNullOrWhiteSpace(this.SystemCode)) return this.BadRequestJson;
-
             return this.MonitorInsert<AppPackage>(Method_AddAppPackage, appPackage,
                 () =>
                 {
@@ -76,6 +75,7 @@ namespace HH.API.Controllers
         [HttpPost(Method_AddFolder)]
         public JsonResult AddFolder([FromBody]AppFunction appFunction)
         {
+            // TODO:通过拦截器实现锁策略
             // 从 Header 中获取 CorpId
             return this.MonitorFunction(Method_AddFolder,
               () =>

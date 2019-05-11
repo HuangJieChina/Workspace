@@ -17,7 +17,7 @@ namespace HH.API.Services
         /// <summary>
         /// 
         /// </summary>
-        public SsoSystemRepository(string corpId) : base(corpId)
+        public SsoSystemRepository() : base()
         {
 
         }
@@ -38,7 +38,7 @@ namespace HH.API.Services
             {
                 if (this._Tokens == null)
                 {
-                    this._Tokens = ListCacheFactory<string>.Instance.GetCache(this.CorpId,
+                    this._Tokens = ListCacheFactory<string>.Instance.GetCache(
                         string.Format("{0}.{1}", this.GetType().FullName, TokenCacheName),
                         MaxTokenCacheLength);
                 }

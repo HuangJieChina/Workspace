@@ -255,11 +255,10 @@ namespace HH.API.Controllers
         /// 获取服务访问对象
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="corpId"></param>
         /// <returns></returns>
-        public T GetRepository<T>(string corpId)
+        public T GetRepository<T>()
         {
-            return ServiceFactory.Instance.GetRepository<T>(corpId);
+            return ServiceFactory.Instance.GetRepository<T>();
         }
 
         // End

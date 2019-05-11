@@ -10,12 +10,12 @@ namespace HH.API.Entity.Orgainzation
     public enum OrgRoleType
     {
         /// <summary>
-        /// 系统组织
+        /// 系统角色
         /// </summary>
-        System,
+        System = 0,
         /// <summary>
-        /// 用户组织
+        /// 用户角色
         /// </summary>
-        User
+        User = 1
     }
 }

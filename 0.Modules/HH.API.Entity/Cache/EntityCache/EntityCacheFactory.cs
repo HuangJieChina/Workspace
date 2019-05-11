@@ -30,35 +30,32 @@ namespace HH.API.Entity.Cache.EntityCache
         /// <summary>
         /// 获取缓存对象
         /// </summary>
-        /// <param name="corpId">企业Id</param>
         /// <param name="cacheKey">缓存对象Key值(唯一标识)</param>
         /// <returns></returns>
-        public IEntityCache<T> GetCache(string corpId, string cacheKey)
+        public IEntityCache<T> GetCache(string cacheKey)
         {
-            return this.GetCache(corpId, cacheKey, int.MaxValue);
+            return this.AddCache(cacheKey, int.MaxValue);
         }
 
         /// <summary>
         /// 获取缓存对象
         /// </summary>
-        /// <param name="corpId">企业Id</param>
         /// <param name="cacheKey">缓存对象Key值(唯一标识)</param>
         /// <param name="maxCacheSize"></param>
         /// <returns></returns>
-        public IEntityCache<T> GetCache(string corpId, string cacheKey, int maxCacheSize)
+        public IEntityCache<T> AddCache(string cacheKey, int maxCacheSize)
         {
             Memory<T> cache = null;
             try
             {
                 Monitor.Enter(_Instance);
-                string key = string.Format("{0}.{1}", corpId, cacheKey);
 
-                if (this.Caches.ContainsKey(key))
+                if (this.Caches.ContainsKey(cacheKey))
                 {
-                    throw new Exception("Get entity cache error,this key is aleardy exists:" + key);
+                    throw new Exception("Get entity cache error,this key is aleardy exists:" + cacheKey);
                 }
                 cache = new Memory<T>(maxCacheSize);
-                this.Caches.Add(key, (ICache)cache);
+                this.Caches.Add(cacheKey, (ICache)cache);
             }
             finally
             {
@@ -66,6 +63,6 @@ namespace HH.API.Entity.Cache.EntityCache
             }
             return cache;
         }
-        
+
     }
 }

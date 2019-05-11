@@ -27,11 +27,8 @@ namespace HH.API.Services
         /// <summary>
         /// 基类构造函数
         /// </summary>
-        /// <param name="corpId"></param>
-        public RepositoryBase(string corpId)
+        public RepositoryBase()
         {
-            this.CorpId = corpId;
-
             DapperExtensions.DapperExtensions.Configure(typeof(ClassMapperBase<>),
                 new List<Assembly>(),
                 SqlDialect);
@@ -40,7 +37,7 @@ namespace HH.API.Services
             this.CheckTableSchema();
 
             // 注册码校验
-            ServiceInit.Instance.Initial(this.CorpId);
+            ServiceInit.Instance.Initial();
         }
 
         private ISqlDialect sqlDialect = null;
@@ -80,7 +77,7 @@ namespace HH.API.Services
             {
                 if (this._EntityCache == null)
                 {
-                    this._EntityCache = EntityCacheFactory<T>.Instance.GetCache(this.CorpId, this.TableName);
+                    this._EntityCache = EntityCacheFactory<T>.Instance.GetCache(this.TableName);
                 }
                 return this._EntityCache;
             }
@@ -114,7 +111,7 @@ namespace HH.API.Services
             {
                 if (this._EventBus == null)
                 {
-                    this._EventBus = ServiceFactory.Instance.GetRepository<IEntityEventBus>(this.CorpId);
+                    this._EventBus = ServiceFactory.Instance.GetRepository<IEntityEventBus>();
                 }
                 return this._EventBus;
             }
@@ -123,7 +120,7 @@ namespace HH.API.Services
         /// <summary>
         /// 获取当前实例对应的CorpId
         /// </summary>
-        public string CorpId { get; set; }
+        // public string CorpId { get; set; }
 
         /// <summary>
         /// 获取Key缓存对象
@@ -139,7 +136,7 @@ namespace HH.API.Services
                 Monitor.Enter(this);
                 if (!this.KeyCache.ContainsKey(key))
                 {
-                    IKeyCache<T> currentKeyCache = KeyCacheFactory<T>.Instance.GetCache(this.CorpId, this.TableName);
+                    IKeyCache<T> currentKeyCache = KeyCacheFactory<T>.Instance.GetCache(this.TableName);
                     this.KeyCache.Add(key, currentKeyCache);
                 }
                 return this.KeyCache[key];

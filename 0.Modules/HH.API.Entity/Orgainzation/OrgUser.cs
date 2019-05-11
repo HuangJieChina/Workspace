@@ -21,7 +21,7 @@ namespace HH.API.Entity.Orgainzation
         /// <summary>
         /// 获取或设置用户中文名称
         /// </summary>
-        [StringLength(64, MinimumLength = 1)]
+        [StringLength(64)]
         [Required(ErrorMessage = "用户中文名称不允许为空")]
         public string CnName { get; set; }
 
@@ -84,20 +84,15 @@ namespace HH.API.Entity.Orgainzation
         [Column(TypeName = "char")]
         public string RelationUserId { get; set; }
 
-        private DateTime _BirthDay = new DateTime(1980, 1, 1);
         /// <summary>
         /// 获取或设置用户生日
         /// </summary>
-        public DateTime BirthDay
-        {
-            get { return this._BirthDay; }
-            set { this._BirthDay = value; }
-        }
+        public DateTime BirthDay { get; set; } = new DateTime(1980, 1, 1);
 
         /// <summary>
         /// 获取或设置用户性别,男=0，女=1
         /// </summary>
-        public int Gender { get; set; }
+        public UserGender Gender { get; set; } = UserGender.Male;
 
         /// <summary>
         /// 获取或设置是否系统用户
@@ -145,5 +140,21 @@ namespace HH.API.Entity.Orgainzation
                 return EntityConfig.Table.OrgUser;
             }
         }
+    }
+
+    public enum UserGender
+    {
+        /// <summary>
+        /// 男性
+        /// </summary>
+        Male = 0,
+        /// <summary>
+        /// 女性
+        /// </summary>
+        Female = 1,
+        /// <summary>
+        /// 未知
+        /// </summary>
+        Unknow = 2
     }
 }

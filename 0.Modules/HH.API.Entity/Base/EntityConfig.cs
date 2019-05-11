@@ -29,10 +29,12 @@ namespace HH.API.Entity
             /// 组织架构表名称
             /// </summary>
             public const string OrgUnit = "sys_OrgUnit";
+
             /// <summary>
             /// 用户表
             /// </summary>
             public const string OrgUser = "sys_OrgUser";
+
             /// <summary>
             /// 角色表
             /// </summary>
@@ -63,9 +65,9 @@ namespace HH.API.Entity
 
             #region 业务模型 ------------------
             /// <summary>
-            /// 流程包
+            /// 业务模型
             /// </summary>
-            public const string WorkflowPackage = "sys_BizPackage";
+            public const string BizPackage = "sys_BizPackage";
             /// <summary>
             /// 流程模板表
             /// </summary>
@@ -88,39 +90,39 @@ namespace HH.API.Entity
             /// <summary>
             /// 流程实例表
             /// </summary>
-            public const string InstanceContext = "sys_InstanceContext";
+            public const string InstanceContext = "sys_bizInstanceContext";
             /// <summary>
             /// 业务数据附件表
             /// </summary>
-            public const string Attachment = "sys_InsAttachment";
+            public const string Attachment = "sys_bizAttachment";
             /// <summary>
             /// 业务数据审批意见表
             /// </summary>
-            public const string Comment = "sys_InsComment";
+            public const string Comment = "sys_bizComment";
             /// <summary>
             /// 活动表名称
             /// </summary>
-            public const string Token = "sys_InsToken";
+            public const string Token = "sys_bizToken";
             /// <summary>
             /// 工作任务交接记录表
             /// </summary>
-            public const string WorkItemTrack = "sys_InsWorkItemTrack";
+            public const string WorkItemTrack = "sys_bizWorkItemTrack";
             /// <summary>
             /// 未完成任务表
             /// </summary>
-            public const string WorkItemUnFinished = "sys_InsWorkItemUnFinished";
+            public const string WorkItemUnFinished = "sys_bizWorkItemUnFinished";
             /// <summary>
             /// 已完成任务表
             /// </summary>
-            public const string WorkItemFinished = "sys_InsWorkItemFinished";
+            public const string WorkItemFinished = "sys_bizWorkItemFinished";
             /// <summary>
             /// 待阅表
             /// </summary>
-            public const string CirculateItem = "sys_InsCirculateItem";
+            public const string CirculateItem = "sys_bizCirculateItem";
             /// <summary>
             /// 已阅表
             /// </summary>
-            public const string CirculateItemFinished = "sys_InsCirculateItemFinished";
+            public const string CirculateItemFinished = "sys_bizCirculateItemFinished";
             #endregion
 
             /// <summary>

@@ -13,15 +13,11 @@ namespace HH.API.Services
     public class BizPackageRepository : RepositoryBase<BizPackage>,
         IBizPackageRepository
     {
-        public BizPackageRepository(string corpId) : base(corpId)
+        int IBizPackageRepository.Count { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public BizPackageRepository() : base()
         {
         }
-
-        /// <summary>
-        /// 获取总数
-        /// </summary>
-        public int Count { get; set; }
-
 
         public string SayHello(string inputValue)
         {

@@ -12,7 +12,7 @@ namespace HH.API.Services
 {
     public class BizSheetRepository : RepositoryBase<BizSheet>, IBizSheetRepository
     {
-        public BizSheetRepository(string corpId) : base(corpId)
+        public BizSheetRepository() : base()
         {
         }
 

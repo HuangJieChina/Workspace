@@ -61,7 +61,7 @@ namespace HH.API.Entity.BizModel
         {
             get
             {
-                return "i" + this.SchemaCode;
+                return "D_" + this.SchemaCode;
             }
         }
 

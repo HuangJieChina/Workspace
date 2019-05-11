@@ -23,8 +23,7 @@ namespace HH.API.Services
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="corpId"></param>
-        public BizObjectRepository(string corpId) : base(corpId)
+        public BizObjectRepository() : base()
         {
         }
 

@@ -55,6 +55,6 @@ namespace HH.API.Entity.Orgainzation
                 return EntityConfig.Table.OrgUnit;
             }
         }
-    }
 
+    }
 }
