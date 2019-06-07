@@ -29,7 +29,7 @@ namespace HH.API.Entity.Orgainzation
         /// <summary>
         /// 获取或设置显示顺序
         /// </summary>
-        public int SortOrder { get; set; }
+        public int SortIndex { get; set; }
 
         /// <summary>
         /// 获取数据库表名

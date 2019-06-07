@@ -115,7 +115,7 @@ namespace HH.API.Services
                 OrgUnit rootUnit = new OrgUnit()
                 {
                     ObjectId = EntityConfig.Org.SystemOrgId,
-                    UnitName = "我的公司",
+                    DisplayName = "我的公司",
                     IsRootUnit = true,
                     IsEnabled = true
                 };
@@ -128,9 +128,9 @@ namespace HH.API.Services
                 {
                     ObjectId = EntityConfig.Org.SystemUserId,
                     Code = EntityConfig.Org.SystemAdministratorCode,
-                    CnName = EntityConfig.Org.SystemAdministratorName,
+                    DisplayName = EntityConfig.Org.SystemAdministratorName,
                     IsAdministrator = true,
-                    IsSystem = true
+                    IsSystemUser = true
                 };
                 orgUserRepository.Insert(user);
             }

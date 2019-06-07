@@ -10,6 +10,11 @@ namespace HH.API.IController
     /// </summary>
     public interface IBaseController
     {
-
+        /// <summary>
+        /// 获取服务器的时间
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetSystemDateTime")]
+        JsonResult GetSystemDateTime();
     }
 }

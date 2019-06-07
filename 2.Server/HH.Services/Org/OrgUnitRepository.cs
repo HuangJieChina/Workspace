@@ -36,13 +36,13 @@ namespace HH.API.Services
         /// 是否存在指定名称的组织对象
         /// </summary>
         /// <param name="parentId"></param>
-        /// <param name="unitName"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public bool IsExistsOrgName(string parentId, string unitName)
+        public bool IsExistsOrgName(string parentId, string displayName)
         {
             IList<IPredicate> predList = new List<IPredicate>();
             predList.Add(Predicates.Field<OrgUnit>(p => p.ParentId, Operator.Eq, parentId));
-            predList.Add(Predicates.Field<OrgUnit>(p => p.UnitName, Operator.Eq, unitName));
+            predList.Add(Predicates.Field<OrgUnit>(p => p.DisplayName, Operator.Eq, displayName));
             IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
 
             return this.GetSingle(predGroup) != null;
@@ -63,7 +63,7 @@ namespace HH.API.Services
             IList<IPredicate> predList = new List<IPredicate>();
             if (!string.IsNullOrWhiteSpace(displayName))
             {
-                predList.Add(Predicates.Field<OrgUnit>(p => p.UnitName, Operator.Like, displayName));
+                predList.Add(Predicates.Field<OrgUnit>(p => p.DisplayName, Operator.Like, displayName));
             }
             IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
 

@@ -17,6 +17,8 @@ namespace HH.API
         /// 返回未知错误
         /// </summary>
         Error = -1,
+
+        #region 公共服务以10开头 ---------------
         /// <summary>
         /// 权限不足
         /// </summary>
@@ -33,20 +35,6 @@ namespace HH.API
         /// 编码重复
         /// </summary>
         CodeDuplicate = 100003,
-        /// <summary>
-        /// 不合法的请求
-        /// </summary>
-        BadRequest = 100009,
-
-        #region 业务模型服务以30开头 -----------
-        /// <summary>
-        /// 业务模型不存在
-        /// </summary>
-        SchemaNotExists = 300001,
-        /// <summary>
-        /// 应用包不存在
-        /// </summary>
-        AppPackageNotExists = 300002,
         #endregion
 
         #region 组织机构服务以20开头 -----------
@@ -61,8 +49,24 @@ namespace HH.API
         /// <summary>
         /// 名称不允许为空
         /// </summary>
-        NameIsEmpty = 200004
+        NameIsEmpty = 200004,
         #endregion
+
+        #region 业务模型服务以30开头 -----------
+        /// <summary>
+        /// 业务模型不存在
+        /// </summary>
+        SchemaNotExists = 300001,
+        /// <summary>
+        /// 应用包不存在
+        /// </summary>
+        AppPackageNotExists = 300002,
+        #endregion
+
+        /// <summary>
+        /// 不合法的请求
+        /// </summary>
+        BadRequest = 900001,
 
     }
 }

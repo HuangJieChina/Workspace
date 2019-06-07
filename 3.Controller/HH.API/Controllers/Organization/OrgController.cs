@@ -88,37 +88,40 @@ namespace HH.API.Controllers
         [HttpPost("AddOrgUnit")]
         public JsonResult AddOrgUnit([FromBody]OrgUnit orgUnit)
         {
-            #region 数据格式校验 -----------------
-            // 数据格式校验
-            JsonResult validateResult = null;
-            if (!this.DataValidator<OrgUnit>(orgUnit, out validateResult)) return validateResult;
-
-            // 验证上级组织是否存在
-            OrgUnit parentUnit = this.orgUnitRepository.GetObjectById(orgUnit.ParentId);
-            if (parentUnit == null)
+            return MonitorFunction(orgUnit.ParentId, () =>
             {
-                return Json(new APIResult()
-                {
-                    ResultCode = ResultCode.ParentNotExists,
-                    Message = "上级组织不存在"
-                });
-            }
-            //  验证同一组织下是否已经存在同名
-            if (this.orgUnitRepository.IsExistsOrgName(orgUnit.ParentId, orgUnit.UnitName))
-            {
-                return Json(new APIResult()
-                {
-                    ResultCode = ResultCode.ParentNotExists,
-                    Message = "上级组织已经存在相同名称组织"
-                });
-            }
-            #endregion
+                #region 数据格式校验 -----------------
+                // 数据格式校验
+                JsonResult validateResult = null;
+                if (!this.DataValidator<OrgUnit>(orgUnit, out validateResult)) return validateResult;
 
-            // 强制设置为非根节点
-            orgUnit.IsRootUnit = false;
+                // 验证上级组织是否存在
+                OrgUnit parentUnit = this.orgUnitRepository.GetObjectById(orgUnit.ParentId);
+                if (parentUnit == null)
+                {
+                    return Json(new APIResult()
+                    {
+                        ResultCode = ResultCode.ParentNotExists,
+                        Message = "上级组织不存在"
+                    });
+                }
+                // 验证同一组织下是否已经存在同名
+                if (this.orgUnitRepository.IsExistsOrgName(orgUnit.ParentId, orgUnit.DisplayName))
+                {
+                    return Json(new APIResult()
+                    {
+                        ResultCode = ResultCode.ParentNotExists,
+                        Message = "上级组织已经存在相同名称组织"
+                    });
+                }
+                #endregion
 
-            dynamic result = this.orgUnitRepository.Insert(orgUnit);
-            return Json(new APIResult() { ResultCode = ResultCode.Success, Extend = orgUnit });
+                // 强制设置为非根节点
+                orgUnit.IsRootUnit = false;
+
+                dynamic result = this.orgUnitRepository.Insert(orgUnit);
+                return Json(new APIResult() { ResultCode = ResultCode.Success, Extend = orgUnit });
+            });
         }
 
         /// <summary>
@@ -164,32 +167,23 @@ namespace HH.API.Controllers
         /// <summary>
         /// 根据角色查找用户
         /// </summary>
-        /// <param name="objectId"></param>
+        /// <param name="startOrgId"></param>
         /// <param name="roleCode"></param>
         /// <returns></returns>
         [HttpGet("FindRoleUsers")]
-        public JsonResult FindRoleUsers(string objectId, string roleCode)
+        public JsonResult FindRoleUsers(string startOrgId, string roleCode)
         {
-            if (!this.ValidationOrganization(AuthorizationMode.View, objectId)) return PermissionDenied;
+            if (!this.ValidationOrganization(AuthorizationMode.View, startOrgId)) return PermissionDenied;
 
             throw new NotImplementedException();
         }
 
-        [HttpGet("GetChildUnits")]
-        public JsonResult GetChildUnits(string parentId)
-        {
-            if (!this.ValidationOrganization(AuthorizationMode.View, parentId)) return PermissionDenied;
-
-            List<OrgUnit> orgUnits = this.orgUnitRepository.GetChildUnitsByParent(parentId, false);
-            return Json(orgUnits);
-        }
-
         [HttpGet("GetChildUsers")]
-        public JsonResult GetChildUsers(string parentId)
+        public JsonResult GetChildUsers(string parentId, bool recurse)
         {
             if (!this.ValidationOrganization(AuthorizationMode.View, parentId)) return PermissionDenied;
 
-            List<OrgUser> orgUsers = this.orgUserRepository.GetChildUsersByParent(parentId, false);
+            List<OrgUser> orgUsers = this.orgUserRepository.GetChildUsersByParent(parentId, recurse);
             return Json(orgUsers);
         }
 
@@ -204,18 +198,26 @@ namespace HH.API.Controllers
             if (!this.ValidationOrganization(AuthorizationMode.View, objectId)) return PermissionDenied;
 
             OrganizationObject organizationObject = this.GetOrganizationObjectById(objectId);
-            OrgUser user = this.orgUserRepository.GetObjectById(organizationObject.ManagerId);
+            OrgUser user = null;
+            if (string.IsNullOrEmpty(organizationObject.ManagerId))
+            {
+                user = this.orgUserRepository.GetObjectById(organizationObject.ManagerId);
+            }
+            if (user == null && !organizationObject.OrganizationType.Equals(OrganizationType.OrgUnit))
+            {// 查找所在组织的经理
+                return this.GetManager(organizationObject.ParentId);
+            }
             return Json(user);
         }
 
-        [HttpGet]
+        [HttpGet("GetOrgUnit")]
         public JsonResult GetOrgUnit(string objectId)
         {
             return Json(this.orgUnitRepository.GetObjectById(objectId));
         }
 
         [HttpGet("RemoveOrgRole")]
-        public JsonResult RemoveOrgRole(string objectId)
+        public JsonResult RemoveOrgRole(string userId, string objectId)
         {
             // 权限验证
             if (!this.ValidationOrganization(AuthorizationMode.Admin, objectId)) return PermissionDenied;
@@ -224,22 +226,16 @@ namespace HH.API.Controllers
             return Json(res);
         }
 
-        [HttpGet]
-        public JsonResult RemoveOrgUnit(dynamic orgUnit)
+        [HttpGet("RemoveOrgUnit")]
+        public JsonResult RemoveOrgUnit(string userId, string objectId)
         {
-            string objectId = orgUnit.objectId; // 被删除的组织机构 Id
-            string userId = orgUnit.userId;     // 当前操作的用户 Id
-
             bool res = this.orgUnitRepository.RemoveObjectById(objectId);
             return Json(res);
         }
 
         [HttpGet("RemoveUser")]
-        public JsonResult RemoveUser(dynamic obj)
+        public JsonResult RemoveUser(string userId, string objectId)
         {
-            string objectId = obj.objectId;
-            string userId = obj.userId;
-
             bool res = this.orgUserRepository.RemoveObjectById(objectId);
             // 记录日志，谁删除了用户
             return Json(res);
@@ -256,14 +252,14 @@ namespace HH.API.Controllers
         }
 
         [HttpPost("UpdateOrgRole")]
-        public JsonResult UpdateOrgRole([FromBody]OrgRole orgRole)
+        public JsonResult UpdateOrgRole([FromBody]string userId, [FromBody]OrgRole orgRole)
         {
             bool res = this.orgRoleRepository.Update(orgRole);
             return Json(res);
         }
 
         [HttpPost("UpdateOrgUnit")]
-        public JsonResult UpdateOrgUnit([FromBody]OrgUnit orgUnit)
+        public JsonResult UpdateOrgUnit([FromBody] string userId, [FromBody]OrgUnit orgUnit)
         {
             bool res = this.orgUnitRepository.Update(orgUnit);
             return Json(res);
@@ -275,7 +271,7 @@ namespace HH.API.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost("UpdateUser")]
-        public JsonResult UpdateUser([FromBody]OrgUser user)
+        public JsonResult UpdateUser([FromBody]string userId, [FromBody]OrgUser user)
         {
             // 管理权限、查看权限
             if (!this.ValidationOrganization(AuthorizationMode.Admin, user.ObjectId)) return PermissionDenied;
@@ -302,12 +298,37 @@ namespace HH.API.Controllers
             return organizationObject;
         }
 
-        public JsonResult FindUsersByRoleCode(string startUnitId, string roleCode)
+        public JsonResult FindUsersByRoleCode(string startOrgId, string roleCode)
         {
             throw new NotImplementedException();
         }
 
         public JsonResult FindRoleUsersByOrg(string orgUnitId, string roleCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public JsonResult GetChildUnits(string parentId, OrganizationType organizationType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public JsonResult SetUnitEnabled(dynamic obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public JsonResult GetOUManager(string objectId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public JsonResult GetUnitLevelManager(string objectId, int unitLevel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public JsonResult GetCrossLevelManager(string objectId, int corssLevel)
         {
             throw new NotImplementedException();
         }

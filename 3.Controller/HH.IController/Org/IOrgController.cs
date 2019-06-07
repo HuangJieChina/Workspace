@@ -11,44 +11,60 @@ namespace HH.API.IController
     public interface IOrgController : IBaseController
     {
         #region 组织机构 -----------------
+        /// <summary>
+        /// 获取跟组织对象
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetRootUnit")]
         JsonResult GetRootUnit();
 
         /// <summary>
-        /// 添加组织信息
+        /// 添加组织单元
         /// </summary>
-        /// <param name="orgUnit">组织对象</param>
+        /// <param name="orgUnit">组织单元</param>
+        /// <returns>返回添加是否成功</returns>
         [HttpPost("AddOrgUnit")]
         JsonResult AddOrgUnit([FromBody]OrgUnit orgUnit);
 
         /// <summary>
         /// 删除组织信息
         /// </summary>
-        /// <param name="orgUnit">组织信息</param>
-        /// <returns>返回结果</returns>
+        /// <param name="userId"></param>
+        /// <param name="objectId"></param>
+        /// <returns></returns>
         [HttpGet("orgUnit")]
-        JsonResult RemoveOrgUnit(dynamic orgUnit);
+        JsonResult RemoveOrgUnit(string userId, string objectId);
 
         /// <summary>
         /// 更新组织信息
         /// </summary>
-        /// <param name="orgUnit">组织对象</param>
+        /// <param name="userId"></param>
+        /// <param name="orgUnit"></param>
         /// <returns></returns>
         [HttpPost("orgUnit")]
-        JsonResult UpdateOrgUnit([FromBody]OrgUnit orgUnit);
+        JsonResult UpdateOrgUnit([FromBody]string userId, [FromBody]OrgUnit orgUnit);
 
         /// <summary>
-        /// 根据上级组织ID获取子组织单元
+        /// 根据上级组织Id获取子组织单元
         /// </summary>
         /// <param name="parentId"></param>
+        /// <param name="organizationType"></param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult GetChildUnits(string parentId);
+        JsonResult GetChildUnits(string parentId, OrganizationType organizationType);
+
+        /// <summary>
+        /// 设置组织对象是否被启用
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [HttpPut]
+        JsonResult SetUnitEnabled(dynamic obj);
 
         /// <summary>
         /// 获取组织单元信息
         /// </summary>
-        /// <param name="objectId">组织ID</param>
+        /// <param name="objectId">组织Id</param>
         /// <returns></returns>
         [HttpGet]
         JsonResult GetOrgUnit(string objectId);
@@ -60,7 +76,7 @@ namespace HH.API.IController
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPut]
         JsonResult ResetPassword(dynamic obj);
 
         /// <summary>
@@ -74,26 +90,29 @@ namespace HH.API.IController
         /// <summary>
         /// 更新用户信息
         /// </summary>
-        /// <param name="user">用户对象</param>
+        /// <param name="userId"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
-        [HttpPost]
-        JsonResult UpdateUser([FromBody]OrgUser user);
+        [HttpPut]
+        JsonResult UpdateUser([FromBody]string userId, [FromBody]OrgUser user);
 
         /// <summary>
         /// 删除用户
         /// </summary>
-        /// <param name="obj">传递的参数</param>
+        /// <param name="userId"></param>
+        /// <param name="objectId"></param>
         /// <returns></returns>
-        [HttpGet]
-        JsonResult RemoveUser(dynamic obj);
+        [HttpDelete]
+        JsonResult RemoveUser(string userId, string objectId);
 
         /// <summary>
         /// 根据上级组织ID获取用户
         /// </summary>
         /// <param name="parentId"></param>
+        /// <param name="recurse"></param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult GetChildUsers(string parentId);
+        JsonResult GetChildUsers(string parentId, bool recurse);
         #endregion
 
         #region  角色信息 -----------------
@@ -108,29 +127,31 @@ namespace HH.API.IController
         /// <summary>
         /// 更新组织角色
         /// </summary>
+        /// <param name="userId"></param>
         /// <param name="orgRole"></param>
         /// <returns></returns>
         [HttpPost]
-        JsonResult UpdateOrgRole([FromBody]OrgRole orgRole);
+        JsonResult UpdateOrgRole([FromBody]string userId, [FromBody]OrgRole orgRole);
 
         /// <summary>
-        ///  删除组织角色
+        /// 删除组织角色
         /// </summary>
+        /// <param name="userId"></param>
         /// <param name="objectId"></param>
         /// <returns></returns>
-        [HttpGet]
-        JsonResult RemoveOrgRole(string objectId);
+        [HttpDelete]
+        JsonResult RemoveOrgRole(string userId, string objectId);
         #endregion
 
         #region 找人函数 -----------------
         /// <summary>
         /// 根据角色找人
         /// </summary>
-        /// <param name="startUnitId">组织Id</param>
+        /// <param name="startOrgId">组织Id</param>
         /// <param name="roleCode">角色编码</param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult FindUsersByRoleCode(string startUnitId, string roleCode);
+        JsonResult FindUsersByRoleCode(string startOrgId, string roleCode);
 
         /// <summary>
         /// 查找指定组织下的所有角色人员
@@ -148,6 +169,32 @@ namespace HH.API.IController
         /// <returns></returns>
         [HttpGet]
         JsonResult GetManager(string objectId);
+
+        /// <summary>
+        /// 获取组织对象所在的组织单元的管理者
+        /// </summary>
+        /// <param name="objectId">组织Id</param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult GetOUManager(string objectId);
+
+        /// <summary>
+        /// 获取某个特定的组织层级的经理
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <param name="unitLevel"></param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult GetUnitLevelManager(string objectId, int unitLevel);
+
+        /// <summary>
+        /// 获取指定组织往上层级的经理
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <param name="corssLevel"></param>
+        /// <returns></returns>
+        [HttpGet]
+        JsonResult GetCrossLevelManager(string objectId, int corssLevel);
         #endregion
 
         /*

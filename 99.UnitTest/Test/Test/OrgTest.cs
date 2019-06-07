@@ -20,7 +20,7 @@ namespace Test.Test
 
             OrgUnit unit1 = new OrgUnit()
             {
-                UnitName = "测试部",
+                DisplayName = "测试部",
                 ParentId = rootUnit.ObjectId
             };
 
@@ -29,7 +29,7 @@ namespace Test.Test
 
             OrgUnit unit2 = new OrgUnit()
             {
-                UnitName = "开发部",
+                DisplayName = "开发部",
                 ParentId = string.Empty
             };
 

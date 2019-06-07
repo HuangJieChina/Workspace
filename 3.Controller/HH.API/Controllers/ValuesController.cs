@@ -219,14 +219,14 @@ namespace HH.API.Controllers
             OrgUnit u = new OrgUnit()
             {
                 ObjectId = Guid.NewGuid().ToString(),
-                UnitName = "Test"
+                DisplayName = "Test"
             };
             OrgUnitRepository d = new OrgUnitRepository();
             dynamic result = d.Insert(u);
 
             List<OrgUnit> units = d.GetAll();
 
-            units[0].UnitName = "修改后的名称" + DateTime.Now.ToLongTimeString();
+            units[0].DisplayName = "修改后的名称" + DateTime.Now.ToLongTimeString();
             d.Update(units[0]);
 
 

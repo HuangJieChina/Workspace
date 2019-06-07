@@ -43,7 +43,7 @@ namespace HH.API.Controllers
         public JsonResult AddAppPackage([FromBody]AppPackage appPackage)
         {
             // if (string.IsNullOrWhiteSpace(this.SystemCode)) return this.BadRequestJson;
-            return this.MonitorInsert<AppPackage>(Method_AddAppPackage, appPackage,
+            return this.MonitorFunction<AppPackage>(Method_AddAppPackage, appPackage,
                 () =>
                 {
                     // 验证编码是否重复

@@ -19,20 +19,7 @@ namespace HH.API.Entity.Orgainzation
         public string Code { get; set; }
 
         /// <summary>
-        /// 获取或设置用户中文名称
-        /// </summary>
-        [StringLength(64)]
-        [Required(ErrorMessage = "用户中文名称不允许为空")]
-        public string CnName { get; set; }
-
-        /// <summary>
-        /// 获取或设置用户英文名称
-        /// </summary>
-        [StringLength(64, MinimumLength = 1)]
-        public string EnName { get; set; }
-
-        /// <summary>
-        /// 获取或设置职务显示名称
+        /// 获取或设置用户的职务显示名称
         /// </summary>
         public string Title { get; set; }
 
@@ -44,7 +31,12 @@ namespace HH.API.Entity.Orgainzation
         /// <summary>
         /// 获取或设置员工职级
         /// </summary>
-        public decimal EmployeeRank { get; set; }
+        public int EmployeeRank { get; set; }
+
+        /// <summary>
+        /// 获取或设置用户办公地点
+        /// </summary>
+        public string OfficePlace { get; set; }
 
         /// <summary>
         /// 获取或设置用户手机号
@@ -74,7 +66,7 @@ namespace HH.API.Entity.Orgainzation
         /// <summary>
         /// 获取或设置用户的密码(MD5加密)
         /// </summary>
-        [StringLength(64, MinimumLength = 6)]
+        [StringLength(64, MinimumLength = 3)]
         public string Password { get; set; }
 
         /// <summary>
@@ -90,7 +82,17 @@ namespace HH.API.Entity.Orgainzation
         public DateTime BirthDay { get; set; } = new DateTime(1980, 1, 1);
 
         /// <summary>
-        /// 获取或设置用户性别,男=0，女=1
+        /// 获取或设置用户入职日期
+        /// </summary>
+        public DateTime EntryDate { get; set; }
+
+        /// <summary>
+        /// 获取或设置用户离职日期
+        /// </summary>
+        public DateTime LeaveDate { get; set; }
+
+        /// <summary>
+        /// 获取或设置用户性别,男=0,女=1
         /// </summary>
         public UserGender Gender { get; set; } = UserGender.Male;
 
@@ -98,18 +100,28 @@ namespace HH.API.Entity.Orgainzation
         /// 获取或设置是否系统用户
         /// <para>注：系统用户不能在前端选人界面中展示、不参与业务，只做系统管理</para>
         /// </summary>
-        public bool IsSystem { get; set; }
+        public bool IsSystemUser { get; set; }
 
         /// <summary>
         /// 获取或设置是否虚拟用户
         /// <para>注：虚拟用户必须绑定至真实用户账号</para>
         /// </summary>
-        public bool IsVirtual { get; set; }
+        public bool IsVirtualUser { get; set; }
 
         /// <summary>
         /// 获取或设置用户是否超级管理员
         /// </summary>
+        /// <para>全局超级管理员只有1人，从钉钉或企业微信中同步过来</para>
         public bool IsAdministrator { get; set; }
+
+        /// <summary>
+        /// 获取或设置用户隐私保护级别
+        /// </summary>
+        /// <para>手机、邮箱、办公电话都为隐私保护信息</para>
+        public UserProtectionLevel ProtectionLevel
+        {
+            get; set;
+        } = UserProtectionLevel.OpenToAll;
 
         /// <summary>
         /// 设置用户密码
@@ -131,6 +143,11 @@ namespace HH.API.Entity.Orgainzation
         }
 
         /// <summary>
+        /// 获取当前组织对象类型：用户
+        /// </summary>
+        public override OrganizationType OrganizationType => OrganizationType.OrgUser;
+
+        /// <summary>
         /// 获取数据库表名
         /// </summary>
         public override string TableName
@@ -142,6 +159,9 @@ namespace HH.API.Entity.Orgainzation
         }
     }
 
+    /// <summary>
+    /// 用户性别
+    /// </summary>
     public enum UserGender
     {
         /// <summary>
@@ -156,5 +176,24 @@ namespace HH.API.Entity.Orgainzation
         /// 未知
         /// </summary>
         Unknow = 2
+    }
+
+    /// <summary>
+    /// 用户信息隐私保护级别
+    /// </summary>
+    public enum UserProtectionLevel
+    {
+        /// <summary>
+        /// 对所有人开放
+        /// </summary>
+        OpenToAll = 0,
+        /// <summary>
+        /// 对本部门及上级部门开放
+        /// </summary>
+        OpenToParent = 1,
+        /// <summary>
+        /// 仅对自己开放
+        /// </summary>
+        OnlySelf = 2
     }
 }

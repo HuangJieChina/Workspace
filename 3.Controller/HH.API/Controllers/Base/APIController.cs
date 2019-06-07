@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Cors;
 using HH.API.Entity.Orgainzation;
 using HH.API.Authorization;
 using System.Threading;
+using HH.API.Common;
 
 namespace HH.API.Controllers
 {
@@ -33,6 +34,22 @@ namespace HH.API.Controllers
             get
             {
                 return NLog.LogManager.GetCurrentClassLogger();
+            }
+        }
+
+        private KeyLock keyLock = null;
+        /// <summary>
+        /// 获取KeyLock锁
+        /// </summary>
+        public KeyLock KeyLock
+        {
+            get
+            {
+                if (this.keyLock == null)
+                {
+                    this.keyLock = new KeyLock();
+                }
+                return this.KeyLock;
             }
         }
 
@@ -179,7 +196,7 @@ namespace HH.API.Controllers
         /// 获取当前锁定的对象
         /// </summary>
         /// <param name="key"></param>
-        public object GetLockObject(string key)
+        private object GetLockObject(string key)
         {
             if (lockObject.ContainsKey(key)) return lockObject[key];
             try
@@ -204,7 +221,7 @@ namespace HH.API.Controllers
         /// <param name="t"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public JsonResult MonitorInsert<T>(string lockKey, T t, Func<JsonResult> func) where T : EntityBase
+        public JsonResult MonitorFunction<T>(string lockKey, T t, Func<JsonResult> func) where T : EntityBase
         {
             if (string.IsNullOrWhiteSpace(lockKey)) throw new Exception("Lock key can not be empty value.");
 
@@ -250,6 +267,16 @@ namespace HH.API.Controllers
             }
         }
         #endregion
+
+        /// <summary>
+        /// 获取服务器的时间
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetSystemDateTime")]
+        public JsonResult GetSystemDateTime()
+        {
+            return Json(DateTime.Now.Ticks);
+        }
 
         /// <summary>
         /// 获取服务访问对象

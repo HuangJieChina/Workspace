@@ -75,7 +75,7 @@ namespace HH.API.Services
             IList<IPredicate> predList = new List<IPredicate>();
             if (!string.IsNullOrWhiteSpace(displayName))
             {
-                IFieldPredicate fieldPredicate = Predicates.Field<OrgUser>(p => p.CnName, Operator.Like, "%" + displayName + "%", "a");
+                IFieldPredicate fieldPredicate = Predicates.Field<OrgUser>(p => p.DisplayName, Operator.Like, "%" + displayName + "%", "a");
                 predList.Add(fieldPredicate);
             }
             IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());

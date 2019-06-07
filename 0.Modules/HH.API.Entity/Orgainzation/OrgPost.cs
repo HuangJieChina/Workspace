@@ -14,11 +14,6 @@ namespace HH.API.Entity.Orgainzation
     public class OrgPost : OrganizationObject
     {
         /// <summary>
-        /// 获取或设置是否组名称
-        /// </summary>
-        public string PostName { get; set; }
-
-        /// <summary>
         /// 获取或设置角色编码
         /// </summary>
         public string RoleCode { get; set; }
@@ -36,7 +31,14 @@ namespace HH.API.Entity.Orgainzation
             }
             set
             {
-                this.UnitScopes = JsonConvert.DeserializeObject<List<string>>(value);
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    this.UnitScopes.Add(this.ParentId);
+                }
+                else
+                {
+                    this.UnitScopes = JsonConvert.DeserializeObject<List<string>>(value);
+                }
             }
         }
 
@@ -44,7 +46,12 @@ namespace HH.API.Entity.Orgainzation
         /// 获取或设置当前用户做为本角色的服务范围，默认服务范围为本组织
         /// </summary>
         [NotMapped]
-        public List<string> UnitScopes { get; set; }
+        public List<string> UnitScopes { get; set; } = new List<string>();
+
+        /// <summary>
+        /// 获取当前组织对象类型：岗位
+        /// </summary>
+        public override OrganizationType OrganizationType => OrganizationType.OrgPost;
 
         /// <summary>
         /// 获取数据库表名

@@ -14,18 +14,8 @@ namespace HH.API.Entity.Orgainzation
     public class OrgUnit : OrganizationObject
     {
         /// <summary>
-        /// 获取或设置组织名称
+        /// 根节点
         /// </summary>
-        [StringLength(50, MinimumLength = 1)]
-        [Required]
-        public string UnitName { get; set; }
-
-        /// <summary>
-        /// 获取或设置在上级组织中的排序键
-        /// </summary>
-        public int SortOrder { get; set; }
-
-
         public const string PropertyName_IsRootUnit = "IsRootUnit";
 
         /// <summary>
@@ -39,10 +29,26 @@ namespace HH.API.Entity.Orgainzation
         public string AssignedLeaderId { get; set; }
 
         /// <summary>
+        /// 获取或设置当前组织归属的成本中心编码
+        /// </summary>
+        public string CostCenter { get; set; }
+
+        /// <summary>
         /// 获取或设置描述信息
         /// </summary>
-        [StringLength(500)]
+        [StringLength(512)]
         public string Description { get; set; }
+
+        /// <summary>
+        /// 获取或设置是否是系统部门
+        /// </summary>
+        /// <para>系统部门不会在前端组织机构中显示</para>
+        public bool IsSystemUnit { get; set; }
+
+        /// <summary>
+        /// 获取当前组织对象类型：组织单元
+        /// </summary>
+        public override OrganizationType OrganizationType => OrganizationType.OrgUnit;
 
         /// <summary>
         /// 获取数据库表名
@@ -56,5 +62,20 @@ namespace HH.API.Entity.Orgainzation
             }
         }
 
+    }
+
+    /// <summary>
+    /// 组织保护级别
+    /// </summary>
+    public enum UnitProtectionLevel
+    {
+        /// <summary>
+        /// 对所有人开放
+        /// </summary>
+        OpenToAll = 0,
+        /// <summary>
+        /// 对本部门及上级部门开放
+        /// </summary>
+        OpenToParent = 1
     }
 }

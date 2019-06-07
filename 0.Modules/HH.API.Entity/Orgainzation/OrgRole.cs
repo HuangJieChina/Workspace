@@ -26,21 +26,9 @@ namespace HH.API.Entity.Orgainzation
         public string Code { get; set; }
 
         /// <summary>
-        /// 获取或设置用户显示名称
-        /// </summary>
-        [StringLength(50, MinimumLength = 1)]
-        [Required]
-        public string RoleName { get; set; }
-
-        /// <summary>
-        /// 获取或设置是否激活
-        /// </summary>
-        public bool IsEnabled { get; set; }
-
-        /// <summary>
         /// 获取或设置角色类型
         /// </summary>
-        public OrgRoleType RoleType { get; set; }
+        // public OrgRoleType RoleType { get; set; }
 
         /// <summary>
         /// 获取是否是全部用户组
