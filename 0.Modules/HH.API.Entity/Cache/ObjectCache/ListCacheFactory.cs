@@ -52,7 +52,8 @@ namespace HH.API.Entity.Cache.ObjectCache
 
                 if (this.Caches.ContainsKey(cacheKey))
                 {
-                    throw new Exception("Get key cache error,this key is aleardy exists:" + cacheKey);
+                    return this.Caches[cacheKey] as IListCache<T>;
+                    // throw new Exception("Get key cache error,this key is aleardy exists:" + cacheKey);
                 }
                 cache = new Memory<T>(maxCacheSize);
                 this.Caches.Add(cacheKey, (ICache)cache);

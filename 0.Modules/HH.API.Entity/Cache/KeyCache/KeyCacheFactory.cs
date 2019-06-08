@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HH.API.Entity.Cache.KeyCollectionCache
+namespace HH.API.Entity.Cache.KeyCache
 {
     /// <summary>
     /// KeyValue 缓存工厂类
@@ -53,7 +53,8 @@ namespace HH.API.Entity.Cache.KeyCollectionCache
 
                 if (this.Caches.ContainsKey(cacheKey))
                 {
-                    throw new Exception("Get key cache error,this key is aleardy exists:" + cacheKey);
+                    return this.Caches[cacheKey] as IKeyCache<T>;
+                    // throw new Exception("Get key cache error,this key is aleardy exists:" + cacheKey);
                 }
                 cache = new Memory<T>(maxCacheSize);
                 this.Caches.Add(cacheKey, (ICache)cache);

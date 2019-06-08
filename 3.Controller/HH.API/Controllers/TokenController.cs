@@ -45,7 +45,7 @@ namespace HH.API.Controllers
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                      new Claim(JwtClaimTypes.Audience,Config.API_Audience),
-                     new Claim(JwtClaimTypes.Issuer,Config.API_Issuer),     // 接口
+                     new Claim(JwtClaimTypes.Issuer,Config.API_Issuer),         // 接口
                      new Claim(JwtClaimTypes.Id, systemCode)                    // 用户的ID
                 }),
                 Expires = expiresAt,

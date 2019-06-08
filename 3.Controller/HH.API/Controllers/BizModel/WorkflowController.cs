@@ -54,7 +54,7 @@ namespace HH.API.Controllers
             {
                 return Json(new APIResult()
                 {
-                    ResultCode = ResultCode.SchemaNotExists,
+                    ResultCode = APIResultCode.SchemaNotExists,
                     Message = "Schema is not exists"
                 });
             }
@@ -63,7 +63,7 @@ namespace HH.API.Controllers
             {
                 return Json(new APIResult()
                 {
-                    ResultCode = ResultCode.CodeDuplicate,
+                    ResultCode = APIResultCode.CodeDuplicate,
                     Message = "Property code is exists."
                 });
             }
@@ -101,7 +101,7 @@ namespace HH.API.Controllers
                 {// 编码已经存在
                     return Json(new APIResult()
                     {
-                        ResultCode = ResultCode.CodeDuplicate,
+                        ResultCode = APIResultCode.CodeDuplicate,
                         Message = "Workflow package code is already exists."
                     });
                 }
@@ -144,7 +144,7 @@ namespace HH.API.Controllers
                         workflow.WorkflowCode));
                 }
 
-                return Json(new APIResult() { Message = "OK", ResultCode = ResultCode.Success });
+                return Json(new APIResult() { Message = "OK", ResultCode = APIResultCode.Success });
             });
         }
 
@@ -167,7 +167,7 @@ namespace HH.API.Controllers
                 // 校验流程模板编码是否已经存在
                 if (this.workflowTemplateRepository.GetDesignWorkflowTemplate(workflowCode) != null)
                 {
-                    return Json(ResultCode.CodeDuplicate, "Workflow code is already exists!");
+                    return Json(APIResultCode.CodeDuplicate, "Workflow code is already exists!");
                 }
 
                 WorkflowTemplate workflow = new WorkflowTemplate(schemaCode,
@@ -177,7 +177,7 @@ namespace HH.API.Controllers
                     sortOrder);
                 this.workflowTemplateRepository.Insert(workflow);
 
-                return Json(new APIResult() { Message = "OK", ResultCode = ResultCode.Success });
+                return Json(new APIResult() { Message = "OK", ResultCode = APIResultCode.Success });
             });
         }
 
@@ -217,14 +217,14 @@ namespace HH.API.Controllers
                 return Json(new APIResult()
                 {
                     Message = "业务模型不存在",
-                    ResultCode = ResultCode.SchemaNotExists
+                    ResultCode = APIResultCode.SchemaNotExists
                 });
             }
             bool res = this.bizSchemaRepository.PublishBizSchema(schemaCode);
 
             return Json(new APIResult()
             {
-                ResultCode = res ? ResultCode.Success : ResultCode.Error
+                ResultCode = res ? APIResultCode.Success : APIResultCode.Error
             });
         }
 

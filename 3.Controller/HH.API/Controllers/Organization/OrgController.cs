@@ -26,24 +26,13 @@ namespace HH.API.Controllers
         /// <param name="orgRoleRepository"></param>
         /// <param name="orgRoleUserRepository"></param>
         /// <param name="orgGroupRepository"></param>
-        public OrgController(IOrgUnitRepository orgUnitRepository,
-            IOrgUserRepository orgUserRepository,
-            IOrgRoleRepository orgRoleRepository,
-            IOrgPostUserRepository orgPostUserRepository,
-            IOrgPostRepository orgPostRepository)
+        public OrgController(IOrganizationService organizationService)
         {
-            this.orgUnitRepository = this.GetRepository<IOrgUnitRepository>();
-            // this.orgUserRepository = this.GetRepository<IOrgUserRepository>();
-            this.orgUserRepository = orgUserRepository;
-            this.orgRoleRepository = orgRoleRepository;
-            // this.orgGroupRepository = orgGroupRepository;
+            this.organizationService = organizationService;
         }
 
         #region 依赖注入的服务对象 ---------------
-        public IOrgUnitRepository orgUnitRepository = null;
-        public IOrgUserRepository orgUserRepository = null;
-        public IOrgRoleRepository orgRoleRepository = null;
-        public IOrgPostUserRepository orgPostUserRepository = null;
+        public IOrganizationService organizationService = null;
         #endregion
 
         /// <summary>
@@ -61,13 +50,13 @@ namespace HH.API.Controllers
             {
                 return Json(new APIResult()
                 {
-                    ResultCode = ResultCode.CodeDuplicate,
+                    ResultCode = APIResultCode.CodeDuplicate,
                     Message = "角色编码已经存在"
                 });
             }
 
             dynamic result = this.orgRoleRepository.Insert(orgRole);
-            return Json(new APIResult() { ResultCode = ResultCode.Success, Extend = orgRole });
+            return Json(new APIResult() { ResultCode = APIResultCode.Success, Extend = orgRole });
         }
 
         /// <summary>
@@ -101,7 +90,7 @@ namespace HH.API.Controllers
                 {
                     return Json(new APIResult()
                     {
-                        ResultCode = ResultCode.ParentNotExists,
+                        ResultCode = APIResultCode.ParentNotExists,
                         Message = "上级组织不存在"
                     });
                 }
@@ -110,7 +99,7 @@ namespace HH.API.Controllers
                 {
                     return Json(new APIResult()
                     {
-                        ResultCode = ResultCode.ParentNotExists,
+                        ResultCode = APIResultCode.ParentNotExists,
                         Message = "上级组织已经存在相同名称组织"
                     });
                 }
@@ -120,7 +109,7 @@ namespace HH.API.Controllers
                 orgUnit.IsRootUnit = false;
 
                 dynamic result = this.orgUnitRepository.Insert(orgUnit);
-                return Json(new APIResult() { ResultCode = ResultCode.Success, Extend = orgUnit });
+                return Json(new APIResult() { ResultCode = APIResultCode.Success, Extend = orgUnit });
             });
         }
 
@@ -143,7 +132,7 @@ namespace HH.API.Controllers
             {
                 return Json(new APIResult()
                 {
-                    ResultCode = ResultCode.ParentNotExists,
+                    ResultCode = APIResultCode.ParentNotExists,
                     Message = "上级组织不存在"
                 });
             }
@@ -152,16 +141,17 @@ namespace HH.API.Controllers
             {
                 return Json(new APIResult()
                 {
-                    ResultCode = ResultCode.CodeDuplicate,
+                    ResultCode = APIResultCode.CodeDuplicate,
                     Message = "用户编码已经存在"
                 });
             }
             #endregion
+
             // 设置密码为加密方式
             user.SetPassword(user.Password);
 
             dynamic result = this.orgUserRepository.Insert(user);
-            return Json(new APIResult() { ResultCode = ResultCode.Success, Extend = user });
+            return Json(new APIResult() { ResultCode = APIResultCode.Success, Extend = user });
         }
 
         /// <summary>
@@ -170,11 +160,17 @@ namespace HH.API.Controllers
         /// <param name="startOrgId"></param>
         /// <param name="roleCode"></param>
         /// <returns></returns>
-        [HttpGet("FindRoleUsers")]
-        public JsonResult FindRoleUsers(string startOrgId, string roleCode)
+        [HttpGet("FindRoleUserIds")]
+        public JsonResult FindRoleUserIds(string startOrgId, string roleCode)
         {
+            // TODO:待完成
             if (!this.ValidationOrganization(AuthorizationMode.View, startOrgId)) return PermissionDenied;
+            List<OrgPost> orgPosts = this.orgPostRepository.GetOrgPostsByRoleCode(roleCode);
+            if (orgPosts == null)
+            {
 
+            }
+            List<string> userIds = this.org
             throw new NotImplementedException();
         }
 

@@ -174,7 +174,7 @@ namespace HH.API
             app.UseAuthentication();
 
             // 事件注册
-            app.UseRegisterEvent();
+            // app.UseRegisterEvent();
 
             // End
             app.UseMvc();
@@ -187,7 +187,7 @@ namespace HH.API
         /// <returns></returns>
         private IServiceProvider InitIoC(IServiceCollection services)
         {
-            IoCContainer.Register("HH.API.Services", "HH.API.IServices");// 注册service
+            IoCContainer.Register("HH.API.Services", "HH.API.IServices"); // 注册Service
             return IoCContainer.Build(services);
         }
     }

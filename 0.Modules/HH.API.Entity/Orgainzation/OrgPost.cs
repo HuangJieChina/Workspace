@@ -13,6 +13,8 @@ namespace HH.API.Entity.Orgainzation
     [Serializable]
     public class OrgPost : OrganizationObject
     {
+        public const string PropertyName_RoleCode = "RoleCode";
+
         /// <summary>
         /// 获取或设置角色编码
         /// </summary>

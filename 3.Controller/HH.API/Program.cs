@@ -10,6 +10,9 @@ using Microsoft.Extensions.Logging;
 
 namespace HH.API
 {
+    /// <summary>
+    /// 引擎服务OpenAPI，提供面向体系结构的开发接口
+    /// </summary>
     public class Program
     {
         /// <summary>

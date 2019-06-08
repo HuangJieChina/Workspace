@@ -30,6 +30,7 @@ namespace HH.API.Entity.Orgainzation
         /// </summary>
         public string EnName { get; set; }
 
+        public const string PropertyName_ParentId = "ParentId";
         /// <summary>
         /// 获取或设置用户所属组织Id
         /// </summary>

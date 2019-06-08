@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HH.API.Entity.Cache.KeyCollectionCache
+namespace HH.API.Entity.Cache.KeyCache
 {
     /// <summary>
     /// 内存缓存
     /// </summary>
-    public class Memory<T> : IKeyCollectionCache<T>
+    public class Memory<T> : IKeyCache<T>
     {
         /// <summary>
         /// 设置默认缓存数据量大小
@@ -26,7 +26,7 @@ namespace HH.API.Entity.Cache.KeyCollectionCache
             this._MaxCacheSize = maxCacheSize;
         }
 
-        private Dictionary<string, List<T>> memoryCache = new Dictionary<string, List<T>>();
+        private Dictionary<string, T> memoryCache = new Dictionary<string, T>();
 
         private ReaderWriterLock _rwLock = null;
         /// <summary>
@@ -62,12 +62,12 @@ namespace HH.API.Entity.Cache.KeyCollectionCache
                 }
             }
         }
-        public List<T> Get(string key)
+        public T Get(string key)
         {
             try
             {
                 this.RWLock.AcquireReaderLock(-1);
-                if (!this.memoryCache.ContainsKey(key)) return default(List<T>);
+                if (!this.memoryCache.ContainsKey(key)) return default(T);
                 return this.memoryCache[key];
             }
             finally
@@ -118,18 +118,18 @@ namespace HH.API.Entity.Cache.KeyCollectionCache
             finally { this.RWLock.ReleaseWriterLock(); }
         }
 
-        public void Save(string key, List<T> values)
+        public void Save(string key, T t)
         {
             try
             {
                 this.RWLock.AcquireWriterLock(-1);
                 if (!this.memoryCache.ContainsKey(key))
                 {// 不存在则新增
-                    this.memoryCache.Add(key, values);
+                    this.memoryCache.Add(key, t);
                 }
                 else
                 {
-                    this.memoryCache[key] = values;
+                    this.memoryCache[key] = t;
                 }
             }
             finally { this.RWLock.ReleaseWriterLock(); }

@@ -17,7 +17,7 @@ namespace HH.API
         {
             get
             {
-                return ResultCode == ResultCode.Success;
+                return ResultCode == APIResultCode.Success;
             }
         }
 
@@ -39,11 +39,11 @@ namespace HH.API
             set { this._Message = value; }
         }
 
-        private ResultCode _ResultCode = ResultCode.Success;
+        private APIResultCode _ResultCode = APIResultCode.Success;
         /// <summary>
         /// 获取或设置的返回编码
         /// </summary>
-        public ResultCode ResultCode
+        public APIResultCode ResultCode
         {
             get { return this._ResultCode; }
             set { this._ResultCode = value; }

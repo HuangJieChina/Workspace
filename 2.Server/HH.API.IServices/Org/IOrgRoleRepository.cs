@@ -14,5 +14,7 @@ namespace HH.API.IServices
         /// <param name="code">角色编码</param>
         /// <returns></returns>
         OrgRole GetOrgRoleByCode(string code);
+
+     
     }
 }

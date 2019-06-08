@@ -43,7 +43,7 @@ namespace HH.API.Controllers
 
             return Json(new APIResult
             {
-                ResultCode = ResultCode.Success,
+                ResultCode = APIResultCode.Success,
                 Extend = new
                 {
                     sid = "1",
@@ -60,7 +60,7 @@ namespace HH.API.Controllers
             AuthenticationHttpContextExtensions.SignOutAsync(HttpContext, "AuthCookie");
             return new APIResult
             {
-                ResultCode = ResultCode.Success
+                ResultCode = APIResultCode.Success
             };
         }
 

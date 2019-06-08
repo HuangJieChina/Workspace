@@ -49,7 +49,7 @@ namespace HH.API.Controllers
                     // 验证编码是否重复
                     if (this.appPackageRepository.GetAppPackageByCode(appPackage.AppCode) != null)
                     {
-                        return Json(ResultCode.CodeDuplicate, "This app code is already exists.");
+                        return Json(APIResultCode.CodeDuplicate, "This app code is already exists.");
                     }
 
                     dynamic result = this.appPackageRepository.Insert(appPackage);
@@ -88,7 +88,7 @@ namespace HH.API.Controllers
                   {// 根目录，校验应用是否存在 
                       if (this.appPackageRepository.GetObjectById(appFunction.AppPackageId) == null)
                       {
-                          return Json(ResultCode.AppPackageNotExists,
+                          return Json(APIResultCode.AppPackageNotExists,
                               string.Format("App package is not exists which package id equals {0}",
                               appFunction.AppPackageId));
                       }
@@ -96,17 +96,17 @@ namespace HH.API.Controllers
                   else if (this.appFunctionRepository.GetObjectById(appFunction.ParentId) == null)
                   {
                       // 父级元素不存在
-                      return Json(ResultCode.ParentNotExists, string.Format("Parent is not exists which parent id equals {0}", appFunction.AppPackageId));
+                      return Json(APIResultCode.ParentNotExists, string.Format("Parent is not exists which parent id equals {0}", appFunction.AppPackageId));
                   }
                   // 检查编码是否重复(应用内唯一)
                   if (this.appFunctionRepository.GetFunctionByCode(appFunction.FunctionCode) != null)
                   {
-                      return Json(ResultCode.CodeDuplicate, string.Format("This function code is alerady exists,code={0}", appFunction.FunctionCode));
+                      return Json(APIResultCode.CodeDuplicate, string.Format("This function code is alerady exists,code={0}", appFunction.FunctionCode));
                   }
                   // 检查名称是否重复
                   if (this.appFunctionRepository.GetFunctionByName(appFunction.ObjectId, appFunction.FunctionName) != null)
                   {
-                      return Json(ResultCode.NameDuplicate, string.Format("The same name exists in the same parent,name={0}", appFunction.FunctionName));
+                      return Json(APIResultCode.NameDuplicate, string.Format("The same name exists in the same parent,name={0}", appFunction.FunctionName));
                   }
 
                   // 新增

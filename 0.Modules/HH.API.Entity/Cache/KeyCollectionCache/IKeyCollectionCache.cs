@@ -10,14 +10,14 @@ namespace HH.API.Entity.Cache.KeyCollectionCache
     /// KeyValue缓存接口
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IKeyCache<T> : ICache
+    public interface IKeyCollectionCache<T> : ICache
     {
         /// <summary>
         /// 新增缓存对象
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="t"></param>
-        void Save(string key, T t);
+        /// <param name="values"></param>
+        void Save(string key, List<T> values);
 
         /// <summary>
         /// 移除缓存对象
@@ -30,7 +30,7 @@ namespace HH.API.Entity.Cache.KeyCollectionCache
         /// </summary>
         /// <param name="key">Key值</param>
         /// <returns></returns>
-        T Get(string key);
+        List<T> Get(string key);
 
         /// <summary>
         /// 检查是否存在

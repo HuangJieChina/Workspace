@@ -5,7 +5,7 @@ using System.Text;
 namespace HH.API.Entity.Cache
 {
     /// <summary>
-    /// 缓存对象基类
+    /// 缓存对象基类，TODO:增加缓存过期时间
     /// </summary>
     public interface ICache
     {

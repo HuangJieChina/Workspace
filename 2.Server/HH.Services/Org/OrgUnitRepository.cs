@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HH.API.IServices;
 using HH.API.Entity.Orgainzation;
+using HH.API.Entity.Cache.KeyCollectionCache;
 
 namespace HH.API.Services
 {
@@ -15,6 +16,21 @@ namespace HH.API.Services
         public OrgUnitRepository() : base()
         {
         }
+
+        private IKeyCollectionCache<String> _ParentUnitIds = null;
+
+        protected IKeyCollectionCache<String> ParentUnitIds
+        {
+            get
+            {
+                if (_ParentUnitIds == null)
+                {
+                    _ParentUnitIds = KeyCollectionCacheFactory<String>.Instance.GetCache(OrgUnit.PropertyName_ParentId);
+                }
+                return _ParentUnitIds;
+            }
+        }
+
 
         /// <summary>
         /// 获取组织根节点
@@ -30,6 +46,49 @@ namespace HH.API.Services
         public List<OrgUnit> GetChildUnitsByParent(string parentId, bool recursive)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 判断一个组织是否另外一个组织的上级
+        /// </summary>
+        /// <param name="parentId"></param>
+        /// <param name="childId"></param>
+        /// <returns></returns>
+        public bool IsParentUnit(string parentId, string childId)
+        {
+            List<string> parents = this.GetParentUnitIds(childId);
+            return parents.Contains(parentId);
+        }
+
+        /// <summary>
+        /// 递归获取一个组织的所有父组织Id集合
+        /// </summary>
+        /// <param name="orgUnitId"></param>
+        /// <returns></returns>
+        public List<string> GetParentUnitIds(string orgUnitId)
+        {
+            if (!ParentUnitIds.ContainsKey(orgUnitId))
+            {
+                List<string> parents = new List<string>();
+
+                OrgUnit orgUnit = this.GetObjectById(orgUnitId);
+                // 防止死循环
+                int index = 0;
+                while (!orgUnit.IsRootUnit)
+                {
+                    if (index > 100) throw new APIException(APIResultCode.StackOverflow,
+                        string.Format("获取组织对象Id='{0}'的上级", orgUnitId));
+
+                    parents.Insert(0, orgUnit.ObjectId);
+                    if (orgUnit != null)
+                    {
+                        orgUnit = this.GetObjectById(orgUnit.ParentId);
+                    }
+                    index++;
+                }
+                this.ParentUnitIds.Save(orgUnitId, parents);
+            }
+            return this.ParentUnitIds.Get(orgUnitId);
         }
 
         /// <summary>

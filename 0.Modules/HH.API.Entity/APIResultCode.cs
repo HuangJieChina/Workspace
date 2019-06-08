@@ -7,7 +7,7 @@ namespace HH.API
     /// <summary>
     /// API接口返回统一编码
     /// </summary>
-    public enum ResultCode
+    public enum APIResultCode
     {
         /// <summary>
         /// 返回成功
@@ -50,6 +50,10 @@ namespace HH.API
         /// 名称不允许为空
         /// </summary>
         NameIsEmpty = 200004,
+        /// <summary>
+        /// 堆栈溢出(死循环)
+        /// </summary>
+        StackOverflow = 200005,
         #endregion
 
         #region 业务模型服务以30开头 -----------

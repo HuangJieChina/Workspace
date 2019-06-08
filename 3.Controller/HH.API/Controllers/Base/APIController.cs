@@ -74,6 +74,22 @@ namespace HH.API.Controllers
         //    }
         //}
 
+        private ReaderWriterLock _rwLock = null;
+        /// <summary>
+        /// 获取读写锁对象
+        /// </summary>
+        protected ReaderWriterLock RWLock
+        {
+            get
+            {
+                if (this._rwLock == null)
+                {
+                    this._rwLock = new ReaderWriterLock();
+                }
+                return this._rwLock;
+            }
+        }
+
         /// <summary>
         /// 获取当前连接的CorpId
         /// </summary>
@@ -102,7 +118,7 @@ namespace HH.API.Controllers
             {
                 result = Json(new APIResult()
                 {
-                    ResultCode = ResultCode.DataFromatError,
+                    ResultCode = APIResultCode.DataFromatError,
                     Message = Newtonsoft.Json.JsonConvert.SerializeObject(errors)
                 });
             }
@@ -131,7 +147,7 @@ namespace HH.API.Controllers
         /// <param name="resultCode"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public virtual JsonResult Json(ResultCode resultCode, string message)
+        public virtual JsonResult Json(APIResultCode resultCode, string message)
         {
             return Json(new APIResult()
             {
@@ -150,7 +166,7 @@ namespace HH.API.Controllers
         {
             get
             {
-                return Json(ResultCode.BadRequest, "Bad request.");
+                return Json(APIResultCode.BadRequest, "Bad request.");
             }
         }
 
@@ -168,7 +184,7 @@ namespace HH.API.Controllers
         {
             return Json(new APIResult()
             {
-                ResultCode = result ? ResultCode.Success : ResultCode.Error,
+                ResultCode = result ? APIResultCode.Success : APIResultCode.Error,
                 Message = message
             });
         }
@@ -182,7 +198,7 @@ namespace HH.API.Controllers
             {
                 return Json(new APIResult()
                 {
-                    ResultCode = ResultCode.PermissionDenied,
+                    ResultCode = APIResultCode.PermissionDenied,
                     Message = "Current request is rejected because of lack of authority."
                 });
             }
@@ -252,7 +268,7 @@ namespace HH.API.Controllers
         {
             if (string.IsNullOrWhiteSpace(lockKey)) throw new Exception("Lock key can not be empty value.");
 
-            lockKey = string.Format("{0}.{1}", this.CorpId, lockKey);
+            lockKey = string.Format("{0}", lockKey);
 
             object lockObject = this.GetLockObject(lockKey);
 
@@ -266,6 +282,44 @@ namespace HH.API.Controllers
                 Monitor.Exit(lockObject);
             }
         }
+
+        /// <summary>
+        /// 读锁处理方法
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public JsonResult AcquireReaderLockFunction(Func<JsonResult> func)
+        {
+            try
+            {
+                this.RWLock.AcquireReaderLock(30 * 1000);
+                return func();
+            }
+            finally
+            {
+                this.RWLock.ReleaseReaderLock();
+            }
+        }
+
+        /// <summary>
+        /// 写锁处理方法
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public JsonResult AcquireWriterLockFunction(Func<JsonResult> func)
+        {
+            try
+            {
+                this.RWLock.AcquireWriterLock(30 * 1000);
+                return func();
+            }
+            finally
+            {
+                this.RWLock.ReleaseWriterLock();
+            }
+        }
+
+
         #endregion
 
         /// <summary>

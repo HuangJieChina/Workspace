@@ -13,7 +13,7 @@ namespace HH.API.Controllers
     public class Config
     {
         public const string API_Issuer = "Authine";
-        public const string API_Audience = "API";
+        public const string API_Audience = "OpenAPI";
 
         private static SymmetricSecurityKey _SymmetricKey = null;
         /// <summary>

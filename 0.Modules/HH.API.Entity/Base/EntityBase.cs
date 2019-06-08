@@ -122,6 +122,7 @@ namespace HH.API.Entity
         #endregion
 
         #region 基类方法定义 -------------------
+
         /// <summary>
         /// 数据格式校验
         /// </summary>
@@ -167,6 +168,12 @@ namespace HH.API.Entity
                         }
                     }
                 }
+
+                //UniquedAttribute uniqued = property.GetCustomAttribute<UniquedAttribute>();
+                //if (uniqued != null)
+                //{// 唯一值校验
+                //    string propertyValue = (property.GetValue(this) + string.Empty).Trim();
+                //}
             }
             return errors.Count == 0;
         }

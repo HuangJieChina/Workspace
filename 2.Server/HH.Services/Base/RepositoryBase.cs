@@ -13,6 +13,7 @@ using HH.API.Common;
 using HH.API.Entity.Database;
 using HH.API.Entity.Cache.KeyCollectionCache;
 using HH.API.Entity.Cache.EntityCache;
+using HH.API.Entity.Cache.KeyCache;
 
 namespace HH.API.Services
 {
@@ -219,7 +220,7 @@ namespace HH.API.Services
             dynamic result = TransactionFunc<dynamic>(conn =>
             {
                 dynamic res = conn.Insert<T>(t);
-                this.EntityCache.Save(t);
+                this.SaveEntityToCache(t);
                 return res;
             });
 
@@ -292,7 +293,7 @@ namespace HH.API.Services
             {
                 // 先更新数据库，再更新缓存
                 bool res = conn.Update<T>(t);
-                if (res) this.EntityCache.Save(t);
+                if (res) this.SaveEntityToCache(t);
                 return res;
             });
         }
@@ -307,7 +308,7 @@ namespace HH.API.Services
         public virtual bool Update(T t, DbConnection dbConnection, DbTransaction dbTransaction)
         {
             bool res = dbConnection.Update<T>(t, dbTransaction);
-            if (res) this.EntityCache.Save(t);
+            if (res) this.SaveEntityToCache(t);
             return res;
         }
 
@@ -326,8 +327,20 @@ namespace HH.API.Services
 
             using (var conn = ConnectionFactory.DefaultConnection())
             {
-                return conn.Get<T>(objectId);
+                t = conn.Get<T>(objectId);
             }
+            this.SaveEntityToCache(t);
+
+            return t;
+        }
+
+        /// <summary>
+        /// 往缓存中增加对象
+        /// </summary>
+        /// <param name="t"></param>
+        public virtual void SaveEntityToCache(T t)
+        {
+            this.EntityCache.Save(t);
         }
 
         /// <summary>
@@ -348,7 +361,7 @@ namespace HH.API.Services
         /// <param name="obj"></param>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public virtual void SaveObjectByKeyToCache(T obj, string key, string value)
+        public virtual void SaveKeyObjectToCache(T obj, string key, string value)
         {
             // KeyCache和EntityCache指向同一个实例
             IKeyCache<T> currentCache = this.GetKeyCache(key);
@@ -358,7 +371,7 @@ namespace HH.API.Services
             }
             else
             {
-                this.EntityCache.Save(obj); // 注意：这里不是完全线程安全的
+                this.SaveEntityToCache(obj); // 注意：这里不是完全线程安全的
                 // 加入缓存
                 currentCache.Save(value, obj);
             }
@@ -401,7 +414,7 @@ namespace HH.API.Services
             // 获取到的是空值
             if (result != null)
             {
-                this.SaveObjectByKeyToCache(result, key, value);
+                this.SaveKeyObjectToCache(result, key, value);
             }
             return result;
         }
