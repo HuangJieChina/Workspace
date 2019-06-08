@@ -12,12 +12,16 @@ namespace HH.API.Entity.Orgainzation
     [Serializable]
     public class OrgPostUser : EntityBase
     {
+        public const string PropertyName_PostId = "PostId";
+
         /// <summary>
         /// 获取或设置角色Id
         /// </summary>
         [Column(TypeName = "char")]
         [StringLength(36)]
         public string PostId { get; set; }
+
+        public const string PropertyName_UserId = "UserId";
 
         /// <summary>
         /// 获取或设置用户ID

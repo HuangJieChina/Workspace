@@ -51,6 +51,12 @@ namespace HH.API.Entity.Orgainzation
         public List<string> UnitScopes { get; set; } = new List<string>();
 
         /// <summary>
+        /// 获取或设置当前岗位包含的用户集合
+        /// </summary>
+        [NotMapped]
+        public List<OrgUser> ChildUsers { get; set; } = null;
+
+        /// <summary>
         /// 获取当前组织对象类型：岗位
         /// </summary>
         public override OrganizationType OrganizationType => OrganizationType.OrgPost;

@@ -25,8 +25,15 @@ namespace HH.API.IServices
         /// <param name="startOrgId"></param>
         /// <param name="roleCode"></param>
         /// <returns></returns>
-        //List<OrgUser> FindRoleUsers(string startOrgId, string roleCode);
-
+        ///List<OrgUser> FindRoleUsers(string startOrgId, string roleCode);
+        
         List<OrgPost> GetOrgPostsByRoleCode(string roleCode);
+
+        /// <summary>
+        /// 获取岗位包含的用户信息
+        /// </summary>
+        /// <param name="orgPostId"></param>
+        /// <returns></returns>
+        // List<OrgUser> GetChildUsers(string orgPostId);
     }
 }

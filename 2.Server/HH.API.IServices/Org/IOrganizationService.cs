@@ -62,6 +62,14 @@ namespace HH.API.IServices
         /// <param name="objectId">组织Id</param>
         /// <returns></returns>
         OrgUnit GetOrgUnit(string objectId);
+
+        /// <summary>
+        /// 判断一个组织是否另外一个组织的上级
+        /// </summary>
+        /// <param name="parentId">父组织Id</param>
+        /// <param name="childId">子组织Id</param>
+        /// <returns></returns>
+        bool IsParentUnit(string parentId, string childId);
         #endregion
 
         #region 用户信息 -----------------

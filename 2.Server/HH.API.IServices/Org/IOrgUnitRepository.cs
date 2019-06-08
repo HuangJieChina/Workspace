@@ -35,6 +35,14 @@ namespace HH.API.IServices
         List<OrgUnit> GetChildUnitsByParent(string parentId, bool recursive);
 
         /// <summary>
+        /// 判断一个组织是否另外一个组织的上级
+        /// </summary>
+        /// <param name="parentId"></param>
+        /// <param name="childId"></param>
+        /// <returns></returns>
+        bool IsParentUnit(string parentId, string childId);
+
+        /// <summary>
         /// 获取组织根节点
         /// </summary>
         OrgUnit RootUnit { get; }

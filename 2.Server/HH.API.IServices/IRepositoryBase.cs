@@ -52,6 +52,14 @@ namespace HH.API.IServices
         T GetObjectByKey(string key, string value);
 
         /// <summary>
+        /// 根据Key值获取对象集合
+        /// </summary>
+        /// <param name="key">Key-Name</param>
+        /// <param name="value">Key-Value</param>
+        /// <returns></returns>
+        List<T> GetListByKey(string key, string value);
+
+        /// <summary>
         /// 获取数据表记录总数
         /// </summary>
         /// <returns></returns>

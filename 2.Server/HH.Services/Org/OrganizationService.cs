@@ -97,9 +97,64 @@ namespace HH.API.Services.Org
             return true;
         }
 
+        /// <summary>
+        /// 查找当前组织下指定角色的所有成员(不限定管理范围)
+        /// </summary>
+        /// <param name="orgUnitId"></param>
+        /// <param name="roleCode"></param>
+        /// <returns></returns>
         public List<OrgUser> FindRoleUsersByOrg(string orgUnitId, string roleCode)
         {
-            throw new NotImplementedException();
+            List<OrgPost> orgPosts = this.GetOrgPostsByRoleCode(roleCode);
+            if (orgPosts == null) return null;
+
+            List<OrgPost> posts = orgPosts.FindAll((orgPost) =>
+            {
+                return this.orgUnitRepository.IsParentUnit(orgUnitId, orgPost.ParentId);
+            });
+            if (posts == null) return null;
+
+            List<OrgUser> users = new List<OrgUser>();
+            List<string> userIds = new List<string>();
+            posts.ForEach((post) =>
+            {
+                List<OrgUser> orgUsers = new List<OrgUser>();
+                if (post.ChildUsers == null)
+                {
+                    // 获取到岗位用户
+                    List<OrgPostUser> orgPostUsers = this.orgPostUserRepository.GetListByKey(OrgPostUser.PropertyName_PostId, post.ObjectId);
+
+                    if (orgPostUsers != null)
+                    {
+                        orgPostUsers.ForEach((postUser) =>
+                        {
+                            OrgUser user = this.orgUserRepository.GetObjectById(postUser.UserId);
+
+                            if (user != null)
+                            {
+                                if (!userIds.Contains(postUser.UserId))
+                                {
+                                    users.Add(user);
+                                }
+                                orgUsers.Add(user);
+                            }
+                        });
+                    }
+                    // 将岗位用户更新到岗位的缓存
+                    post.ChildUsers = orgUsers;
+                }
+                else
+                {
+                    post.ChildUsers.ForEach((orgUser) =>
+                    {
+                        if (!userIds.Contains(orgUser.ObjectId))
+                        {
+                            users.Add(orgUser);
+                        }
+                    });
+                }
+            });
+            return users;
         }
 
         public List<OrgUser> FindUsersByRoleCode(string startOrgId, string roleCode)

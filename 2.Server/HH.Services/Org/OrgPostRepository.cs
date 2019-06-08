@@ -76,6 +76,15 @@ namespace HH.API.Services
             return this.RoleCodePosts.Get(roleCode);
         }
 
-
+        ///// <summary>
+        ///// 获取岗位包含的用户集合
+        ///// </summary>
+        ///// <param name="objectId"></param>
+        ///// <returns></returns>
+        //public List<OrgUser> GetChildUsers(string objectId)
+        //{
+        //    //OrgPost orgPost = this.GetObjectById(objectId);
+        //    //if (orgPost.ChildUsers != null) return orgPost.ChildUsers;
+        //}
     }
 }
