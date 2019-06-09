@@ -54,6 +54,26 @@ namespace HH.API
         /// 堆栈溢出(死循环)
         /// </summary>
         StackOverflow = 200005,
+        /// <summary>
+        /// 组织Id不合法
+        /// </summary>
+        UnitIdNotExists = 200006,
+        /// <summary>
+        /// 角色已应用岗位，请先删除岗位再删除角色
+        /// </summary>
+        RoleCannotRemove = 200007,
+        /// <summary>
+        /// 部门不允许被禁用，因为存在启用的子组织
+        /// </summary>
+        UnitCannotDisabled = 200008,
+        /// <summary>
+        /// 不能被启用，因为上级组织是禁用的
+        /// </summary>
+        UnitCannotEnabled = 200009,
+        /// <summary>
+        /// 密码无效
+        /// </summary>
+        PasswordError = 200010,
         #endregion
 
         #region 业务模型服务以30开头 -----------
@@ -71,6 +91,10 @@ namespace HH.API
         /// 不合法的请求
         /// </summary>
         BadRequest = 900001,
+        /// <summary>
+        /// 不合法的参数
+        /// </summary>
+        BadParameter = 900002
 
     }
 }

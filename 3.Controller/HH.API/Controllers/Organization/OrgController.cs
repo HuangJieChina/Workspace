@@ -75,17 +75,17 @@ namespace HH.API.Controllers
         /// <param name="orgUnit"></param>
         /// <returns></returns>
         [HttpPost("AddOrgUnit")]
-        public JsonResult AddOrgUnit([FromBody]OrgUnit orgUnit)
+        public JsonResult AddOrgUnit([FromBody]OrgDepartment orgUnit)
         {
             return MonitorFunction(orgUnit.ParentId, () =>
             {
                 #region 数据格式校验 -----------------
                 // 数据格式校验
                 JsonResult validateResult = null;
-                if (!this.DataValidator<OrgUnit>(orgUnit, out validateResult)) return validateResult;
+                if (!this.DataValidator<OrgDepartment>(orgUnit, out validateResult)) return validateResult;
 
                 // 验证上级组织是否存在
-                OrgUnit parentUnit = this.orgUnitRepository.GetObjectById(orgUnit.ParentId);
+                OrgDepartment parentUnit = this.orgUnitRepository.GetObjectById(orgUnit.ParentId);
                 if (parentUnit == null)
                 {
                     return Json(new APIResult()
@@ -127,7 +127,7 @@ namespace HH.API.Controllers
             if (this.DataValidator<OrgUser>(user, out validateResult)) return validateResult;
 
             // 验证上级组织是否存在
-            OrgUnit parentUnit = this.orgUnitRepository.GetObjectById(user.ParentId);
+            OrgDepartment parentUnit = this.orgUnitRepository.GetObjectById(user.ParentId);
             if (parentUnit == null)
             {
                 return Json(new APIResult()
@@ -170,7 +170,7 @@ namespace HH.API.Controllers
             {
 
             }
-            List<string> userIds = this.org
+            // List<string> userIds = this.org
             throw new NotImplementedException();
         }
 
@@ -193,13 +193,13 @@ namespace HH.API.Controllers
         {
             if (!this.ValidationOrganization(AuthorizationMode.View, objectId)) return PermissionDenied;
 
-            OrganizationObject organizationObject = this.GetOrganizationObjectById(objectId);
+            OrgUnit organizationObject = this.GetOrganizationObjectById(objectId);
             OrgUser user = null;
             if (string.IsNullOrEmpty(organizationObject.ManagerId))
             {
                 user = this.orgUserRepository.GetObjectById(organizationObject.ManagerId);
             }
-            if (user == null && !organizationObject.OrganizationType.Equals(OrganizationType.OrgUnit))
+            if (user == null && !organizationObject.UnitType.Equals(UnitType.OrgDepartment))
             {// 查找所在组织的经理
                 return this.GetManager(organizationObject.ParentId);
             }
@@ -255,7 +255,7 @@ namespace HH.API.Controllers
         }
 
         [HttpPost("UpdateOrgUnit")]
-        public JsonResult UpdateOrgUnit([FromBody] string userId, [FromBody]OrgUnit orgUnit)
+        public JsonResult UpdateOrgUnit([FromBody] string userId, [FromBody]OrgDepartment orgUnit)
         {
             bool res = this.orgUnitRepository.Update(orgUnit);
             return Json(res);
@@ -282,13 +282,13 @@ namespace HH.API.Controllers
         /// </summary>
         /// <param name="objectId"></param>
         /// <returns></returns>
-        protected OrganizationObject GetOrganizationObjectById(string objectId)
+        protected OrgUnit GetOrganizationObjectById(string objectId)
         {
-            OrganizationObject organizationObject = null;
-            organizationObject = this.orgUnitRepository.GetObjectById(objectId) as OrganizationObject;
+            OrgUnit organizationObject = null;
+            organizationObject = this.orgUnitRepository.GetObjectById(objectId) as OrgUnit;
             if (organizationObject != null) return organizationObject;
 
-            organizationObject = this.orgUserRepository.GetObjectById(objectId) as OrganizationObject;
+            organizationObject = this.orgUserRepository.GetObjectById(objectId) as OrgUnit;
             if (organizationObject != null) return organizationObject;
 
             return organizationObject;
@@ -304,7 +304,7 @@ namespace HH.API.Controllers
             throw new NotImplementedException();
         }
 
-        public JsonResult GetChildUnits(string parentId, OrganizationType organizationType)
+        public JsonResult GetChildUnits(string parentId, UnitType organizationType)
         {
             throw new NotImplementedException();
         }

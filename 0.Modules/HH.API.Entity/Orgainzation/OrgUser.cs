@@ -9,7 +9,7 @@ namespace HH.API.Entity.Orgainzation
     /// 组织用户类
     /// </summary>
     [Serializable]
-    public class OrgUser : OrganizationObject
+    public class OrgUser : OrgUnit
     {
         public const string PropertyName_Code = "Code";
         /// <summary>
@@ -115,6 +115,16 @@ namespace HH.API.Entity.Orgainzation
         public bool IsAdministrator { get; set; }
 
         /// <summary>
+        /// 获取或设置密码累积错误次数
+        /// </summary>
+        public int PasswordInvalids { get; set; }
+
+        /// <summary>
+        /// 获取或设置用户是否被锁定，锁定则无法正常使用账号和密码登录
+        /// </summary>
+        public bool IsLocked { get; set; } = false;
+
+        /// <summary>
         /// 获取或设置用户隐私保护级别
         /// </summary>
         /// <para>手机、邮箱、办公电话都为隐私保护信息</para>
@@ -129,6 +139,7 @@ namespace HH.API.Entity.Orgainzation
         /// <param name="password"></param>
         public void SetPassword(string password)
         {
+            this.IsLocked = false;
             this.Password = this.GetMD5Encrypt32(password);
         }
 
@@ -139,13 +150,18 @@ namespace HH.API.Entity.Orgainzation
         /// <returns></returns>
         public bool ValidatePassword(string password)
         {
-            return this.GetMD5Encrypt32(password).Equals(this.Password);
+            if (!this.GetMD5Encrypt32(password).Equals(this.Password))
+            {
+                this.PasswordInvalids++;
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
         /// 获取当前组织对象类型：用户
         /// </summary>
-        public override OrganizationType OrganizationType => OrganizationType.OrgUser;
+        public override UnitType UnitType => UnitType.OrgUser;
 
         /// <summary>
         /// 获取数据库表名

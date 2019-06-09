@@ -11,19 +11,26 @@ namespace HH.API.IServices
     /// </summary>
     public interface IOrganizationService : IServiceBase
     {
+        /// <summary>
+        /// 根据Id获取当前组织所在的部门
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <returns></returns>
+        OrgDepartment GetOrgDepartmentByUnitId(string objectId);
+
         #region 组织机构 -----------------
         /// <summary>
         /// 获取跟组织对象
         /// </summary>
         /// <returns></returns>
-        OrgUnit GetRootUnit();
+        OrgDepartment GetRootDepartment();
 
         /// <summary>
         /// 添加组织单元
         /// </summary>
         /// <param name="orgUnit">组织单元</param>
         /// <returns>返回添加是否成功</returns>
-        bool AddOrgUnit(string userId, OrgUnit orgUnit);
+        bool AddOrgDepartment(string userId, OrgDepartment orgUnit);
 
         /// <summary>
         /// 删除组织信息
@@ -31,7 +38,7 @@ namespace HH.API.IServices
         /// <param name="userId"></param>
         /// <param name="objectId"></param>
         /// <returns></returns>
-        bool RemoveOrgUnit(string userId, string objectId);
+        bool RemoveOrgDepartment(string userId, string objectId);
 
         /// <summary>
         /// 更新组织信息
@@ -39,7 +46,7 @@ namespace HH.API.IServices
         /// <param name="userId"></param>
         /// <param name="orgUnit"></param>
         /// <returns></returns>
-        bool UpdateOrgUnit(string userId, OrgUnit orgUnit);
+        bool UpdateOrgDepartment(string userId, OrgDepartment orgUnit);
 
         /// <summary>
         /// 根据上级组织Id获取子组织单元
@@ -47,7 +54,7 @@ namespace HH.API.IServices
         /// <param name="parentId"></param>
         /// <param name="organizationType"></param>
         /// <returns></returns>
-        List<OrganizationObject> GetChildUnits(string parentId, OrganizationType organizationType);
+        List<OrgUnit> GetChildUnits(string parentId, UnitType organizationType);
 
         /// <summary>
         /// 设置组织对象是否被启用
@@ -55,13 +62,6 @@ namespace HH.API.IServices
         /// <param name="obj"></param>
         /// <returns></returns>
         bool SetUnitEnabled(string userId, string objectId, bool enabled);
-
-        /// <summary>
-        /// 获取组织单元信息
-        /// </summary>
-        /// <param name="objectId">组织Id</param>
-        /// <returns></returns>
-        OrgUnit GetOrgUnit(string objectId);
 
         /// <summary>
         /// 判断一个组织是否另外一个组织的上级
@@ -74,14 +74,21 @@ namespace HH.API.IServices
 
         #region 用户信息 -----------------
         /// <summary>
+        /// 用户密码验证
+        /// </summary>
+        /// <param name="userCode"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        bool ValidPassword(string userCode, string password);
+
+        /// <summary>
         /// 用户密码重置
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="objectId"></param>
-        /// <param name="oldPassword"></param>
         /// <param name="newPassword"></param>
         /// <returns></returns>
-        bool ResetPassword(string userId, string objectId, string oldPassword, string newPassword);
+        bool ResetPassword(string userId, string objectId, string newPassword);
 
         /// <summary>
         /// 新增用户
@@ -112,7 +119,7 @@ namespace HH.API.IServices
         /// <param name="parentId"></param>
         /// <param name="recurse"></param>
         /// <returns></returns>
-        List<OrgUser> GetChildUsers(string parentId, bool recurse);
+        List<OrgUser> GetChildUsers(string parentId, bool recursive);
         #endregion
 
         #region  角色信息 -----------------
@@ -135,9 +142,18 @@ namespace HH.API.IServices
         /// 删除组织角色
         /// </summary>
         /// <param name="userId"></param>
-        /// <param name="objectId"></param>
+        /// <param name="roleCode"></param>
         /// <returns></returns>
-        bool RemoveOrgRole(string userId, string objectId);
+        bool RemoveOrgRoleByCode(string userId, string roleCode);
+        #endregion
+
+        #region 岗位信息 -----------------
+        /// <summary>
+        /// 获取岗位信息
+        /// </summary>
+        /// <param name="objectId">岗位Id</param>
+        /// <returns>返回岗位信息</returns>
+        OrgPost GetOrgPost(string objectId);
         #endregion
 
         #region 找人函数 -----------------
@@ -189,5 +205,19 @@ namespace HH.API.IServices
         #endregion
 
         List<OrgPost> GetOrgPostsByRoleCode(string roleCode);
+
+        /// <summary>
+        /// 获取组织单元信息
+        /// </summary>
+        /// <param name="objectId">组织Id</param>
+        /// <returns></returns>
+        OrgUnit GetOrgUnit(string objectId);
+
+        /// <summary>
+        /// 更新组织单元对象
+        /// </summary>
+        /// <param name="orgUnit"></param>
+        /// <returns></returns>
+        bool UpdateOrgUnit(OrgUnit orgUnit);
     }
 }

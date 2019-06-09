@@ -11,7 +11,7 @@ namespace HH.API.Entity.Orgainzation
     /// 岗位信息
     /// </summary>
     [Serializable]
-    public class OrgPost : OrganizationObject
+    public class OrgPost : OrgUnit
     {
         public const string PropertyName_RoleCode = "RoleCode";
 
@@ -59,7 +59,7 @@ namespace HH.API.Entity.Orgainzation
         /// <summary>
         /// 获取当前组织对象类型：岗位
         /// </summary>
-        public override OrganizationType OrganizationType => OrganizationType.OrgPost;
+        public override UnitType UnitType => UnitType.OrgPost;
 
         /// <summary>
         /// 获取数据库表名

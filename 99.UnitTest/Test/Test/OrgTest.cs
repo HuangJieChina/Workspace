@@ -16,9 +16,9 @@ namespace Test.Test
         {
             string rootUnitValue = this.HttpGet(Path.Combine(ServerUri, "Org/GetRootUnit"), null);
 
-            OrgUnit rootUnit = JsonConvert.DeserializeObject<OrgUnit>(rootUnitValue);
+            OrgDepartment rootUnit = JsonConvert.DeserializeObject<OrgDepartment>(rootUnitValue);
 
-            OrgUnit unit1 = new OrgUnit()
+            OrgDepartment unit1 = new OrgDepartment()
             {
                 DisplayName = "测试部",
                 ParentId = rootUnit.ObjectId
@@ -27,7 +27,7 @@ namespace Test.Test
             string result = this.HttpPost(ServerUri + "/Org/AddOrgUnit", JsonConvert.SerializeObject(unit1));
             Console.WriteLine("Org.AddOrgUnit->" + result);
 
-            OrgUnit unit2 = new OrgUnit()
+            OrgDepartment unit2 = new OrgDepartment()
             {
                 DisplayName = "开发部",
                 ParentId = string.Empty

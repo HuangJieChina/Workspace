@@ -107,12 +107,12 @@ namespace HH.API.Services
         /// </summary>
         private void InitialOrg()
         {
-            OrgUnitRepository orgUnitRepository = new OrgUnitRepository();
+            OrgDepartmentRepository orgUnitRepository = new OrgDepartmentRepository();
             OrgUserRepository orgUserRepository = new OrgUserRepository();
 
             if (orgUnitRepository.Count() == 0)
             {
-                OrgUnit rootUnit = new OrgUnit()
+                OrgDepartment rootUnit = new OrgDepartment()
                 {
                     ObjectId = EntityConfig.Org.SystemOrgId,
                     DisplayName = "我的公司",

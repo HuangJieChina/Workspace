@@ -344,6 +344,22 @@ namespace HH.API.Services
         }
 
         /// <summary>
+        /// 往缓存中获取或更新对象
+        /// </summary>
+        /// <param name="t"></param>
+        public virtual void RefreshEntityToCache(T t)
+        {
+            if (this.EntityCache.Exists(t.ObjectId))
+            {
+                t = this.EntityCache.Get(t.ObjectId);
+            }
+            else
+            {
+                this.EntityCache.Save(t);
+            }
+        }
+
+        /// <summary>
         /// 从缓存中读取
         /// </summary>
         /// <param name="key"></param>

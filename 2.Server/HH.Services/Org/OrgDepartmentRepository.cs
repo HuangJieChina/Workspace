@@ -11,9 +11,9 @@ using HH.API.Entity.Cache.KeyCollectionCache;
 
 namespace HH.API.Services
 {
-    public class OrgUnitRepository : RepositoryBase<OrgUnit>, IOrgUnitRepository
+    public class OrgDepartmentRepository : RepositoryBase<OrgDepartment>, IOrgDepartmentRepository
     {
-        public OrgUnitRepository() : base()
+        public OrgDepartmentRepository() : base()
         {
         }
 
@@ -25,7 +25,7 @@ namespace HH.API.Services
             {
                 if (_ParentUnitIds == null)
                 {
-                    _ParentUnitIds = KeyCollectionCacheFactory<String>.Instance.GetCache(OrgUnit.PropertyName_ParentId);
+                    _ParentUnitIds = KeyCollectionCacheFactory<String>.Instance.GetCache(OrgDepartment.PropertyName_ParentId);
                 }
                 return _ParentUnitIds;
             }
@@ -35,17 +35,12 @@ namespace HH.API.Services
         /// <summary>
         /// 获取组织根节点
         /// </summary>
-        public OrgUnit RootUnit
+        public OrgDepartment RootDepartment
         {
             get
             {
-                return this.GetObjectByKey(OrgUnit.PropertyName_IsRootUnit, "1");
+                return this.GetObjectByKey(OrgDepartment.PropertyName_IsRootUnit, "1");
             }
-        }
-
-        public List<OrgUnit> GetChildUnitsByParent(string parentId, bool recursive)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -54,9 +49,9 @@ namespace HH.API.Services
         /// <param name="parentId"></param>
         /// <param name="childId"></param>
         /// <returns></returns>
-        public bool IsParentUnit(string parentId, string childId)
+        public bool IsParentDepartment(string parentId, string childId)
         {
-            List<string> parents = this.GetParentUnitIds(childId);
+            List<string> parents = this.GetParentDepartmentIds(childId);
             return parents.Contains(parentId);
         }
 
@@ -65,13 +60,13 @@ namespace HH.API.Services
         /// </summary>
         /// <param name="orgUnitId"></param>
         /// <returns></returns>
-        public List<string> GetParentUnitIds(string orgUnitId)
+        public List<string> GetParentDepartmentIds(string orgUnitId)
         {
             if (!ParentUnitIds.ContainsKey(orgUnitId))
             {
                 List<string> parents = new List<string>();
 
-                OrgUnit orgUnit = this.GetObjectById(orgUnitId);
+                OrgDepartment orgUnit = this.GetObjectById(orgUnitId);
                 // 防止死循环
                 int index = 0;
                 while (!orgUnit.IsRootUnit)
@@ -92,6 +87,19 @@ namespace HH.API.Services
         }
 
         /// <summary>
+        /// 判断一个组织范围是否包含一个组织
+        /// </summary>
+        /// <param name="unitScopes"></param>
+        /// <param name="childId"></param>
+        /// <returns></returns>
+        public bool UnitScopesContains(List<string> unitScopes, string childId)
+        {
+            if (unitScopes == null || unitScopes.Count == 0) return false;
+            List<string> parentUnitIds = this.GetParentDepartmentIds(childId);
+            return unitScopes.Find((x) => { return parentUnitIds.Contains(x); }) != null;
+        }
+
+        /// <summary>
         /// 是否存在指定名称的组织对象
         /// </summary>
         /// <param name="parentId"></param>
@@ -100,8 +108,8 @@ namespace HH.API.Services
         public bool IsExistsOrgName(string parentId, string displayName)
         {
             IList<IPredicate> predList = new List<IPredicate>();
-            predList.Add(Predicates.Field<OrgUnit>(p => p.ParentId, Operator.Eq, parentId));
-            predList.Add(Predicates.Field<OrgUnit>(p => p.DisplayName, Operator.Eq, displayName));
+            predList.Add(Predicates.Field<OrgDepartment>(p => p.ParentId, Operator.Eq, parentId));
+            predList.Add(Predicates.Field<OrgDepartment>(p => p.DisplayName, Operator.Eq, displayName));
             IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
 
             return this.GetSingle(predGroup) != null;
@@ -115,14 +123,14 @@ namespace HH.API.Services
         /// <param name="recordCount">页面记录数</param>
         /// <param name="displayName">组织名称</param>
         /// <returns></returns>
-        public List<OrgUnit> QueryOrgUnit(int pageIndex, int pageSize, out long recordCount, string displayName)
+        public List<OrgDepartment> QueryOrgDepartment(int pageIndex, int pageSize, out long recordCount, string displayName)
         {
             // Demo:单表查询分页
             // 查询条件
             IList<IPredicate> predList = new List<IPredicate>();
             if (!string.IsNullOrWhiteSpace(displayName))
             {
-                predList.Add(Predicates.Field<OrgUnit>(p => p.DisplayName, Operator.Like, displayName));
+                predList.Add(Predicates.Field<OrgDepartment>(p => p.DisplayName, Operator.Like, displayName));
             }
             IPredicateGroup predGroup = Predicates.Group(GroupOperator.And, predList.ToArray());
 
@@ -130,5 +138,9 @@ namespace HH.API.Services
             return this.GetPageList(pageIndex, pageSize, out recordCount, predGroup);
         }
 
+        public List<OrgDepartment> GetChildDepartmentsByParent(string parentId, bool recursive)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

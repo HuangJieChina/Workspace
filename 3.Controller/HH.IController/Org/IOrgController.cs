@@ -24,7 +24,7 @@ namespace HH.API.IController
         /// <param name="orgUnit">组织单元</param>
         /// <returns>返回添加是否成功</returns>
         [HttpPost("AddOrgUnit")]
-        JsonResult AddOrgUnit([FromBody]OrgUnit orgUnit);
+        JsonResult AddOrgUnit([FromBody]OrgDepartment orgUnit);
 
         /// <summary>
         /// 删除组织信息
@@ -42,7 +42,7 @@ namespace HH.API.IController
         /// <param name="orgUnit"></param>
         /// <returns></returns>
         [HttpPost("orgUnit")]
-        JsonResult UpdateOrgUnit([FromBody]string userId, [FromBody]OrgUnit orgUnit);
+        JsonResult UpdateOrgUnit([FromBody]string userId, [FromBody]OrgDepartment orgUnit);
 
         /// <summary>
         /// 根据上级组织Id获取子组织单元
@@ -51,7 +51,7 @@ namespace HH.API.IController
         /// <param name="organizationType"></param>
         /// <returns></returns>
         [HttpGet]
-        JsonResult GetChildUnits(string parentId, OrganizationType organizationType);
+        JsonResult GetChildUnits(string parentId, UnitType organizationType);
 
         /// <summary>
         /// 设置组织对象是否被启用

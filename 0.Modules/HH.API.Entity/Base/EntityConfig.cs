@@ -28,7 +28,7 @@ namespace HH.API.Entity
             /// <summary>
             /// 组织架构表名称
             /// </summary>
-            public const string OrgUnit = "sys_OrgUnit";
+            public const string OrgDepartment = "sys_OrgDepartment";
 
             /// <summary>
             /// 用户表

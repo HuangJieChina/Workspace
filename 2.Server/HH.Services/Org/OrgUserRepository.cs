@@ -45,7 +45,7 @@ namespace HH.API.Services
         {
             recordCount = 0;
             string txt = string.Format("SELECT a.*,b.CnName as OUName FROM {0} a JOIN {1} b ON a.ParentId=b.ObjectID  where a.CnName like '%'+@CnName+'%'",
-               EntityConfig.Table.OrgUser, EntityConfig.Table.OrgUnit);
+               EntityConfig.Table.OrgUser, EntityConfig.Table.OrgDepartment);
             using (DbConnection conn = this.OpenConnection())
             {
                 var x = conn.Query(txt, new { CnName = "zhang" }).ToList();
@@ -67,9 +67,9 @@ namespace HH.API.Services
 
             // SQL语句
             string sqlCount = string.Format("SELECT Count(1) FROM {0} a JOIN {1} b ON a.ParentId=b.ObjectID",
-               EntityConfig.Table.OrgUser, EntityConfig.Table.OrgUnit);
+               EntityConfig.Table.OrgUser, EntityConfig.Table.OrgDepartment);
             string sqlQuery = string.Format("SELECT a.*,b.CnName as OUName FROM {0} a JOIN {1} b ON a.ParentId=b.ObjectID",
-               EntityConfig.Table.OrgUser, EntityConfig.Table.OrgUnit);
+               EntityConfig.Table.OrgUser, EntityConfig.Table.OrgDepartment);
 
             // 查询条件
             IList<IPredicate> predList = new List<IPredicate>();

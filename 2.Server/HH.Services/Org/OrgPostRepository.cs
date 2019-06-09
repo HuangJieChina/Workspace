@@ -67,13 +67,24 @@ namespace HH.API.Services
                 if (orgPosts != null)
                 {
                     orgPosts.ForEach((orgPost) =>
-                    {
-                        this.SaveEntityToCache(orgPost);
+                    {// 刷新岗位缓存信息
+                        this.RefreshEntityToCache(orgPost);
                     });
                 }
                 this.RoleCodePosts.Save(roleCode, orgPosts);
             }
             return this.RoleCodePosts.Get(roleCode);
+        }
+
+        public void SetChildUsers(OrgPost orgPost)
+        {
+            this.SaveEntityToCache(orgPost);
+            // this.RefreshEntityToCache(orgPost);
+        }
+
+        public bool RemoveOrgPostsByRoleCode(string roleCode)
+        {
+            throw new NotImplementedException();
         }
 
         ///// <summary>

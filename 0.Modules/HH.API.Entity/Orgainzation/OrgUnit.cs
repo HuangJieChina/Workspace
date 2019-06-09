@@ -2,80 +2,100 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DapperExtensions.Mapper;
+using System.Text;
 
 namespace HH.API.Entity.Orgainzation
 {
     /// <summary>
-    /// 组织机构类
+    /// 组织对象基类
     /// </summary>
     [Serializable]
-    [Table(EntityConfig.Table.OrgUnit)]
-    public class OrgUnit : OrganizationObject
+    public class OrgUnit : EntityBase
     {
         /// <summary>
-        /// 根节点
+        /// 获取或设置用户的上级经理
         /// </summary>
-        public const string PropertyName_IsRootUnit = "IsRootUnit";
+        [StringLength(36)]
+        [Column(TypeName = "char")]
+        public string ManagerId { get; set; }
 
         /// <summary>
-        /// 获取或设置是否根节点
+        /// 获取或设置中文显示名称
         /// </summary>
-        public bool IsRootUnit { get; set; }
+        [Required(ErrorMessage = "中文显示名称不允许为空")]
+        public string DisplayName { get; set; }
 
         /// <summary>
-        /// 获取或设置分管领导
+        /// 获取或设置英文显示名称
         /// </summary>
-        public string AssignedLeaderId { get; set; }
+        public string EnName { get; set; }
+
+        public const string PropertyName_ParentId = "ParentId";
+        /// <summary>
+        /// 获取或设置用户所属组织Id
+        /// </summary>
+        [Column(TypeName = "char")]
+        [StringLength(36)]
+        public string ParentId { get; set; }
 
         /// <summary>
-        /// 获取或设置当前组织归属的成本中心编码
+        /// 获取或设置当前对象是否被启用
         /// </summary>
-        public string CostCenter { get; set; }
+        /// <para>true:启用,false:禁用</para>
+        public bool IsEnabled { get; set; }
 
         /// <summary>
-        /// 获取或设置描述信息
+        /// 获取或设置是否是同步过来的组织
         /// </summary>
-        [StringLength(512)]
-        public string Description { get; set; }
+        public bool IsSynchronized { get; set; } = false;
 
         /// <summary>
-        /// 获取或设置是否是系统部门
+        /// 获取或设置同步源的组织对象Id
         /// </summary>
-        /// <para>系统部门不会在前端组织机构中显示</para>
-        public bool IsSystemUnit { get; set; }
+        public string SourceId { get; set; }
 
         /// <summary>
-        /// 获取当前组织对象类型：组织单元
+        /// 获取或设置在上级组织中的排序值
         /// </summary>
-        public override OrganizationType OrganizationType => OrganizationType.OrgUnit;
+        public int SortIndex { get; set; }
 
         /// <summary>
-        /// 获取数据库表名
+        /// 获取或设置存储表名称
         /// </summary>
-        [NotMapped]
-        public override string TableName
+        public override string TableName => throw new NotImplementedException();
+
+        /// <summary>
+        /// 获取组织对象类型
+        /// </summary>
+        public virtual UnitType UnitType
         {
             get
             {
-                return EntityConfig.Table.OrgUnit;
+                throw new NotImplementedException();
             }
         }
-
     }
 
     /// <summary>
-    /// 组织保护级别
+    /// 获取组织机构对象类型
     /// </summary>
-    public enum UnitProtectionLevel
+    public enum UnitType
     {
         /// <summary>
-        /// 对所有人开放
+        /// 所有类型
         /// </summary>
-        OpenToAll = 0,
+        AllType = 0,
         /// <summary>
-        /// 对本部门及上级部门开放
+        /// 部门
         /// </summary>
-        OpenToParent = 1
+        OrgDepartment = 1,
+        /// <summary>
+        /// 用户
+        /// </summary>
+        OrgUser = 2,
+        /// <summary>
+        /// 岗位
+        /// </summary>
+        OrgPost = 3
     }
 }
