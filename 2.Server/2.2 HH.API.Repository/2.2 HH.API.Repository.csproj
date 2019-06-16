@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Base\Database\" />
+    <Folder Include="LogService\" />
+    <Folder Include="Organization\Sync\" />
+    <Folder Include="Settings\" />
+    <Folder Include="WorkflowInstance\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\0.Modules\DapperExtensionsDNXCore\DapperExtensionsDNXCore.csproj" />
+    <ProjectReference Include="..\..\0.Modules\HH.API.Common\HH.API.Common.csproj" />
+    <ProjectReference Include="..\..\0.Modules\HH.API.Entity\HH.API.Entity.csproj" />
+    <ProjectReference Include="..\2.1 HH.API.IRepository\2.1 HH.API.IRepository.csproj" />
+  </ItemGroup>
+
+</Project>

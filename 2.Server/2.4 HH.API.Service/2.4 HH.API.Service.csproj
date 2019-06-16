@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>HH.API.Service</AssemblyName>
+    <RootNamespace>HH.API.Service</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="LogService\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\0.Modules\DapperExtensionsDNXCore\DapperExtensionsDNXCore.csproj" />
+    <ProjectReference Include="..\..\0.Modules\HH.API.Common\HH.API.Common.csproj" />
+    <ProjectReference Include="..\..\0.Modules\HH.API.Entity\HH.API.Entity.csproj" />
+    <ProjectReference Include="..\..\1.ESB\HH.API.Adapters\HH.API.Adapters.csproj" />
+    <ProjectReference Include="..\..\1.ESB\HH.API.IAdapter\HH.API.IAdapters.csproj" />
+    <ProjectReference Include="..\2.1 HH.API.IRepository\2.1 HH.API.IRepository.csproj" />
+    <ProjectReference Include="..\2.2 HH.API.Repository\2.2 HH.API.Repository.csproj" />
+    <ProjectReference Include="..\2.3 HH.API.IService\2.3 HH.API.IService.csproj" />
+  </ItemGroup>
+
+</Project>

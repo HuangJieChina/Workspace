@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HH.API.Entity;
 using NLog;
-using HH.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using IdentityModel;

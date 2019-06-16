@@ -12,6 +12,7 @@ namespace HH.API.Entity.Orgainzation
     [Serializable]
     public class OrgUnit : EntityBase
     {
+        public const string PropertyName_ManagerId = "ManagerId";
         /// <summary>
         /// 获取或设置用户的上级经理
         /// </summary>

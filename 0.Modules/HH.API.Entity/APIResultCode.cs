@@ -74,6 +74,10 @@ namespace HH.API
         /// 密码无效
         /// </summary>
         PasswordError = 200010,
+        /// <summary>
+        /// 存在子对象，不允许被该操作
+        /// </summary>
+        ExistsChildren = 200011,
         #endregion
 
         #region 业务模型服务以30开头 -----------

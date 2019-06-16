@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HH.API.Entity;
 using HH.API.IController;
-using HH.API.IServices;
 using HH.API.Entity.Orgainzation;
 using HH.API.Authorization;
-using HH.API.Services;
 
 namespace HH.API.Controllers
 {
@@ -40,23 +38,15 @@ namespace HH.API.Controllers
         /// </summary>
         /// <param name="orgRole"></param>
         /// <returns></returns>
-        public JsonResult AddOrgRole([FromBody]OrgRole orgRole)
+        public JsonResult AddOrgRole([FromBody]string userId, [FromBody]OrgRole orgRole)
         {
-            this.orgRoleRepository.Insert(orgRole);
-            JsonResult validateResult = null;
-            if (this.DataValidator<OrgRole>(orgRole, out validateResult)) return validateResult;
+            bool result = this.organizationService.AddOrgRole(userId, orgRole);
 
-            if (this.orgRoleRepository.GetOrgRoleByCode(orgRole.Code) != null)
+            return Json(new APIResult()
             {
-                return Json(new APIResult()
-                {
-                    ResultCode = APIResultCode.CodeDuplicate,
-                    Message = "角色编码已经存在"
-                });
-            }
-
-            dynamic result = this.orgRoleRepository.Insert(orgRole);
-            return Json(new APIResult() { ResultCode = APIResultCode.Success, Extend = orgRole });
+                ResultCode = result ? APIResultCode.Success : APIResultCode.Error,
+                Extend = orgRole
+            });
         }
 
         /// <summary>
@@ -66,7 +56,7 @@ namespace HH.API.Controllers
         [HttpGet("GetRootUnit")]
         public JsonResult GetRootUnit()
         {
-            return Json(this.orgUnitRepository.RootUnit);
+            return Json(this.organizationService.GetRootDepartment());
         }
 
         /// <summary>
@@ -75,42 +65,10 @@ namespace HH.API.Controllers
         /// <param name="orgUnit"></param>
         /// <returns></returns>
         [HttpPost("AddOrgUnit")]
-        public JsonResult AddOrgUnit([FromBody]OrgDepartment orgUnit)
+        public JsonResult AddOrgUnit([FromBody]string userId, [FromBody]OrgDepartment department)
         {
-            return MonitorFunction(orgUnit.ParentId, () =>
-            {
-                #region 数据格式校验 -----------------
-                // 数据格式校验
-                JsonResult validateResult = null;
-                if (!this.DataValidator<OrgDepartment>(orgUnit, out validateResult)) return validateResult;
-
-                // 验证上级组织是否存在
-                OrgDepartment parentUnit = this.orgUnitRepository.GetObjectById(orgUnit.ParentId);
-                if (parentUnit == null)
-                {
-                    return Json(new APIResult()
-                    {
-                        ResultCode = APIResultCode.ParentNotExists,
-                        Message = "上级组织不存在"
-                    });
-                }
-                // 验证同一组织下是否已经存在同名
-                if (this.orgUnitRepository.IsExistsOrgName(orgUnit.ParentId, orgUnit.DisplayName))
-                {
-                    return Json(new APIResult()
-                    {
-                        ResultCode = APIResultCode.ParentNotExists,
-                        Message = "上级组织已经存在相同名称组织"
-                    });
-                }
-                #endregion
-
-                // 强制设置为非根节点
-                orgUnit.IsRootUnit = false;
-
-                dynamic result = this.orgUnitRepository.Insert(orgUnit);
-                return Json(new APIResult() { ResultCode = APIResultCode.Success, Extend = orgUnit });
-            });
+            bool result = this.organizationService.AddOrgDepartment(userId, department);
+            return Json(new APIResult() { ResultCode = APIResultCode.Success, Extend = department });
         }
 
         /// <summary>
@@ -119,38 +77,9 @@ namespace HH.API.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult AddUser([FromBody]OrgUser user)
+        public JsonResult AddUser([FromBody]string userId, [FromBody]OrgUser user)
         {
-            #region 数据格式校验 ---------------
-            // 先做数据格式校验
-            JsonResult validateResult = null;
-            if (this.DataValidator<OrgUser>(user, out validateResult)) return validateResult;
-
-            // 验证上级组织是否存在
-            OrgDepartment parentUnit = this.orgUnitRepository.GetObjectById(user.ParentId);
-            if (parentUnit == null)
-            {
-                return Json(new APIResult()
-                {
-                    ResultCode = APIResultCode.ParentNotExists,
-                    Message = "上级组织不存在"
-                });
-            }
-            //  验证编码是否重复
-            if (this.orgUserRepository.GetOrgUserByCode(user.Code) != null)
-            {
-                return Json(new APIResult()
-                {
-                    ResultCode = APIResultCode.CodeDuplicate,
-                    Message = "用户编码已经存在"
-                });
-            }
-            #endregion
-
-            // 设置密码为加密方式
-            user.SetPassword(user.Password);
-
-            dynamic result = this.orgUserRepository.Insert(user);
+            dynamic result = this.organizationService.AddUser(userId, user);
             return Json(new APIResult() { ResultCode = APIResultCode.Success, Extend = user });
         }
 

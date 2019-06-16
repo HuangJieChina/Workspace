@@ -17,6 +17,7 @@ using HH.API.Entity.Orgainzation;
 using HH.API.IServices;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
+using HH.API.Repository;
 
 namespace HH.API.Controllers
 {
@@ -231,9 +232,9 @@ namespace HH.API.Controllers
 
 
             long recordCount = 0;
-            List<OrgDepartment> list = d.QueryOrgUnit(1, 10, out recordCount, string.Empty);
+            //List<OrgDepartment> list = d.QueryOrgUnit(1, 10, out recordCount, string.Empty);
 
-            d.RemoveObjectById("350f2620-171e-444f-8d19-d01e1853e2e0");
+            //d.RemoveObjectById("350f2620-171e-444f-8d19-d01e1853e2e0");
 
 
             OrgUserRepository userRepository = new OrgUserRepository();

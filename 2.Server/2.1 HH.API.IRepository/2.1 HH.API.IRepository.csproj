@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\0.Modules\DapperExtensionsDNXCore\DapperExtensionsDNXCore.csproj" />
+    <ProjectReference Include="..\..\0.Modules\HH.API.Common\HH.API.Common.csproj" />
+    <ProjectReference Include="..\..\0.Modules\HH.API.Entity\HH.API.Entity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TimerService\" />
+  </ItemGroup>
+
+</Project>
